@@ -22,6 +22,7 @@ import {
 import api from '../../services/api.js';
 import { Badge } from '../../components/common/Badge.jsx';
 import { CardSkeleton } from '../../components/common/SkeletonLoader.jsx';
+import Catalog from '../../components/common/Catalog.jsx';
 
 export const Home = () => {
   const { openEnquiryModal } = useOutletContext();
@@ -57,31 +58,31 @@ export const Home = () => {
   }, []);
 
   return (
-    <div className="space-y-20 pb-16">
+    <div className="pb-16 space-y-20">
       {/* 1. HERO SECTION */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-brand-950 via-brand-900 to-brand-950 text-white pt-16 pb-24 lg:pt-24 lg:pb-32">
+      <section className="relative pt-16 pb-24 overflow-hidden text-white bg-gradient-to-b from-brand-950 via-brand-900 to-brand-950 lg:pt-24 lg:pb-32">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-accent-600/20 via-transparent to-transparent pointer-events-none" />
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+        <div className="relative z-10 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-12">
+            <div className="space-y-6 text-center lg:col-span-7 lg:text-left">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-800/80 border border-brand-700 text-accent-400 text-xs font-semibold backdrop-blur-sm shadow-inner">
                 <Sparkles className="w-4 h-4 text-accent-400" />
                 <span>Admission Guidance & Career Counselling &bull; Session 2026-27</span>
               </div>
 
-              <h1 className="font-display font-extrabold text-3xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-tight sm:leading-tight">
+              <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-white font-display sm:text-5xl lg:text-6xl sm:leading-tight">
                 Shape Your Future With the{' '}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-400 to-amber-300">
                   Right Education
                 </span>
               </h1>
 
-              <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+              <p className="max-w-2xl mx-auto text-base leading-relaxed sm:text-lg text-slate-300 lg:mx-0">
                 Explore leading recognized universities and colleges, compare job-ready degree courses, and receive honest, personalized admission counselling from Vidhya Advance Education.
               </p>
 
-              <div className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+              <div className="flex flex-col items-center justify-center gap-4 pt-2 sm:flex-row lg:justify-start">
                 <Link
                   to="/enquiry"
                   className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-gradient-to-r from-accent-600 to-accent-500 hover:from-accent-700 hover:to-accent-600 text-white font-bold text-sm sm:text-base shadow-xl hover:shadow-accent-500/20 transition-all flex items-center justify-center gap-2 transform hover:-translate-y-0.5"
@@ -100,17 +101,17 @@ export const Home = () => {
               </div>
 
               {/* Verified Trust Pillars */}
-              <div className="pt-8 border-t border-brand-800/80 grid grid-cols-3 gap-4 text-center sm:text-left">
+              <div className="grid grid-cols-3 gap-4 pt-8 text-center border-t border-brand-800/80 sm:text-left">
                 <div>
-                  <p className="font-display font-bold text-xl sm:text-2xl text-accent-400">100%</p>
+                  <p className="text-xl font-bold font-display sm:text-2xl text-accent-400">100%</p>
                   <p className="text-xs text-slate-400 mt-0.5">Verified Guidance</p>
                 </div>
                 <div>
-                  <p className="font-display font-bold text-xl sm:text-2xl text-white">40+</p>
+                  <p className="text-xl font-bold text-white font-display sm:text-2xl">40+</p>
                   <p className="text-xs text-slate-400 mt-0.5">Associated Institutions</p>
                 </div>
                 <div>
-                  <p className="font-display font-bold text-xl sm:text-2xl text-white">0 Fee</p>
+                  <p className="text-xl font-bold text-white font-display sm:text-2xl">0 Fee</p>
                   <p className="text-xs text-slate-400 mt-0.5">For Initial Counselling</p>
                 </div>
               </div>
@@ -118,16 +119,16 @@ export const Home = () => {
 
             {/* Hero Visual Card */}
             <div className="lg:col-span-5">
-              <div className="bg-gradient-to-br from-white/10 to-white/5 p-2 rounded-3xl backdrop-blur-md border border-white/10 shadow-2xl">
+              <div className="p-2 border shadow-2xl bg-gradient-to-br from-white/10 to-white/5 rounded-3xl backdrop-blur-md border-white/10">
                 <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-900">
                   <img
                     src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&auto=format&fit=crop&q=80"
                     alt="Students consulting educational career counsellor"
-                    className="w-full h-full object-cover"
+                    className="object-cover w-full h-full"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-950 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-brand-950/90 backdrop-blur-md border border-brand-800/80 text-white">
-                    <div className="flex items-center gap-2 text-accent-400 text-xs font-semibold uppercase tracking-wider mb-1">
+                  <div className="absolute p-4 text-white border bottom-4 left-4 right-4 rounded-xl bg-brand-950/90 backdrop-blur-md border-brand-800/80">
+                    <div className="flex items-center gap-2 mb-1 text-xs font-semibold tracking-wider uppercase text-accent-400">
                       <ShieldCheck className="w-4 h-4" />
                       <span>Dedicated Student Support</span>
                     </div>
@@ -141,10 +142,10 @@ export const Home = () => {
           </div>
         </div>
       </section>
-
+<Catalog />
       {/* 2. TRUST / VALUE SECTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 sm:-mt-24 relative z-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <section className="relative z-20 px-4 mx-auto -mt-16 max-w-7xl sm:px-6 lg:px-8 sm:-mt-24">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {[
             {
               title: 'Admission Guidance',
@@ -187,16 +188,16 @@ export const Home = () => {
             return (
               <div
                 key={index}
-                className="bg-white rounded-2xl p-6 border border-slate-100 shadow-card hover:shadow-card-hover transition-all duration-200 group flex flex-col justify-between"
+                className="flex flex-col justify-between p-6 transition-all duration-200 bg-white border rounded-2xl border-slate-100 shadow-card hover:shadow-card-hover group"
               >
                 <div>
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110 ${item.color}`}>
                     <Icon className="w-6 h-6" />
                   </div>
-                  <h3 className="font-display font-bold text-lg text-slate-900 group-hover:text-brand-900 transition-colors">
+                  <h3 className="text-lg font-bold transition-colors font-display text-slate-900 group-hover:text-brand-900">
                     {item.title}
                   </h3>
-                  <p className="text-sm text-slate-600 mt-2 leading-relaxed">
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600">
                     {item.desc}
                   </p>
                 </div>
@@ -207,16 +208,16 @@ export const Home = () => {
       </section>
 
       {/* 3. ADMISSION ENQUIRY QUICK CTA BANNER */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-r from-brand-900 via-brand-800 to-brand-900 rounded-3xl p-8 sm:p-12 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-8 border border-brand-700">
+      <section className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="flex flex-col items-center justify-between gap-8 p-8 text-white border shadow-xl bg-gradient-to-r from-brand-900 via-brand-800 to-brand-900 rounded-3xl sm:p-12 md:flex-row border-brand-700">
           <div className="space-y-2 text-center md:text-left">
-            <span className="text-xs uppercase tracking-widest font-bold text-accent-400">
+            <span className="text-xs font-bold tracking-widest uppercase text-accent-400">
               Session 2026-2027 Admissions
             </span>
-            <h2 className="font-display font-extrabold text-2xl sm:text-3xl">
+            <h2 className="text-2xl font-extrabold font-display sm:text-3xl">
               Confused About Which College or Course to Choose?
             </h2>
-            <p className="text-slate-300 text-sm max-w-xl">
+            <p className="max-w-xl text-sm text-slate-300">
               Speak directly with an experienced career counsellor. We will review your academic background and recommend the best colleges tailored to your goals.
             </p>
           </div>
@@ -231,16 +232,16 @@ export const Home = () => {
       </section>
 
       {/* 4. FEATURED COLLEGES & UNIVERSITIES */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <section className="px-4 mx-auto space-y-8 max-w-7xl sm:px-6 lg:px-8">
+        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
-            <span className="text-xs uppercase tracking-widest font-bold text-brand-600">
+            <span className="text-xs font-bold tracking-widest uppercase text-brand-600">
               Partner Institutions
             </span>
-            <h2 className="font-display font-extrabold text-2xl sm:text-4xl text-slate-900 mt-1">
+            <h2 className="mt-1 text-2xl font-extrabold font-display sm:text-4xl text-slate-900">
               Our Associated Colleges & Universities
             </h2>
-            <p className="text-sm text-slate-600 mt-2 max-w-2xl">
+            <p className="max-w-2xl mt-2 text-sm text-slate-600">
               Explore leading universities in central India offering top-rated infrastructure, recognized programs, and dedicated placement cells.
             </p>
           </div>
@@ -257,18 +258,18 @@ export const Home = () => {
         {loadingColleges ? (
           <CardSkeleton count={4} />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {colleges.map((college) => (
               <div
                 key={college._id}
-                className="bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+                className="flex flex-col justify-between overflow-hidden transition-all duration-300 bg-white border shadow-sm rounded-2xl border-slate-200/80 hover:shadow-xl group"
               >
                 <div>
-                  <div className="relative h-44 bg-slate-100 overflow-hidden">
+                  <div className="relative overflow-hidden h-44 bg-slate-100">
                     <img
                       src={college.coverImage || college.logo}
                       alt={college.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
                     <div className="absolute top-3 left-3">
@@ -281,15 +282,15 @@ export const Home = () => {
                   </div>
 
                   <div className="p-5 space-y-3">
-                    <h3 className="font-display font-bold text-base text-slate-900 group-hover:text-brand-900 transition-colors line-clamp-1">
+                    <h3 className="text-base font-bold transition-colors font-display text-slate-900 group-hover:text-brand-900 line-clamp-1">
                       {college.name}
                     </h3>
-                    <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                    <p className="text-xs leading-relaxed text-slate-600 line-clamp-2">
                       {college.shortDescription || college.about}
                     </p>
 
                     {college.approvals?.length > 0 && (
-                      <div className="pt-1 flex flex-wrap gap-1">
+                      <div className="flex flex-wrap gap-1 pt-1">
                         {college.approvals.slice(0, 2).map((app, idx) => (
                           <span
                             key={idx}
@@ -303,16 +304,16 @@ export const Home = () => {
                   </div>
                 </div>
 
-                <div className="p-5 pt-0 grid grid-cols-2 gap-2 border-t border-slate-100 mt-2">
+                <div className="grid grid-cols-2 gap-2 p-5 pt-0 mt-2 border-t border-slate-100">
                   <Link
                     to={`/colleges/${college.slug}`}
-                    className="w-full text-center py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold transition-colors"
+                    className="w-full py-2 text-xs font-semibold text-center transition-colors rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800"
                   >
                     View Details
                   </Link>
                   <button
                     onClick={() => openEnquiryModal(college._id)}
-                    className="w-full text-center py-2 rounded-xl bg-brand-900 hover:bg-brand-800 text-white text-xs font-semibold transition-colors"
+                    className="w-full py-2 text-xs font-semibold text-center text-white transition-colors rounded-xl bg-brand-900 hover:bg-brand-800"
                   >
                     Enquire Now
                   </button>
@@ -324,17 +325,17 @@ export const Home = () => {
       </section>
 
       {/* 5. POPULAR COURSES DIRECTORY */}
-      <section className="bg-slate-100/70 py-16 border-y border-slate-200/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <section className="py-16 bg-slate-100/70 border-y border-slate-200/60">
+        <div className="px-4 mx-auto space-y-8 max-w-7xl sm:px-6 lg:px-8">
+          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div>
-              <span className="text-xs uppercase tracking-widest font-bold text-brand-600">
+              <span className="text-xs font-bold tracking-widest uppercase text-brand-600">
                 Career Pathways
               </span>
-              <h2 className="font-display font-extrabold text-2xl sm:text-4xl text-slate-900 mt-1">
+              <h2 className="mt-1 text-2xl font-extrabold font-display sm:text-4xl text-slate-900">
                 Popular Degree Programs
               </h2>
-              <p className="text-sm text-slate-600 mt-2 max-w-xl">
+              <p className="max-w-xl mt-2 text-sm text-slate-600">
                 Discover accredited undergraduate and postgraduate programs across Engineering, Nursing, Pharmacy, Management, and Paramedical sciences.
               </p>
             </div>
@@ -351,11 +352,11 @@ export const Home = () => {
           {loadingCourses ? (
             <CardSkeleton count={6} />
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {courses.map((course) => (
                 <div
                   key={course._id}
-                  className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+                  className="flex flex-col justify-between p-6 transition-all bg-white border shadow-sm rounded-2xl border-slate-200 hover:shadow-md"
                 >
                   <div className="space-y-3">
                     <div className="flex items-center justify-between gap-2">
@@ -363,7 +364,7 @@ export const Home = () => {
                       <span className="text-xs font-medium text-slate-500">{course.duration}</span>
                     </div>
 
-                    <h3 className="font-display font-bold text-base text-slate-900 line-clamp-2">
+                    <h3 className="text-base font-bold font-display text-slate-900 line-clamp-2">
                       {course.name}
                     </h3>
 
@@ -372,21 +373,21 @@ export const Home = () => {
                       <span>{course.college?.name || 'Associated University'}</span>
                     </p>
 
-                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 text-xs text-slate-600 space-y-1">
+                    <div className="p-3 space-y-1 text-xs border bg-slate-50 rounded-xl border-slate-100 text-slate-600">
                       <p className="font-medium text-slate-800">Eligibility Criteria:</p>
-                      <p className="line-clamp-2 leading-relaxed">{course.eligibility}</p>
+                      <p className="leading-relaxed line-clamp-2">{course.eligibility}</p>
                     </div>
                   </div>
 
-                  <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between gap-3">
-                    <span className="inline-flex items-center gap-1 text-xs text-emerald-600 font-medium">
+                  <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-slate-100">
+                    <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600">
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       <span>Admission Open</span>
                     </span>
 
                     <button
                       onClick={() => openEnquiryModal(course.college?._id, course._id)}
-                      className="px-4 py-2 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-semibold text-xs transition-colors shadow-sm"
+                      className="px-4 py-2 text-xs font-semibold text-white transition-colors shadow-sm rounded-xl bg-accent-600 hover:bg-accent-700"
                     >
                       Apply Now
                     </button>
@@ -399,57 +400,57 @@ export const Home = () => {
       </section>
 
       {/* 6. AFFILIATION & ACCREDITATION INFORMATION SECTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-3xl border border-slate-200/80 p-8 sm:p-12 shadow-sm space-y-8">
-          <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="text-xs uppercase tracking-widest font-bold text-accent-700 bg-accent-50 px-3 py-1 rounded-full border border-accent-200">
+      <section className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="p-8 space-y-8 bg-white border shadow-sm rounded-3xl border-slate-200/80 sm:p-12">
+          <div className="max-w-3xl mx-auto space-y-3 text-center">
+            <span className="px-3 py-1 text-xs font-bold tracking-widest uppercase border rounded-full text-accent-700 bg-accent-50 border-accent-200">
               Understanding Educational Approvals
             </span>
-            <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-slate-900">
+            <h2 className="text-2xl font-extrabold font-display sm:text-3xl text-slate-900">
               Affiliation, Accreditation & Council Approvals Explained
             </h2>
-            <p className="text-sm text-slate-600 leading-relaxed">
+            <p className="text-sm leading-relaxed text-slate-600">
               We help students clearly distinguish between statutory approvals, council recognitions, and grade accreditations before making an admission commitment.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
-              <div className="font-display font-bold text-base text-brand-950 flex items-center gap-2">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <div className="p-5 space-y-2 border rounded-2xl bg-slate-50 border-slate-100">
+              <div className="flex items-center gap-2 text-base font-bold font-display text-brand-950">
                 <span className="w-2.5 h-2.5 rounded-full bg-brand-600" />
                 <span>UGC Recognition</span>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
+              <p className="text-xs leading-relaxed text-slate-600">
                 University Grants Commission approves universities under Section 2(f) and 12(B) of the UGC Act, 1956 to award valid academic degrees.
               </p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
-              <div className="font-display font-bold text-base text-brand-950 flex items-center gap-2">
+            <div className="p-5 space-y-2 border rounded-2xl bg-slate-50 border-slate-100">
+              <div className="flex items-center gap-2 text-base font-bold font-display text-brand-950">
                 <span className="w-2.5 h-2.5 rounded-full bg-accent-600" />
                 <span>AICTE Approval</span>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
+              <p className="text-xs leading-relaxed text-slate-600">
                 All India Council for Technical Education regulates standard technical and management programs (Engineering, MBA, MCA, Architecture).
               </p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
-              <div className="font-display font-bold text-base text-brand-950 flex items-center gap-2">
+            <div className="p-5 space-y-2 border rounded-2xl bg-slate-50 border-slate-100">
+              <div className="flex items-center gap-2 text-base font-bold font-display text-brand-950">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-600" />
                 <span>INC & PCI Councils</span>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
+              <p className="text-xs leading-relaxed text-slate-600">
                 Specialized councils such as the Pharmacy Council of India (PCI) and Indian Nursing Council (INC) approve healthcare education infrastructure.
               </p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
-              <div className="font-display font-bold text-base text-brand-950 flex items-center gap-2">
+            <div className="p-5 space-y-2 border rounded-2xl bg-slate-50 border-slate-100">
+              <div className="flex items-center gap-2 text-base font-bold font-display text-brand-950">
                 <span className="w-2.5 h-2.5 rounded-full bg-purple-600" />
                 <span>NAAC Accreditation</span>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
+              <p className="text-xs leading-relaxed text-slate-600">
                 National Assessment and Accreditation Council evaluates institutional educational quality, faculty, infrastructure, and research standards.
               </p>
             </div>
@@ -458,12 +459,12 @@ export const Home = () => {
       </section>
 
       {/* 7. HOW WE HELP STUDENTS (JOURNEY) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div className="text-center max-w-2xl mx-auto space-y-2">
-          <span className="text-xs uppercase tracking-widest font-bold text-brand-600">
+      <section className="px-4 mx-auto space-y-12 max-w-7xl sm:px-6 lg:px-8">
+        <div className="max-w-2xl mx-auto space-y-2 text-center">
+          <span className="text-xs font-bold tracking-widest uppercase text-brand-600">
             Student-First Journey
           </span>
-          <h2 className="font-display font-extrabold text-2xl sm:text-4xl text-slate-900">
+          <h2 className="text-2xl font-extrabold font-display sm:text-4xl text-slate-900">
             How Vidhya Advance Guides You
           </h2>
           <p className="text-sm text-slate-600">
@@ -471,7 +472,7 @@ export const Home = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
+        <div className="relative grid grid-cols-1 gap-6 md:grid-cols-4">
           {[
             { step: '01', title: 'Submit Enquiry', desc: 'Tell us about your qualification, preferred stream, location, and career goals.' },
             { step: '02', title: 'Free Counselling', desc: 'Our senior counsellor compares approved institutions matching your budget and aspirations.' },
@@ -480,19 +481,19 @@ export const Home = () => {
           ].map((item, idx) => (
             <div
               key={idx}
-              className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm relative overflow-hidden flex flex-col justify-between"
+              className="relative flex flex-col justify-between p-6 overflow-hidden bg-white border shadow-sm rounded-2xl border-slate-200/80"
             >
-              <span className="text-4xl font-display font-black text-slate-100 absolute top-2 right-4 pointer-events-none">
+              <span className="absolute text-4xl font-black pointer-events-none font-display text-slate-100 top-2 right-4">
                 {item.step}
               </span>
               <div className="relative z-10 space-y-2">
-                <span className="w-8 h-8 rounded-lg bg-brand-50 text-brand-900 font-bold text-xs flex items-center justify-center border border-brand-200">
+                <span className="flex items-center justify-center w-8 h-8 text-xs font-bold border rounded-lg bg-brand-50 text-brand-900 border-brand-200">
                   {item.step}
                 </span>
-                <h3 className="font-display font-bold text-base text-slate-900 pt-2">
+                <h3 className="pt-2 text-base font-bold font-display text-slate-900">
                   {item.title}
                 </h3>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-xs leading-relaxed text-slate-600">
                   {item.desc}
                 </p>
               </div>
@@ -502,17 +503,17 @@ export const Home = () => {
       </section>
 
       {/* 8. SOCIAL WELFARE PREVIEW */}
-      <section className="bg-brand-950 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <section className="py-16 text-white bg-brand-950">
+        <div className="px-4 mx-auto space-y-10 max-w-7xl sm:px-6 lg:px-8">
+          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div className="space-y-2">
-              <span className="text-xs uppercase tracking-widest font-bold text-accent-400">
+              <span className="text-xs font-bold tracking-widest uppercase text-accent-400">
                 Community & Social Impact
               </span>
-              <h2 className="font-display font-extrabold text-2xl sm:text-4xl text-white">
+              <h2 className="text-2xl font-extrabold text-white font-display sm:text-4xl">
                 Vidhya Advance Education Social Welfare Society
               </h2>
-              <p className="text-sm text-slate-300 max-w-xl">
+              <p className="max-w-xl text-sm text-slate-300">
                 Giving back to society through free educational profiling, rural awareness camps, and scholarship assistance for underserved students.
               </p>
             </div>
@@ -526,34 +527,34 @@ export const Home = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             {socialActivities.map((act) => (
               <div
                 key={act._id}
-                className="bg-brand-900/60 rounded-2xl overflow-hidden border border-brand-800/80 flex flex-col sm:flex-row shadow-lg"
+                className="flex flex-col overflow-hidden border shadow-lg bg-brand-900/60 rounded-2xl border-brand-800/80 sm:flex-row"
               >
-                <div className="sm:w-2/5 h-48 sm:h-auto bg-brand-950">
+                <div className="h-48 sm:w-2/5 sm:h-auto bg-brand-950">
                   <img
                     src={act.coverImage || 'https://images.unsplash.com/photo-1577495508048-b635879837f1?w=600&auto=format&fit=crop&q=80'}
                     alt={act.title}
-                    className="w-full h-full object-cover"
+                    className="object-cover w-full h-full"
                   />
                 </div>
-                <div className="sm:w-3/5 p-6 space-y-3 flex flex-col justify-between">
+                <div className="flex flex-col justify-between p-6 space-y-3 sm:w-3/5">
                   <div>
                     <span className="text-[11px] text-accent-400 font-semibold">
                       {act.location} &bull; {new Date(act.date).toLocaleDateString('en-IN', { year: 'numeric', month: 'short' })}
                     </span>
-                    <h3 className="font-display font-bold text-base text-white mt-1">
+                    <h3 className="mt-1 text-base font-bold text-white font-display">
                       {act.title}
                     </h3>
-                    <p className="text-xs text-slate-300 mt-2 line-clamp-3 leading-relaxed">
+                    <p className="mt-2 text-xs leading-relaxed text-slate-300 line-clamp-3">
                       {act.impactSummary}
                     </p>
                   </div>
                   <Link
                     to="/social-work"
-                    className="text-xs font-semibold text-accent-400 hover:text-accent-300 inline-flex items-center gap-1"
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-accent-400 hover:text-accent-300"
                   >
                     Read Impact Story <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
@@ -565,12 +566,12 @@ export const Home = () => {
       </section>
 
       {/* 9. FAQ ACCORDION SECTION */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="text-center space-y-2">
-          <span className="text-xs uppercase tracking-widest font-bold text-brand-600">
+      <section className="max-w-4xl px-4 mx-auto space-y-8 sm:px-6 lg:px-8">
+        <div className="space-y-2 text-center">
+          <span className="text-xs font-bold tracking-widest uppercase text-brand-600">
             Got Questions?
           </span>
-          <h2 className="font-display font-extrabold text-2xl sm:text-4xl text-slate-900">
+          <h2 className="text-2xl font-extrabold font-display sm:text-4xl text-slate-900">
             Frequently Asked Questions
           </h2>
           <p className="text-sm text-slate-600">
@@ -584,14 +585,14 @@ export const Home = () => {
             return (
               <div
                 key={faq._id}
-                className="bg-white rounded-2xl border border-slate-200 overflow-hidden transition-all duration-200"
+                className="overflow-hidden transition-all duration-200 bg-white border rounded-2xl border-slate-200"
               >
                 <button
                   type="button"
                   onClick={() => setOpenFaqIndex(isOpen ? null : index)}
-                  className="w-full p-5 text-left flex items-center justify-between gap-4 hover:bg-slate-50 transition-colors"
+                  className="flex items-center justify-between w-full gap-4 p-5 text-left transition-colors hover:bg-slate-50"
                 >
-                  <span className="font-display font-bold text-sm sm:text-base text-slate-900">
+                  <span className="text-sm font-bold font-display sm:text-base text-slate-900">
                     {faq.question}
                   </span>
                   <ChevronDown
@@ -601,7 +602,7 @@ export const Home = () => {
                   />
                 </button>
                 {isOpen && (
-                  <div className="px-5 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
+                  <div className="px-5 pt-3 pb-5 text-sm leading-relaxed border-t text-slate-600 border-slate-100">
                     {faq.answer}
                   </div>
                 )}
@@ -610,7 +611,7 @@ export const Home = () => {
           })}
         </div>
 
-        <div className="text-center pt-2">
+        <div className="pt-2 text-center">
           <Link
             to="/faq"
             className="inline-flex items-center gap-1 text-sm font-semibold text-brand-900 hover:text-brand-700"
@@ -622,18 +623,18 @@ export const Home = () => {
       </section>
 
       {/* 10. FINAL LEAD CONVERSION CALLOUT */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl bg-gradient-to-r from-brand-950 to-brand-900 text-white p-8 sm:p-14 overflow-hidden border border-brand-800 shadow-2xl text-center space-y-6">
+      <section className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="relative p-8 space-y-6 overflow-hidden text-center text-white border shadow-2xl rounded-3xl bg-gradient-to-r from-brand-950 to-brand-900 sm:p-14 border-brand-800">
           <div className="max-w-2xl mx-auto space-y-3">
-            <h2 className="font-display font-extrabold text-3xl sm:text-4xl">
+            <h2 className="text-3xl font-extrabold font-display sm:text-4xl">
               Take the First Confident Step in Your Educational Career
             </h2>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p className="text-sm leading-relaxed sm:text-base text-slate-300">
               Don't navigate complex university applications alone. Our experienced counsellors are ready to support your admission application today.
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
               to="/enquiry"
               className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-sm sm:text-base shadow-xl transition-all transform hover:-translate-y-0.5"
@@ -642,7 +643,7 @@ export const Home = () => {
             </Link>
             <Link
               to="/contact"
-              className="w-full sm:w-auto px-7 py-4 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-semibold text-sm sm:text-base transition-colors border border-white/20"
+              className="w-full py-4 text-sm font-semibold text-white transition-colors border sm:w-auto px-7 rounded-2xl bg-white/10 hover:bg-white/20 sm:text-base border-white/20"
             >
               Contact Our Office
             </Link>

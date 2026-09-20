@@ -14,17 +14,17 @@ import {
 
 export const Footer = () => {
   return (
-    <footer className="bg-brand-950 text-slate-300 pt-16 pb-12 border-t border-brand-800/60">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-brand-800/60">
+    <footer className="pt-16 pb-12 border-t bg-brand-950 text-slate-300 border-brand-800/60">
+      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-10 pb-12 border-b md:grid-cols-2 lg:grid-cols-5 border-brand-800/60">
           {/* Brand Col */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="space-y-4 lg:col-span-2">
             <Link to="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-brand-900 text-accent-400 flex items-center justify-center border border-brand-700 shadow-md">
+              <div className="flex items-center justify-center w-10 h-10 border shadow-md rounded-xl bg-brand-900 text-accent-400 border-brand-700">
                 <GraduationCap className="w-6 h-6" />
               </div>
               <div>
-                <span className="font-display font-extrabold text-xl text-white tracking-tight">
+                <span className="text-xl font-extrabold tracking-tight text-white font-display">
                   Vidhya Advance
                 </span>
                 <span className="block text-[10px] font-semibold uppercase tracking-wider text-accent-400">
@@ -33,11 +33,11 @@ export const Footer = () => {
               </div>
             </Link>
 
-            <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
+            <p className="max-w-sm text-sm leading-relaxed text-slate-400">
               Empowering students across India to make informed higher education choices. We provide verified admission guidance, course counselling, and university discovery with complete transparency.
             </p>
 
-            <div className="pt-2 flex items-center gap-2 text-xs text-slate-400">
+            <div className="flex items-center gap-2 pt-2 text-xs text-slate-400">
               <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>Dedicated to Ethical & Student-First Educational Counselling</span>
             </div>
@@ -45,47 +45,47 @@ export const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-white font-display font-bold text-sm uppercase tracking-wider mb-4">
+            <h3 className="mb-4 text-sm font-bold tracking-wider text-white uppercase font-display">
               Quick Links
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <Link to="/" className="hover:text-accent-400 transition-colors">
+                <Link to="/" className="transition-colors hover:text-accent-400">
                   Home
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="hover:text-accent-400 transition-colors">
+                <Link to="/about" className="transition-colors hover:text-accent-400">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link to="/colleges" className="hover:text-accent-400 transition-colors">
+                <Link to="/colleges" className="transition-colors hover:text-accent-400">
                   Colleges & Universities
                 </Link>
               </li>
               <li>
-                <Link to="/courses" className="hover:text-accent-400 transition-colors">
+                <Link to="/courses" className="transition-colors hover:text-accent-400">
                   Explore Courses
                 </Link>
               </li>
               <li>
-                <Link to="/social-work" className="hover:text-accent-400 transition-colors">
+                <Link to="/social-work" className="transition-colors hover:text-accent-400">
                   Social Welfare Society
                 </Link>
               </li>
               <li>
-                <Link to="/faq" className="hover:text-accent-400 transition-colors">
+                <Link to="/faq" className="transition-colors hover:text-accent-400">
                   Frequently Asked Questions
                 </Link>
               </li>
               <li>
-                <Link to="/grievance" className="hover:text-accent-400 transition-colors">
+                <Link to="/grievance" className="transition-colors hover:text-accent-400">
                   Grievance Redressal
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="hover:text-accent-400 transition-colors">
+                <Link to="/contact" className="transition-colors hover:text-accent-400">
                   Contact Us
                 </Link>
               </li>
@@ -94,47 +94,47 @@ export const Footer = () => {
 
           {/* Admissions */}
           <div>
-            <h3 className="text-white font-display font-bold text-sm uppercase tracking-wider mb-4">
+            <h3 className="mb-4 text-sm font-bold tracking-wider text-white uppercase font-display">
               Admissions
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <Link to="/enquiry" className="text-accent-400 font-semibold hover:text-accent-300 inline-flex items-center gap-1 transition-colors">
+                <Link to="/enquiry" className="inline-flex items-center gap-1 font-semibold transition-colors text-accent-400 hover:text-accent-300">
                   Admission Enquiry <ArrowUpRight className="w-3.5 h-3.5" />
                 </Link>
               </li>
               <li>
-                <Link to="/courses?stream=Engineering" className="hover:text-accent-400 transition-colors">
+                <Link to="/courses?stream=Engineering" className="transition-colors hover:text-accent-400">
                   Engineering (B.Tech)
                 </Link>
               </li>
               <li>
-                <Link to="/courses?stream=Nursing" className="hover:text-accent-400 transition-colors">
+                <Link to="/courses?stream=Nursing" className="transition-colors hover:text-accent-400">
                   Nursing (B.Sc & GNM)
                 </Link>
               </li>
               <li>
-                <Link to="/courses?stream=Pharmacy" className="hover:text-accent-400 transition-colors">
+                <Link to="/courses?stream=Pharmacy" className="transition-colors hover:text-accent-400">
                   Pharmacy (B.Pharm & D.Pharm)
                 </Link>
               </li>
               <li>
-                <Link to="/courses?stream=Management" className="hover:text-accent-400 transition-colors">
+                <Link to="/courses?stream=Management" className="transition-colors hover:text-accent-400">
                   Management (MBA & BBA)
                 </Link>
               </li>
               <li>
-                <Link to="/courses?stream=Paramedical" className="hover:text-accent-400 transition-colors">
+                <Link to="/courses?stream=Paramedical" className="transition-colors hover:text-accent-400">
                   Paramedical Sciences
                 </Link>
               </li>
               <li className="pt-2">
-                <Link to="/privacy-policy" className="hover:text-accent-400 transition-colors text-xs text-slate-400">
+                <Link to="/privacy-policy" className="text-xs transition-colors hover:text-accent-400 text-slate-400">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link to="/terms-and-conditions" className="hover:text-accent-400 transition-colors text-xs text-slate-400">
+                <Link to="/terms-and-conditions" className="text-xs transition-colors hover:text-accent-400 text-slate-400">
                   Terms & Conditions
                 </Link>
               </li>
@@ -143,23 +143,23 @@ export const Footer = () => {
 
           {/* Contact Details */}
           <div>
-            <h3 className="text-white font-display font-bold text-sm uppercase tracking-wider mb-4">
+            <h3 className="mb-4 text-sm font-bold tracking-wider text-white uppercase font-display">
               Head Office
             </h3>
             <ul className="space-y-3 text-sm text-slate-400">
               <li className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-accent-400 shrink-0 mt-0.5" />
-                <span>MP Nagar Zone-II, Bhopal, Madhya Pradesh - 462011</span>
+                <span> Ward No. 59, Security Line, House No. 09, N-3 Sector, Govindpura, BHEL, Bhopal, Madhya Pradesh 462023</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-accent-400 shrink-0" />
-                <a href="tel:+917554239876" className="hover:text-white transition-colors">
-                  +91 755 4239876
+                <a href="" className="transition-colors hover:text-white">
+                +91 9821776333
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-accent-400 shrink-0" />
-                <a href="mailto:admissions@vidhyaadvance.com" className="hover:text-white transition-colors">
+                <a href="mailto:admissions@vidhyaadvance.com" className="transition-colors hover:text-white">
                   admissions@vidhyaadvance.com
                 </a>
               </li>
@@ -172,20 +172,20 @@ export const Footer = () => {
         </div>
 
         {/* Bottom Credits */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+        <div className="flex flex-col items-center justify-between gap-4 pt-8 text-xs sm:flex-row text-slate-400">
           <p>
             &copy; {new Date().getFullYear()} Vidhya Advance Education. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <Link to="/privacy-policy" className="hover:text-white transition-colors">
+            <Link to="/privacy-policy" className="transition-colors hover:text-white">
               Privacy Policy
             </Link>
             <span>&bull;</span>
-            <Link to="/terms-and-conditions" className="hover:text-white transition-colors">
+            <Link to="/terms-and-conditions" className="transition-colors hover:text-white">
               Terms of Service
             </Link>
             <span>&bull;</span>
-            <Link to="/admin/login" className="hover:text-white transition-colors">
+            <Link to="/admin/login" className="transition-colors hover:text-white">
               Staff Portal
             </Link>
           </div>

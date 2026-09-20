@@ -87,7 +87,7 @@ export const seedInitialData = async () => {
           slug: 'malwanchal-university',
           type: 'University',
           logo: 'https://images.unsplash.com/photo-1562774053-701939374585?w=200&auto=format&fit=crop&q=80',
-          coverImage: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&auto=format&fit=crop&q=80',
+          coverImage: 'https://malwanchaluniversity.in/management/wp-content/uploads/2025/07/index-medical-college-scaled-1.webp',
           shortDescription: 'Premier university located in Indore known for medical sciences, healthcare, nursing, and professional programs.',
           about: 'Malwanchal University is located in Indore, Madhya Pradesh. The university operates premier healthcare and educational institutes including Index Medical College, Index Dental College, and allied nursing and paramedical institutes with multi-specialty hospital training.',
           location: {
