@@ -1,7 +1,7 @@
 {
   "name": "vidhya-advance-server",
   "version": "1.0.0",
-  "description": "Backend API for Vidhya Advance Education Consultancy & Lead Generation Platform",
+  "description": "Backend API for Vidhya Advance Education Social Welfare Society Platform",
   "main": "src/server.js",
   "type": "module",
   "scripts": {

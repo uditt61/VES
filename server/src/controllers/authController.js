@@ -125,4 +125,30 @@ export class AuthController {
       next(error);
     }
   }
+
+  static async changePassword(req, res, next) {
+    try {
+      const { currentPassword, newPassword } = req.body;
+      const user = await AdminUser.findById(req.user.id).select('+password');
+      if (!user) {
+        throw ApiError.notFound('User not found');
+      }
+
+      const isMatch = await user.comparePassword(currentPassword);
+      if (!isMatch) {
+        throw ApiError.badRequest('Current password is incorrect');
+      }
+
+      if (currentPassword === newPassword) {
+        throw ApiError.badRequest('New password must be different from your current password');
+      }
+
+      user.password = newPassword;
+      await user.save();
+
+      return ApiResponse.success(res, {}, 'Password changed successfully');
+    } catch (error) {
+      next(error);
+    }
+  }
 }

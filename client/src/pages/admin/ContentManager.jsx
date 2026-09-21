@@ -9,9 +9,9 @@ export const ContentManager = () => {
   const [savingKey, setSavingKey] = useState('');
 
   const [heroContent, setHeroContent] = useState({
-    badge: 'Certified Educational Consultancy & Admission Guidance',
+    badge: 'Educational Guidance & Social Welfare Society',
     title: 'Shape Your Future With the Right Education & Verified Guidance',
-    subtitle: 'Explore recognized universities, discover industry-aligned degree courses, and receive honest, personalized admission counselling from Vidhya Advance Education.',
+    subtitle: 'Explore recognized universities, discover industry-aligned degree courses, and receive honest, personalized educational guidance from Vidhya Advance Education Social Welfare Society.',
   });
 
   const [noticeBanner, setNoticeBanner] = useState({
@@ -22,7 +22,7 @@ export const ContentManager = () => {
   });
 
   const [contactInfo, setContactInfo] = useState({
-    organization: 'Vidhya Advance Education',
+    organization: 'Vidhya Advance Education Social Welfare Society',
     address: 'Plot No. 12, Commercial Complex, MP Nagar Zone-II, Bhopal, Madhya Pradesh - 462011',
     primaryPhone: '+91 755 4239876',
     helplinePhone: '+91 98765 43210',

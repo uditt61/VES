@@ -30,14 +30,25 @@ export const AuthProvider = ({ children }) => {
   }, [checkAuth]);
 
   const login = async (email, password) => {
-    const response = await api.post('/auth/login', { email, password });
-    if (response.data?.success) {
-      const { accessToken, user } = response.data.data;
-      setAccessToken(accessToken);
-      setUser(user);
-      return user;
+    try {
+      const response = await api.post('/auth/login', { email, password });
+      if (response.data?.success) {
+        const { accessToken, user } = response.data.data;
+        setAccessToken(accessToken);
+        setUser(user);
+        return user;
+      }
+      throw new Error(response.data?.message || 'Login failed');
+    } catch (err) {
+      const message =
+        err.response?.data?.message ||
+        (err.response?.status === 401
+          ? 'Invalid email or password. Please check your credentials.'
+          : err.response?.status === 429
+          ? 'Too many login attempts. Please try again after 15 minutes.'
+          : err.message || 'Invalid email or password');
+      throw new Error(message);
     }
-    throw new Error(response.data?.message || 'Login failed');
   };
 
   const logout = async () => {

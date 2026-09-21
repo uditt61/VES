@@ -17,3 +17,17 @@ export const ENV = {
   RATE_LIMIT_MAX: parseInt(process.env.RATE_LIMIT_MAX || '200', 10),
   ENQUIRY_RATE_LIMIT_MAX: parseInt(process.env.ENQUIRY_RATE_LIMIT_MAX || '30', 10),
 };
+
+// Security Safeguard: Prevent starting production with weak or default secrets
+if (ENV.NODE_ENV === 'production') {
+  if (!process.env.JWT_ACCESS_SECRET || process.env.JWT_ACCESS_SECRET.includes('fallback')) {
+    throw new Error('SECURITY CONFIG ERROR: A strong, dedicated JWT_ACCESS_SECRET environment variable must be set in production.');
+  }
+  if (!process.env.JWT_REFRESH_SECRET || process.env.JWT_REFRESH_SECRET.includes('fallback')) {
+    throw new Error('SECURITY CONFIG ERROR: A strong, dedicated JWT_REFRESH_SECRET environment variable must be set in production.');
+  }
+  if (!process.env.MONGODB_URI) {
+    throw new Error('SECURITY CONFIG ERROR: MONGODB_URI must be provided in production.');
+  }
+}
+

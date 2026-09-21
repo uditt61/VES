@@ -40,10 +40,10 @@ export const Contact = () => {
             Reach Out
           </span>
           <h1 className="font-display font-extrabold text-3xl sm:text-5xl text-white tracking-tight">
-            Contact Vidhya Advance Education
+            Contact Vidhya Advance Education Social Welfare Society
           </h1>
           <p className="text-slate-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
-            Our career advisors are ready to guide you. Visit our head office in Bhopal or reach out via phone, email, or online enquiry.
+            Our educational advisors are ready to guide you. Visit our office in Bhopal or reach out via phone, email, or online enquiry.
           </p>
         </div>
       </section>

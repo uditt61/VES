@@ -3,6 +3,7 @@ import { Course } from '../models/Course.js';
 import { ApiResponse } from '../utils/apiResponse.js';
 import { ApiError } from '../utils/apiError.js';
 import { slugify } from '../utils/slugify.js';
+import { escapeRegex } from '../utils/sanitize.js';
 
 export class CollegeController {
   // Public & Admin List
@@ -40,24 +41,25 @@ export class CollegeController {
       }
 
       if (city) {
-        filter['location.city'] = new RegExp(city, 'i');
+        filter['location.city'] = new RegExp(escapeRegex(city), 'i');
       }
 
       if (state) {
-        filter['location.state'] = new RegExp(state, 'i');
+        filter['location.state'] = new RegExp(escapeRegex(state), 'i');
       }
 
       if (affiliation) {
-        filter.affiliations = { $in: [new RegExp(affiliation, 'i')] };
+        filter.affiliations = { $in: [new RegExp(escapeRegex(affiliation), 'i')] };
       }
 
       if (search) {
+        const safeSearch = escapeRegex(search);
         filter.$or = [
-          { name: new RegExp(search, 'i') },
-          { 'location.city': new RegExp(search, 'i') },
-          { 'location.state': new RegExp(search, 'i') },
-          { affiliations: new RegExp(search, 'i') },
-          { accreditations: new RegExp(search, 'i') },
+          { name: new RegExp(safeSearch, 'i') },
+          { 'location.city': new RegExp(safeSearch, 'i') },
+          { 'location.state': new RegExp(safeSearch, 'i') },
+          { affiliations: new RegExp(safeSearch, 'i') },
+          { accreditations: new RegExp(safeSearch, 'i') },
         ];
       }
 

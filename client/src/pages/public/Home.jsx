@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   GraduationCap,
   Building,
@@ -65,7 +66,12 @@ export const Home = () => {
         
         <div className="relative z-10 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-12">
-            <div className="space-y-6 text-center lg:col-span-7 lg:text-left">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+              className="space-y-6 text-center lg:col-span-7 lg:text-left"
+            >
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-800/80 border border-brand-700 text-accent-400 text-xs font-semibold backdrop-blur-sm shadow-inner">
                 <Sparkles className="w-4 h-4 text-accent-400" />
                 <span>Admission Guidance & Career Counselling &bull; Session 2026-27</span>
@@ -79,25 +85,29 @@ export const Home = () => {
               </h1>
 
               <p className="max-w-2xl mx-auto text-base leading-relaxed sm:text-lg text-slate-300 lg:mx-0">
-                Explore leading recognized universities and colleges, compare job-ready degree courses, and receive honest, personalized admission counselling from Vidhya Advance Education.
+                Explore leading recognized universities and colleges, compare job-ready degree courses, and receive honest, personalized educational guidance from Vidhya Advance Education Social Welfare Society.
               </p>
 
               <div className="flex flex-col items-center justify-center gap-4 pt-2 sm:flex-row lg:justify-start">
-                <Link
-                  to="/enquiry"
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-gradient-to-r from-accent-600 to-accent-500 hover:from-accent-700 hover:to-accent-600 text-white font-bold text-sm sm:text-base shadow-xl hover:shadow-accent-500/20 transition-all flex items-center justify-center gap-2 transform hover:-translate-y-0.5"
-                >
-                  <span>Start Your Admission Enquiry</span>
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
+                  <Link
+                    to="/enquiry"
+                    className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-gradient-to-r from-accent-600 to-accent-500 hover:from-accent-700 hover:to-accent-600 text-white font-bold text-sm sm:text-base shadow-xl hover:shadow-accent-500/20 transition-all flex items-center justify-center gap-2"
+                  >
+                    <span>Start Your Admission Enquiry</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </Link>
+                </motion.div>
 
-                <Link
-                  to="/colleges"
-                  className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-brand-800/80 hover:bg-brand-800 text-white border border-brand-700 font-semibold text-sm sm:text-base transition-colors flex items-center justify-center gap-2"
-                >
-                  <Building className="w-4 h-4 text-accent-400" />
-                  <span>Explore Colleges</span>
-                </Link>
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
+                  <Link
+                    to="/colleges"
+                    className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-brand-800/80 hover:bg-brand-800 text-white border border-brand-700 font-semibold text-sm sm:text-base transition-colors flex items-center justify-center gap-2"
+                  >
+                    <Building className="w-4 h-4 text-accent-400" />
+                    <span>Explore Colleges</span>
+                  </Link>
+                </motion.div>
               </div>
 
               {/* Verified Trust Pillars */}
@@ -115,10 +125,15 @@ export const Home = () => {
                   <p className="text-xs text-slate-400 mt-0.5">For Initial Counselling</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Hero Visual Card */}
-            <div className="lg:col-span-5">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.15 }}
+              className="lg:col-span-5"
+            >
               <div className="p-2 border shadow-2xl bg-gradient-to-br from-white/10 to-white/5 rounded-3xl backdrop-blur-md border-white/10">
                 <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-900">
                   <img
@@ -138,11 +153,13 @@ export const Home = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
-<Catalog />
+
+      <Catalog />
+
       {/* 2. TRUST / VALUE SECTION */}
       <section className="relative z-20 px-4 mx-auto -mt-16 max-w-7xl sm:px-6 lg:px-8 sm:-mt-24">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -186,8 +203,13 @@ export const Home = () => {
           ].map((item, index) => {
             const Icon = item.icon;
             return (
-              <div
+              <motion.div
                 key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                whileHover={{ y: -6, transition: { duration: 0.2 } }}
                 className="flex flex-col justify-between p-6 transition-all duration-200 bg-white border rounded-2xl border-slate-100 shadow-card hover:shadow-card-hover group"
               >
                 <div>
@@ -201,7 +223,7 @@ export const Home = () => {
                     {item.desc}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
@@ -209,7 +231,13 @@ export const Home = () => {
 
       {/* 3. ADMISSION ENQUIRY QUICK CTA BANNER */}
       <section className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center justify-between gap-8 p-8 text-white border shadow-xl bg-gradient-to-r from-brand-900 via-brand-800 to-brand-900 rounded-3xl sm:p-12 md:flex-row border-brand-700">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col items-center justify-between gap-8 p-8 text-white border shadow-xl bg-gradient-to-r from-brand-900 via-brand-800 to-brand-900 rounded-3xl sm:p-12 md:flex-row border-brand-700"
+        >
           <div className="space-y-2 text-center md:text-left">
             <span className="text-xs font-bold tracking-widest uppercase text-accent-400">
               Session 2026-2027 Admissions
@@ -222,13 +250,15 @@ export const Home = () => {
             </p>
           </div>
 
-          <button
+          <motion.button
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
             onClick={() => openEnquiryModal()}
-            className="shrink-0 px-8 py-4 rounded-2xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-sm sm:text-base shadow-lg hover:shadow-accent-600/30 transition-all transform hover:-translate-y-0.5"
+            className="shrink-0 px-8 py-4 rounded-2xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-sm sm:text-base shadow-lg hover:shadow-accent-600/30 transition-all"
           >
             Request Free Counselling Call
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
       </section>
 
       {/* 4. FEATURED COLLEGES & UNIVERSITIES */}
@@ -259,9 +289,14 @@ export const Home = () => {
           <CardSkeleton count={4} />
         ) : (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {colleges.map((college) => (
-              <div
+            {colleges.map((college, idx) => (
+              <motion.div
                 key={college._id}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: idx * 0.08 }}
+                whileHover={{ y: -6, transition: { duration: 0.2 } }}
                 className="flex flex-col justify-between overflow-hidden transition-all duration-300 bg-white border shadow-sm rounded-2xl border-slate-200/80 hover:shadow-xl group"
               >
                 <div>
@@ -291,9 +326,9 @@ export const Home = () => {
 
                     {college.approvals?.length > 0 && (
                       <div className="flex flex-wrap gap-1 pt-1">
-                        {college.approvals.slice(0, 2).map((app, idx) => (
+                        {college.approvals.slice(0, 2).map((app, appIdx) => (
                           <span
-                            key={idx}
+                            key={appIdx}
                             className="text-[10px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-medium truncate max-w-full"
                           >
                             {app}
@@ -318,7 +353,7 @@ export const Home = () => {
                     Enquire Now
                   </button>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         )}
@@ -353,9 +388,14 @@ export const Home = () => {
             <CardSkeleton count={6} />
           ) : (
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {courses.map((course) => (
-                <div
+              {courses.map((course, idx) => (
+                <motion.div
                   key={course._id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.35, delay: idx * 0.05 }}
+                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
                   className="flex flex-col justify-between p-6 transition-all bg-white border shadow-sm rounded-2xl border-slate-200 hover:shadow-md"
                 >
                   <div className="space-y-3">
@@ -392,7 +432,7 @@ export const Home = () => {
                       Apply Now
                     </button>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           )}
@@ -401,7 +441,13 @@ export const Home = () => {
 
       {/* 6. AFFILIATION & ACCREDITATION INFORMATION SECTION */}
       <section className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div className="p-8 space-y-8 bg-white border shadow-sm rounded-3xl border-slate-200/80 sm:p-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="p-8 space-y-8 bg-white border shadow-sm rounded-3xl border-slate-200/80 sm:p-12"
+        >
           <div className="max-w-3xl mx-auto space-y-3 text-center">
             <span className="px-3 py-1 text-xs font-bold tracking-widest uppercase border rounded-full text-accent-700 bg-accent-50 border-accent-200">
               Understanding Educational Approvals
@@ -455,7 +501,7 @@ export const Home = () => {
               </p>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* 7. HOW WE HELP STUDENTS (JOURNEY) */}
@@ -465,7 +511,7 @@ export const Home = () => {
             Student-First Journey
           </span>
           <h2 className="text-2xl font-extrabold font-display sm:text-4xl text-slate-900">
-            How Vidhya Advance Guides You
+            How Vidhya Advance Education Social Welfare Society Guides You
           </h2>
           <p className="text-sm text-slate-600">
             From your very first course inquiry to your confirmed campus admission:
@@ -479,8 +525,12 @@ export const Home = () => {
             { step: '03', title: 'Eligibility Check', desc: 'We verify your academic marksheets and guide you through quota and scholarship options.' },
             { step: '04', title: 'Confirmed Admission', desc: 'Direct assistance with application submission, seat allotment, and hostel guidance.' },
           ].map((item, idx) => (
-            <div
+            <motion.div
               key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: idx * 0.08 }}
               className="relative flex flex-col justify-between p-6 overflow-hidden bg-white border shadow-sm rounded-2xl border-slate-200/80"
             >
               <span className="absolute text-4xl font-black pointer-events-none font-display text-slate-100 top-2 right-4">
@@ -497,7 +547,7 @@ export const Home = () => {
                   {item.desc}
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
@@ -529,8 +579,13 @@ export const Home = () => {
 
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             {socialActivities.map((act) => (
-              <div
+              <motion.div
                 key={act._id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4 }}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
                 className="flex flex-col overflow-hidden border shadow-lg bg-brand-900/60 rounded-2xl border-brand-800/80 sm:flex-row"
               >
                 <div className="h-48 sm:w-2/5 sm:h-auto bg-brand-950">
@@ -559,7 +614,7 @@ export const Home = () => {
                     Read Impact Story <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -601,11 +656,21 @@ export const Home = () => {
                     }`}
                   />
                 </button>
-                {isOpen && (
-                  <div className="px-5 pt-3 pb-5 text-sm leading-relaxed border-t text-slate-600 border-slate-100">
-                    {faq.answer}
-                  </div>
-                )}
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.25, ease: 'easeInOut' }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-5 pt-1 pb-5 text-sm leading-relaxed border-t text-slate-600 border-slate-100">
+                        {faq.answer}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             );
           })}
@@ -624,7 +689,13 @@ export const Home = () => {
 
       {/* 10. FINAL LEAD CONVERSION CALLOUT */}
       <section className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div className="relative p-8 space-y-6 overflow-hidden text-center text-white border shadow-2xl rounded-3xl bg-gradient-to-r from-brand-950 to-brand-900 sm:p-14 border-brand-800">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="relative p-8 space-y-6 overflow-hidden text-center text-white border shadow-2xl rounded-3xl bg-gradient-to-r from-brand-950 to-brand-900 sm:p-14 border-brand-800"
+        >
           <div className="max-w-2xl mx-auto space-y-3">
             <h2 className="text-3xl font-extrabold font-display sm:text-4xl">
               Take the First Confident Step in Your Educational Career
@@ -635,21 +706,27 @@ export const Home = () => {
           </div>
 
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link
-              to="/enquiry"
-              className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-sm sm:text-base shadow-xl transition-all transform hover:-translate-y-0.5"
-            >
-              Submit Admission Enquiry
-            </Link>
-            <Link
-              to="/contact"
-              className="w-full py-4 text-sm font-semibold text-white transition-colors border sm:w-auto px-7 rounded-2xl bg-white/10 hover:bg-white/20 sm:text-base border-white/20"
-            >
-              Contact Our Office
-            </Link>
+            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full sm:w-auto">
+              <Link
+                to="/enquiry"
+                className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-sm sm:text-base shadow-xl transition-all flex items-center justify-center"
+              >
+                Submit Admission Enquiry
+              </Link>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full sm:w-auto">
+              <Link
+                to="/contact"
+                className="w-full py-4 text-sm font-semibold text-white transition-colors border sm:w-auto px-7 rounded-2xl bg-white/10 hover:bg-white/20 sm:text-base border-white/20 flex items-center justify-center"
+              >
+                Contact Our Office
+              </Link>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </section>
     </div>
   );
 };
+
+export default Home;

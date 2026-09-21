@@ -328,7 +328,7 @@ export const LeadModal = ({
                     className="mt-0.5 w-4 h-4 rounded text-brand-600 focus:ring-brand-500 border-slate-300"
                   />
                   <span className="text-xs text-slate-600 leading-snug">
-                    I agree to be contacted by Vidhya Advance Education regarding admission counselling and course information.
+                    I agree to be contacted by Vidhya Advance Education Social Welfare Society regarding admission guidance and course information.
                   </span>
                 </label>
                 {errors.consent && (

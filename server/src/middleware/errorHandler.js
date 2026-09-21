@@ -25,23 +25,29 @@ export const errorHandler = (err, req, res, next) => {
   }
 
   const statusCode = error.statusCode || 500;
-  const message = error.message || 'Internal Server Error';
+  
+  // In production, mask non-operational or 500 internal errors to prevent leaking system/database internals
+  let clientMessage = error.message || 'Internal Server Error';
+  if (ENV.NODE_ENV === 'production' && (statusCode >= 500 || !error.isOperational)) {
+    clientMessage = 'An unexpected internal server error occurred. Please try again later.';
+  }
 
   const response = {
     success: false,
-    message,
+    message: clientMessage,
   };
 
   if (error.errors) {
     response.errors = error.errors;
   }
 
-  if (ENV.NODE_ENV !== 'production' && !error.isOperational) {
+  // Never expose stack trace in production
+  if (ENV.NODE_ENV !== 'production' && err.stack) {
     response.stack = err.stack;
   }
 
   if (statusCode >= 500) {
-    console.error(`💥 Server Error [${req.method} ${req.originalUrl}]:`, err);
+    console.error(`💥 Server Error [${req.method} ${req.originalUrl}]:`, err.message || err);
   }
 
   res.status(statusCode).json(response);

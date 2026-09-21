@@ -12,6 +12,10 @@ import {
   ShieldCheck,
   ArrowRight,
   AlertCircle,
+  HelpCircle,
+  KeyRound,
+  PhoneCall,
+  X,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { useToast } from '../../context/ToastContext.jsx';
@@ -30,6 +34,7 @@ export const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [loginError, setLoginError] = useState('');
+  const [helpModalOpen, setHelpModalOpen] = useState(false);
 
   // If already authenticated, redirect to dashboard
   React.useEffect(() => {
@@ -41,7 +46,6 @@ export const AdminLogin = () => {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(loginSchema),
@@ -60,16 +64,21 @@ export const AdminLogin = () => {
       const destination = location.state?.from?.pathname || '/admin/dashboard';
       navigate(destination, { replace: true });
     } catch (err) {
-      setLoginError(err.message || 'Invalid email or password');
+      const msg =
+        err.response?.data?.message ||
+        err.message ||
+        'Invalid email or password. Please check your credentials.';
+
+      if (msg.toLowerCase().includes('status code 401') || msg.toLowerCase().includes('unauthorized')) {
+        setLoginError('Invalid email or password. Please check your credentials.');
+      } else if (msg.toLowerCase().includes('status code 429') || msg.toLowerCase().includes('too many requests')) {
+        setLoginError('Too many login attempts. Please wait 15 minutes and try again.');
+      } else {
+        setLoginError(msg);
+      }
     } finally {
       setSubmitting(false);
     }
-  };
-
-  const handleDemoFill = (email, password) => {
-    setValue('email', email);
-    setValue('password', password);
-    setLoginError('');
   };
 
   return (
@@ -121,9 +130,18 @@ export const AdminLogin = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
-                Password
-              </label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-xs font-semibold text-slate-300">
+                  Password
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setHelpModalOpen(true)}
+                  className="text-[11px] text-accent-400 hover:text-accent-300 transition-colors"
+                >
+                  Forgot or need credentials?
+                </button>
+              </div>
               <div className="relative">
                 <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                 <input
@@ -161,29 +179,6 @@ export const AdminLogin = () => {
               )}
             </button>
           </form>
-
-          {/* Quick Demo Credentials Pill */}
-          <div className="pt-4 border-t border-slate-700/60 space-y-2">
-            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block text-center">
-              Quick Demo Accounts:
-            </span>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => handleDemoFill('admin@vidhyaadvance.com', 'Admin@12345')}
-                className="p-2 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-[11px] text-slate-300 font-medium text-center border border-slate-600/60 transition-colors"
-              >
-                Super Admin
-              </button>
-              <button
-                type="button"
-                onClick={() => handleDemoFill('counsellor@vidhyaadvance.com', 'Counsellor@12345')}
-                className="p-2 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-[11px] text-slate-300 font-medium text-center border border-slate-600/60 transition-colors"
-              >
-                Counsellor
-              </button>
-            </div>
-          </div>
         </div>
 
         <div className="text-center mt-6">
@@ -192,6 +187,66 @@ export const AdminLogin = () => {
           </Link>
         </div>
       </div>
+
+      {/* Credential Recovery Assistance Modal */}
+      {helpModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-150">
+          <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl text-left space-y-6 relative">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-accent-500/10 border border-accent-500/30 text-accent-400 flex items-center justify-center">
+                  <KeyRound className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-display font-bold text-lg text-white">Staff Credential Recovery</h3>
+                  <p className="text-xs text-slate-400">Password reset & credential issuance</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setHelpModalOpen(false)}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="space-y-4 text-xs text-slate-300 leading-relaxed">
+              <p>
+                For security and regulatory compliance, staff and counsellor accounts are provisioned and reset exclusively by authorized administrators.
+              </p>
+
+              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2">
+                <span className="font-semibold text-white block text-[13px]">How to recover access:</span>
+                <ul className="list-disc pl-4 space-y-1.5 text-slate-300">
+                  <li>
+                    Contact the Super Administrator at <strong className="text-accent-300 font-mono">admin@vidhyaadvance.com</strong>.
+                  </li>
+                  <li>
+                    Or call the administrative helpline directly at <strong className="text-white">+91 9821776333</strong>.
+                  </li>
+                  <li>
+                    An administrator will reset your password or issue new credentials via the <strong className="text-white">Staff & User Management</strong> console.
+                  </li>
+                </ul>
+              </div>
+
+              <div className="p-3 rounded-xl bg-brand-950/60 border border-brand-800/60 text-slate-300 flex items-center gap-2.5">
+                <PhoneCall className="w-4 h-4 text-accent-400 shrink-0" />
+                <span>Office Hours: Mon - Sat (9:30 AM to 6:30 PM)</span>
+              </div>
+            </div>
+
+            <div className="pt-2 border-t border-slate-800 flex justify-end">
+              <button
+                onClick={() => setHelpModalOpen(false)}
+                className="px-5 py-2.5 rounded-xl bg-accent-600 hover:bg-accent-500 text-white font-semibold text-xs transition-colors"
+              >
+                Understood
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

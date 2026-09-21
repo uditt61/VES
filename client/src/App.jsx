@@ -35,9 +35,12 @@ import { ContentManager } from './pages/admin/ContentManager.jsx';
 import { AdminUserManager } from './pages/admin/AdminUserManager.jsx';
 import { AuditLogViewer } from './pages/admin/AuditLogViewer.jsx';
 
+import { ScrollToTop } from './components/common/ScrollToTop.jsx';
+
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <ToastProvider>
         <AuthProvider>
           <Routes>

@@ -541,7 +541,7 @@ export const Enquiry = () => {
                     className="mt-1 w-4 h-4 rounded text-brand-600 focus:ring-brand-500 border-slate-300"
                   />
                   <span className="text-xs text-slate-600 leading-relaxed">
-                    I agree to be contacted by Vidhya Advance Education regarding admission counselling, university options, and course updates via phone, SMS, or email.
+                    I agree to be contacted by Vidhya Advance Education Social Welfare Society regarding admission guidance, university options, and course updates via phone, SMS, or email.
                   </span>
                 </label>
                 {errors.consent && (

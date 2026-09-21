@@ -2,7 +2,7 @@ import express from 'express';
 import { GrievanceController } from '../controllers/grievanceController.js';
 import { authenticateToken } from '../middleware/auth.js';
 import { authorizeRoles } from '../middleware/rbac.js';
-import { enquiryLimiter } from '../middleware/rateLimiter.js';
+import { enquiryLimiter, trackingLimiter } from '../middleware/rateLimiter.js';
 import { validate } from '../middleware/validate.js';
 import { auditLogger } from '../middleware/auditLogger.js';
 import { createGrievanceSchema, updateGrievanceSchema } from '../validators/grievanceValidator.js';
@@ -17,7 +17,7 @@ router.post(
   GrievanceController.submitGrievance
 );
 
-router.get('/track', GrievanceController.trackGrievance);
+router.get('/track', trackingLimiter, GrievanceController.trackGrievance);
 
 // Admin routes
 router.get(

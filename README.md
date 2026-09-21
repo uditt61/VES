@@ -1,6 +1,6 @@
-# Vidhya Advance Education - Career Consultancy & Admission Platform
+# Vidhya Advance Education Social Welfare Society Platform
 
-> A production-ready, full-stack career consultancy & admission lead generation platform for **Vidhya Advance Education**. Built with React, Vite, Tailwind CSS, Express.js, MongoDB, Mongoose, and JWT authentication with rotated HTTP-only refresh tokens.
+> A production-ready, full-stack educational guidance & admission platform for **Vidhya Advance Education Social Welfare Society**. Built with React, Vite, Tailwind CSS, Express.js, MongoDB, Mongoose, and JWT authentication with rotated HTTP-only refresh tokens.
 
 ---
 
@@ -24,7 +24,7 @@
 
 ### Frontend (`client/`)
 - **Core**: React 18, Vite, React Router v6
-- **Styling**: Tailwind CSS with custom Indian education consultancy design system
+- **Styling**: Tailwind CSS with custom Indian educational & social welfare design system
 - **Icons**: Lucide React
 - **Forms & Validation**: React Hook Form, Zod
 - **Networking**: Axios with automatic token refresh queue interceptors

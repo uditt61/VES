@@ -1,6 +1,6 @@
-# Vidhya Advance Education - API Documentation
+# Vidhya Advance Education Social Welfare Society - API Documentation
 
-Backend REST API documentation for the **Vidhya Advance Education** Career Consultancy & Admission Lead Generation Platform.
+Backend REST API documentation for the **Vidhya Advance Education Social Welfare Society** Educational Guidance & Admission Platform.
 
 Base URL: `http://localhost:5000/api` (or configured `PORT`)
 

@@ -5,6 +5,7 @@ const API_BASE_URL = rawBase ? (rawBase.endsWith('/api') ? rawBase : `${rawBase}
 
 const api = axios.create({
   baseURL: API_BASE_URL,
+  timeout: 15000, // 15 seconds request timeout for slow networks
   withCredentials: true, // Send HTTP-only refresh cookies
   headers: {
     'Content-Type': 'application/json',
@@ -86,6 +87,15 @@ api.interceptors.response.use(
       } finally {
         isRefreshing = false;
       }
+    }
+
+    // Friendly error messaging for slow network timeouts and offline errors
+    if (error.code === 'ECONNABORTED' || error.message?.includes('timeout')) {
+      error.userMessage = 'Request timed out due to slow network connection. Please try again.';
+    } else if (!error.response) {
+      error.userMessage = 'Network connection unavailable. Please check your internet connection.';
+    } else {
+      error.userMessage = error.response.data?.message || 'A network error occurred. Please try again.';
     }
 
     return Promise.reject(error);

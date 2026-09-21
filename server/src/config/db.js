@@ -8,7 +8,10 @@ export const connectDB = async () => {
     let uri = ENV.MONGODB_URI;
 
     if (!uri) {
-      console.log('⚡ No MONGODB_URI provided. Initializing in-memory MongoDB fallback...');
+      if (ENV.NODE_ENV === 'production') {
+        throw new Error('FATAL: MONGODB_URI is required in production. In-memory fallback is disabled for security and data persistence.');
+      }
+      console.log('⚡ No MONGODB_URI provided. Initializing in-memory MongoDB fallback (dev/test only)...');
       const { MongoMemoryServer } = await import('mongodb-memory-server');
       mongoMemoryServer = await MongoMemoryServer.create({
         instance: {

@@ -7,8 +7,6 @@ import {
   MapPin,
   Clock,
   ShieldCheck,
-  CheckCircle2,
-  Heart,
   ArrowUpRight,
 } from 'lucide-react';
 
@@ -19,27 +17,27 @@ export const Footer = () => {
         <div className="grid grid-cols-1 gap-10 pb-12 border-b md:grid-cols-2 lg:grid-cols-5 border-brand-800/60">
           {/* Brand Col */}
           <div className="space-y-4 lg:col-span-2">
-            <Link to="/" className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-10 h-10 border shadow-md rounded-xl bg-brand-900 text-accent-400 border-brand-700">
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="flex items-center justify-center w-10 h-10 border shadow-md rounded-xl bg-brand-900 text-accent-400 border-brand-700 group-hover:scale-105 transition-transform">
                 <GraduationCap className="w-6 h-6" />
               </div>
               <div>
-                <span className="text-xl font-extrabold tracking-tight text-white font-display">
+                <span className="text-xl font-extrabold tracking-tight text-white font-display group-hover:text-accent-300 transition-colors">
                   Vidhya Advance
                 </span>
                 <span className="block text-[10px] font-semibold uppercase tracking-wider text-accent-400">
-                  Career Consultancy & Guidance
+                  Education Social Welfare Society
                 </span>
               </div>
             </Link>
 
             <p className="max-w-sm text-sm leading-relaxed text-slate-400">
-              Empowering students across India to make informed higher education choices. We provide verified admission guidance, course counselling, and university discovery with complete transparency.
+              Empowering students across India to make informed higher education choices. Vidhya Advance Education Social Welfare Society provides verified educational guidance, course counselling, and university discovery with complete transparency.
             </p>
 
             <div className="flex items-center gap-2 pt-2 text-xs text-slate-400">
               <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Dedicated to Ethical & Student-First Educational Counselling</span>
+              <span>Dedicated to Ethical & Student-First Educational Welfare</span>
             </div>
           </div>
 
@@ -153,8 +151,8 @@ export const Footer = () => {
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-accent-400 shrink-0" />
-                <a href="" className="transition-colors hover:text-white">
-                +91 9821776333
+                <a href="tel:+919821776333" className="transition-colors hover:text-white tabular-nums">
+                  +91 9821776333
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
@@ -171,10 +169,10 @@ export const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Credits */}
+        {/* Bottom Credits - Completely removed public Admin/Staff link */}
         <div className="flex flex-col items-center justify-between gap-4 pt-8 text-xs sm:flex-row text-slate-400">
           <p>
-            &copy; {new Date().getFullYear()} Vidhya Advance Education. All rights reserved.
+            &copy; {new Date().getFullYear()} Vidhya Advance Education Social Welfare Society. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <Link to="/privacy-policy" className="transition-colors hover:text-white">
@@ -185,8 +183,8 @@ export const Footer = () => {
               Terms of Service
             </Link>
             <span>&bull;</span>
-            <Link to="/admin/login" className="transition-colors hover:text-white">
-              Staff Portal
+            <Link to="/contact" className="transition-colors hover:text-white">
+              Help & Support
             </Link>
           </div>
         </div>
@@ -194,3 +192,5 @@ export const Footer = () => {
     </footer>
   );
 };
+
+export default Footer;

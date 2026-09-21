@@ -218,4 +218,66 @@ describe('4. Authentication & RBAC Flow', () => {
     expect(res.body.data.metrics.totalEnquiries).toBeGreaterThanOrEqual(1);
     expect(res.body.data.statusDistribution).toBeDefined();
   });
+
+  test('POST /api/auth/change-password rejects incorrect current password', async () => {
+    const res = await request(app)
+      .post('/api/auth/change-password')
+      .set('Authorization', `Bearer ${adminAccessToken}`)
+      .send({
+        currentPassword: 'WrongPassword999!',
+        newPassword: 'BrandNewPassword123!',
+      });
+
+    expect(res.status).toBe(400);
+    expect(res.body.message).toContain('Current password is incorrect');
+  });
+
+  test('POST /api/auth/change-password succeeds with valid credentials', async () => {
+    const res = await request(app)
+      .post('/api/auth/change-password')
+      .set('Authorization', `Bearer ${adminAccessToken}`)
+      .send({
+        currentPassword: 'Admin@12345',
+        newPassword: 'UpdatedAdminPass123!',
+      });
+
+    expect(res.status).toBe(200);
+    expect(res.body.message).toContain('Password changed successfully');
+
+    // Revert back so other runs don't depend on mutated state
+    await request(app)
+      .post('/api/auth/change-password')
+      .set('Authorization', `Bearer ${adminAccessToken}`)
+      .send({
+        currentPassword: 'UpdatedAdminPass123!',
+        newPassword: 'Admin@12345',
+      });
+  });
+
+  test('POST /api/admin/users creates a new counsellor user and resets their password', async () => {
+    const createRes = await request(app)
+      .post('/api/admin/users')
+      .set('Authorization', `Bearer ${adminAccessToken}`)
+      .send({
+        name: 'New Test Counsellor',
+        email: 'newcounsellor@vidhyaadvance.com',
+        password: 'InitialPassword123!',
+        role: 'COUNSELLOR',
+        phone: '9821776333',
+      });
+
+    expect(createRes.status).toBe(201);
+    const createdUserId = createRes.body.data.id;
+
+    // Reset password for this user
+    const resetRes = await request(app)
+      .post(`/api/admin/users/${createdUserId}/reset-password`)
+      .set('Authorization', `Bearer ${adminAccessToken}`)
+      .send({
+        newPassword: 'ResetPassword456!',
+      });
+
+    expect(resetRes.status).toBe(200);
+    expect(resetRes.body.message).toContain('Password reset successfully');
+  });
 });

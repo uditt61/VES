@@ -2,6 +2,7 @@ import { Course } from '../models/Course.js';
 import { ApiResponse } from '../utils/apiResponse.js';
 import { ApiError } from '../utils/apiError.js';
 import { slugify } from '../utils/slugify.js';
+import { escapeRegex } from '../utils/sanitize.js';
 
 export class CourseController {
   static async getAll(req, res, next) {
@@ -49,11 +50,12 @@ export class CourseController {
       }
 
       if (search) {
+        const safeSearch = escapeRegex(search);
         filter.$or = [
-          { name: new RegExp(search, 'i') },
-          { degreeType: new RegExp(search, 'i') },
-          { stream: new RegExp(search, 'i') },
-          { description: new RegExp(search, 'i') },
+          { name: new RegExp(safeSearch, 'i') },
+          { degreeType: new RegExp(safeSearch, 'i') },
+          { stream: new RegExp(safeSearch, 'i') },
+          { description: new RegExp(safeSearch, 'i') },
         ];
       }
 

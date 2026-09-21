@@ -361,97 +361,7 @@ export const seedInitialData = async () => {
       const createdCourses = await Course.insertMany(coursesData);
       console.log(`✅ Seeded ${createdCourses.length} courses.`);
 
-      // 4. Seed sample Enquiries for demonstration in admin dashboard
-      const sampleEnquiries = [
-        {
-          enquiryId: generateEnquiryId(),
-          studentName: 'Rahul Verma',
-          phone: '9826012345',
-          email: 'rahul.verma@example.com',
-          city: 'Bhopal',
-          state: 'Madhya Pradesh',
-          highestQualification: '12th Standard',
-          passingYear: '2025',
-          percentage: '82%',
-          preferredCollege: createdColleges[0]._id,
-          preferredCourse: createdCourses[0]._id,
-          status: 'New',
-          consent: true,
-        },
-        {
-          enquiryId: generateEnquiryId(),
-          studentName: 'Pooja Sharma',
-          phone: '9425098765',
-          email: 'pooja.sharma@example.com',
-          city: 'Indore',
-          state: 'Madhya Pradesh',
-          highestQualification: '12th Biology',
-          passingYear: '2024',
-          percentage: '78%',
-          preferredCollege: createdColleges[1]._id,
-          preferredCourse: createdCourses[3]._id,
-          status: 'Contacted',
-          assignedCounsellor: counsellorId,
-          notes: [
-            {
-              note: 'Spoke with student. Interested in B.Sc Nursing hostel accommodation details.',
-              addedBy: 'Senior Admission Counsellor',
-              addedAt: new Date(Date.now() - 1000 * 60 * 60 * 24),
-            },
-          ],
-          consent: true,
-        },
-        {
-          enquiryId: generateEnquiryId(),
-          studentName: 'Amit Patel',
-          phone: '9893011223',
-          email: 'amit.patel@example.com',
-          city: 'Jabalpur',
-          state: 'Madhya Pradesh',
-          highestQualification: 'Graduation (B.Com)',
-          passingYear: '2024',
-          percentage: '67%',
-          preferredCollege: createdColleges[0]._id,
-          preferredCourse: createdCourses[2]._id,
-          status: 'Follow-up',
-          assignedCounsellor: counsellorId,
-          followUpDate: new Date(Date.now() + 1000 * 60 * 60 * 48),
-          notes: [
-            {
-              note: 'Requested MBA fee installment structure. Follow up scheduled.',
-              addedBy: 'Senior Admission Counsellor',
-              addedAt: new Date(),
-            },
-          ],
-          consent: true,
-        },
-        {
-          enquiryId: generateEnquiryId(),
-          studentName: 'Sneha Yadav',
-          phone: '9179044556',
-          email: 'sneha.yadav@example.com',
-          city: 'Gwalior',
-          state: 'Madhya Pradesh',
-          highestQualification: '12th Science',
-          passingYear: '2023',
-          percentage: '74%',
-          preferredCollege: createdColleges[3]._id,
-          preferredCourse: createdCourses[10]._id,
-          status: 'Admission Completed',
-          assignedCounsellor: superAdminId,
-          notes: [
-            {
-              note: 'Admission confirmed for D.Pharm. Document verification completed.',
-              addedBy: 'Vidhya Advance Administrator',
-              addedAt: new Date(Date.now() - 1000 * 60 * 60 * 72),
-            },
-          ],
-          consent: true,
-        },
-      ];
-
-      await Enquiry.insertMany(sampleEnquiries);
-      console.log(`✅ Seeded sample enquiries.`);
+      // Note: Test enquiries are omitted to maintain clean production lead pipeline
     }
 
     // 5. Seed FAQs
@@ -553,9 +463,9 @@ export const seedInitialData = async () => {
         {
           key: 'hero_content',
           value: {
-            badge: 'Certified Educational Consultancy & Admission Guidance',
+            badge: 'Educational Guidance & Social Welfare Society',
             title: 'Shape Your Future With the Right Education & Verified Guidance',
-            subtitle: 'Explore recognized universities, discover industry-aligned degree courses, and receive honest, personalized admission counselling from Vidhya Advance Education.',
+            subtitle: 'Explore recognized universities, discover industry-aligned degree courses, and receive honest, personalized educational guidance from Vidhya Advance Education Social Welfare Society.',
             primaryCtaText: 'Start Your Admission Enquiry',
             secondaryCtaText: 'Explore Colleges & Universities',
           },
@@ -574,7 +484,7 @@ export const seedInitialData = async () => {
         {
           key: 'contact_info',
           value: {
-            organization: 'Vidhya Advance Education',
+            organization: 'Vidhya Advance Education Social Welfare Society',
             address: 'Plot No. 12, Commercial Complex, MP Nagar Zone-II, Bhopal, Madhya Pradesh - 462011',
             primaryPhone: '+91 755 4239876',
             helplinePhone: '+91 98765 43210',
@@ -604,3 +514,21 @@ export const seedInitialData = async () => {
     console.error('❌ Database Seeding Error:', error);
   }
 };
+
+// Auto-run if executed directly via CLI (e.g. node src/seeds/seed.js)
+if (process.argv[1] && (process.argv[1].endsWith('seed.js') || process.argv[1].includes('seed'))) {
+  (async () => {
+    try {
+      const { connectDB, disconnectDB } = await import('../config/db.js');
+      await connectDB();
+      await seedInitialData();
+      await disconnectDB();
+      console.log('🌱 Seed script finished.');
+      process.exit(0);
+    } catch (err) {
+      console.error('❌ Seeding script execution failed:', err);
+      process.exit(1);
+    }
+  })();
+}
+

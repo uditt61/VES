@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, useSearchParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
   Search,
   BookOpen,
@@ -15,16 +16,26 @@ import { CardSkeleton } from '../../components/common/SkeletonLoader.jsx';
 
 export const Courses = () => {
   const { openEnquiryModal } = useOutletContext();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const queryStream = searchParams.get('stream') || '';
+
   const [courses, setCourses] = useState([]);
   const [colleges, setColleges] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [search, setSearch] = useState('');
-  const [stream, setStream] = useState('');
+  const [stream, setStream] = useState(queryStream);
   const [collegeId, setCollegeId] = useState('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
+
+  // Sync stream state when query parameter changes (e.g. user clicks stream in Drawer or Footer)
+  useEffect(() => {
+    const currentStream = searchParams.get('stream') || '';
+    setStream(currentStream);
+    setPage(1);
+  }, [searchParams]);
 
   // Load universities for filter dropdown
   useEffect(() => {
@@ -66,6 +77,18 @@ export const Courses = () => {
     fetchCourses();
   }, [page, stream, collegeId]);
 
+  const handleStreamSelect = (selectedStream) => {
+    setStream(selectedStream);
+    setPage(1);
+    const newParams = new URLSearchParams(searchParams);
+    if (selectedStream) {
+      newParams.set('stream', selectedStream);
+    } else {
+      newParams.delete('stream');
+    }
+    setSearchParams(newParams);
+  };
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     setPage(1);
@@ -77,6 +100,9 @@ export const Courses = () => {
     setStream('');
     setCollegeId('');
     setPage(1);
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete('stream');
+    setSearchParams(newParams);
   };
 
   const streams = [
@@ -93,9 +119,14 @@ export const Courses = () => {
 
   return (
     <div className="space-y-12 pb-16">
-      {/* Header Banner */}
+      {/* Header Banner with subtle animation */}
       <section className="bg-brand-950 text-white py-14 sm:py-20 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 relative z-10"
+        >
           <span className="text-xs font-bold uppercase tracking-widest text-accent-400 bg-brand-900 px-3.5 py-1.5 rounded-full border border-brand-800">
             Programs Directory
           </span>
@@ -105,17 +136,14 @@ export const Courses = () => {
           <p className="text-slate-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
             Discover accredited undergraduate, postgraduate, and diploma degree programs across top-rated universities in central India.
           </p>
-        </div>
+        </motion.div>
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Stream Pills Quick Filter */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
           <button
-            onClick={() => {
-              setStream('');
-              setPage(1);
-            }}
+            onClick={() => handleStreamSelect('')}
             className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors ${
               stream === ''
                 ? 'bg-brand-900 text-white shadow-sm'
@@ -127,12 +155,9 @@ export const Courses = () => {
           {streams.map((s) => (
             <button
               key={s}
-              onClick={() => {
-                setStream(s);
-                setPage(1);
-              }}
+              onClick={() => handleStreamSelect(s)}
               className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors ${
-                stream === s
+                stream.toLowerCase() === s.toLowerCase()
                   ? 'bg-brand-900 text-white shadow-sm'
                   : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
               }`}
@@ -198,6 +223,11 @@ export const Courses = () => {
             <span>
               Showing <strong className="text-slate-800">{courses.length}</strong> of{' '}
               <strong className="text-slate-800">{totalCount}</strong> courses
+              {stream && (
+                <span className="ml-1 text-accent-700 font-semibold">
+                  in stream "{stream}"
+                </span>
+              )}
             </span>
           </div>
         </div>
@@ -221,9 +251,13 @@ export const Courses = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {courses.map((course) => (
-              <div
+            {courses.map((course, idx) => (
+              <motion.div
                 key={course._id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: idx * 0.04 }}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
                 className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
               >
                 <div className="space-y-4">
@@ -262,14 +296,16 @@ export const Courses = () => {
                     <span>Admission Open</span>
                   </span>
 
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
                     onClick={() => openEnquiryModal(course.college?._id, course._id)}
                     className="px-5 py-2.5 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-xs shadow-sm transition-colors"
                   >
                     Enquire Now
-                  </button>
+                  </motion.button>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         )}
@@ -300,3 +336,5 @@ export const Courses = () => {
     </div>
   );
 };
+
+export default Courses;

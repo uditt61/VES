@@ -115,7 +115,7 @@ const Workings = () => {
           <div className="w-16 h-1 mb-6 bg-blue-600 rounded-full"></div>
           <div className="space-y-4 text-lg leading-relaxed text-gray-600">
             <p>
-              <strong className="text-gray-800">Vidhya Advance Education</strong> and <strong className="text-gray-800">Akhil Bharatiya Chatriya Mahasabha</strong> have taken an important initiative in the direction of social service.
+              <strong className="text-gray-800">Vidhya Advance Education Social Welfare Society</strong> and <strong className="text-gray-800">Akhil Bharatiya Chatriya Mahasabha</strong> have taken an important initiative in the direction of social service.
             </p>
             <p>
               In this sequence, a <strong className="text-blue-600">Bag Distribution Program</strong> was organized on the occasion of the birthday of the respected daughter.

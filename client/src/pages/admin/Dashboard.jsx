@@ -73,10 +73,10 @@ export const Dashboard = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-slate-900 tracking-tight">
-            Consultancy Operations Dashboard
+            Education Social Welfare Society Dashboard
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Real-time database metrics on admissions, counselling pipelines, and student inquiries.
+            Real-time database metrics on admissions, guidance pipelines, and student inquiries.
           </p>
         </div>
 

@@ -17,9 +17,9 @@ export const TermsConditions = () => {
 
       <div className="text-sm leading-relaxed text-slate-600 space-y-6">
         <section className="space-y-3">
-          <h2 className="font-display font-bold text-lg text-slate-900">1. Consultancy & Guidance Scope</h2>
+          <h2 className="font-display font-bold text-lg text-slate-900">1. Educational Guidance & Scope</h2>
           <p>
-            Vidhya Advance Education acts as a professional career consultancy and admission guidance facilitator. Final admission seat allotment, merit ranking, degree conferral, and examinations remain the sole prerogative of respective affiliated universities.
+            Vidhya Advance Education Social Welfare Society acts as an educational guidance facilitator and social welfare society. Final admission seat allotment, merit ranking, degree conferral, and examinations remain the sole prerogative of respective affiliated universities.
           </p>
         </section>
 

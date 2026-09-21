@@ -83,7 +83,7 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'healthy',
     timestamp: new Date().toISOString(),
-    service: 'Vidhya Advance Education Backend',
+    service: 'Vidhya Advance Education Social Welfare Society Backend',
     version: '1.0.0',
   });
 });

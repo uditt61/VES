@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Outlet, NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
+import { Outlet, NavLink, Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import {
   GraduationCap,
   LayoutDashboard,
@@ -17,12 +17,16 @@ import {
   X,
   ExternalLink,
   Shield,
+  ShieldAlert,
+  KeyRound,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext.jsx';
+import { ProfileModal } from '../components/admin/ProfileModal.jsx';
 
 export const AdminLayout = () => {
   const { user, isAuthenticated, loading, logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -38,8 +42,7 @@ export const AdminLayout = () => {
   }
 
   if (!isAuthenticated) {
-    navigate('/admin/login', { replace: true, state: { from: location } });
-    return null;
+    return <Navigate to="/admin/login" replace state={{ from: location }} />;
   }
 
   const role = user?.role || 'COUNSELLOR';
@@ -58,6 +61,10 @@ export const AdminLayout = () => {
   ];
 
   const filteredMenuItems = menuItems.filter((item) => item.roles.includes(role));
+
+  // Verify permission for current route
+  const currentRouteItem = menuItems.find((item) => location.pathname === item.path || location.pathname.startsWith(`${item.path}/`));
+  const isAuthorized = !currentRouteItem || currentRouteItem.roles.includes(role);
 
   const handleLogout = async () => {
     await logout();
@@ -150,13 +157,22 @@ export const AdminLayout = () => {
               </div>
             </div>
 
-            <button
-              onClick={handleLogout}
-              className="text-rose-400 hover:text-rose-300 p-1.5 rounded-lg hover:bg-brand-900 transition-colors"
-              title="Logout"
-            >
-              <LogOut className="w-4 h-4" />
-            </button>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setProfileOpen(true)}
+                className="text-slate-400 hover:text-accent-400 p-1.5 rounded-lg hover:bg-brand-900 transition-colors"
+                title="Manage My Credentials & Password"
+              >
+                <KeyRound className="w-4 h-4" />
+              </button>
+              <button
+                onClick={handleLogout}
+                className="text-rose-400 hover:text-rose-300 p-1.5 rounded-lg hover:bg-brand-900 transition-colors"
+                title="Logout"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
           </div>
 
           <Link
@@ -176,24 +192,54 @@ export const AdminLayout = () => {
           <div className="flex items-center gap-2">
             <Shield className="w-4 h-4 text-brand-700" />
             <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-              Career Consultancy Admin Environment
+              Education Social Welfare Society Admin Portal
             </span>
           </div>
 
-          <div className="flex items-center gap-4 text-xs">
+          <div className="flex items-center gap-3 text-xs">
             <span className="text-slate-500">
               Signed in as: <strong className="text-slate-900">{user?.email}</strong>
             </span>
             <span className="px-2.5 py-1 rounded-full bg-brand-50 border border-brand-200 text-brand-900 font-semibold">
               {user?.role}
             </span>
+            <button
+              onClick={() => setProfileOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition-colors border border-slate-200"
+              title="Change Password & Credentials"
+            >
+              <KeyRound className="w-3.5 h-3.5 text-brand-700" />
+              <span>My Credentials</span>
+            </button>
           </div>
         </header>
 
         <main className="p-4 sm:p-6 lg:p-8 flex-1">
-          <Outlet />
+          {isAuthorized ? (
+            <Outlet />
+          ) : (
+            <div className="max-w-lg mx-auto text-center py-16 bg-white rounded-3xl border border-slate-200 p-8 space-y-4 shadow-sm my-8">
+              <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto">
+                <ShieldAlert className="w-6 h-6" />
+              </div>
+              <h2 className="font-display font-bold text-xl text-slate-900">
+                Access Restricted
+              </h2>
+              <p className="text-sm text-slate-500 leading-relaxed">
+                Your assigned staff role (<strong className="text-slate-800">{role}</strong>) does not have sufficient permissions to view or edit this module.
+              </p>
+              <Link
+                to="/admin/dashboard"
+                className="inline-block px-5 py-2.5 rounded-xl bg-brand-900 hover:bg-brand-800 text-white font-semibold text-xs transition-colors"
+              >
+                Return to Dashboard
+              </Link>
+            </div>
+          )}
         </main>
       </div>
+
+      <ProfileModal isOpen={profileOpen} onClose={() => setProfileOpen(false)} />
     </div>
   );
 };

@@ -20,7 +20,7 @@ export const PrivacyPolicy = () => {
         <section className="space-y-3">
           <h2 className="font-display font-bold text-lg text-slate-900">1. Information We Collect</h2>
           <p>
-            Vidhya Advance Education collects student contact details (Name, Phone Number, Email, City) and academic records (Highest qualification, marks percentage, passing year) exclusively when you fill out an admission enquiry or counselling form.
+            Vidhya Advance Education Social Welfare Society collects student contact details (Name, Phone Number, Email, City) and academic records (Highest qualification, marks percentage, passing year) exclusively when you fill out an admission enquiry or counselling form.
           </p>
         </section>
 

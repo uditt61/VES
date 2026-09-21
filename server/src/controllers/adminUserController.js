@@ -24,6 +24,10 @@ export class AdminUserController {
         throw ApiError.conflict('An account with this email already exists');
       }
 
+      if (req.user.role !== 'SUPER_ADMIN' && role === 'SUPER_ADMIN') {
+        throw ApiError.forbidden('Only Super Admins can create Super Admin accounts');
+      }
+
       const user = await AdminUser.create({
         name,
         email,
@@ -64,6 +68,14 @@ export class AdminUserController {
         throw ApiError.notFound('Admin user not found');
       }
 
+      // Non-super-admins cannot edit a SUPER_ADMIN account or elevate someone to SUPER_ADMIN
+      if (user.role === 'SUPER_ADMIN' && req.user.role !== 'SUPER_ADMIN') {
+        throw ApiError.forbidden('Only Super Admins can modify Super Admin accounts');
+      }
+      if (updates.role === 'SUPER_ADMIN' && req.user.role !== 'SUPER_ADMIN') {
+        throw ApiError.forbidden('Only Super Admins can elevate accounts to Super Admin');
+      }
+
       if (updates.name) user.name = updates.name;
       if (updates.role) user.role = updates.role;
       if (updates.phone !== undefined) user.phone = updates.phone;
@@ -89,6 +101,38 @@ export class AdminUserController {
     }
   }
 
+  static async resetPassword(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { newPassword } = req.body;
+
+      const user = await AdminUser.findById(id);
+      if (!user) {
+        throw ApiError.notFound('Admin user not found');
+      }
+
+      // Non-super-admins cannot reset password for SUPER_ADMIN
+      if (user.role === 'SUPER_ADMIN' && req.user.role !== 'SUPER_ADMIN') {
+        throw ApiError.forbidden('Only Super Admins can reset Super Admin passwords');
+      }
+
+      user.password = newPassword;
+      await user.save();
+
+      return ApiResponse.success(
+        res,
+        {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+        },
+        `Password reset successfully for ${user.email}`
+      );
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async delete(req, res, next) {
     try {
       const { id } = req.params;
@@ -97,10 +141,16 @@ export class AdminUserController {
         throw ApiError.badRequest('You cannot delete your own account');
       }
 
-      const user = await AdminUser.findByIdAndDelete(id);
-      if (!user) {
+      const userToDelete = await AdminUser.findById(id);
+      if (!userToDelete) {
         throw ApiError.notFound('User not found');
       }
+
+      if (userToDelete.role === 'SUPER_ADMIN' && req.user.role !== 'SUPER_ADMIN') {
+        throw ApiError.forbidden('Only Super Admins can delete Super Admin accounts');
+      }
+
+      await AdminUser.findByIdAndDelete(id);
 
       return ApiResponse.success(res, {}, 'User deleted successfully');
     } catch (error) {
