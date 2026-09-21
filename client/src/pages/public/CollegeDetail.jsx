@@ -17,6 +17,8 @@ import {
 } from 'lucide-react';
 import api from '../../services/api.js';
 import { Badge } from '../../components/common/Badge.jsx';
+import { SEOHead } from '../../components/common/SEOHead.jsx';
+import { buildBreadcrumbJsonLd, buildCollegeJsonLd, SITE_SHORT_NAME } from '../../utils/seoData.js';
 
 export const CollegeDetail = () => {
   const { slug } = useParams();
@@ -69,6 +71,20 @@ export const CollegeDetail = () => {
 
   return (
     <div className="space-y-12 pb-20">
+      <SEOHead
+        title={`${college.name} Admission 2026 | ${SITE_SHORT_NAME}`}
+        description={`Get admission guidance for ${college.name}${college.city ? ` in ${college.city}` : ''}. Explore courses, eligibility, fees & apply through Vidhya Advance Education Social Welfare Society.`}
+        keywords={`${college.name} admission, ${college.name} courses, ${college.city || ''} university admission, ${college.name} fees, direct admission ${college.name}`}
+        canonicalPath={`/colleges/${slug}`}
+        jsonLd={[
+          buildCollegeJsonLd(college),
+          buildBreadcrumbJsonLd([
+            { name: 'Home', url: '/' },
+            { name: 'Colleges', url: '/colleges' },
+            { name: college.name, url: `/colleges/${slug}` },
+          ]),
+        ]}
+      />
       {/* Breadcrumbs */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
         <nav className="flex items-center gap-2 text-xs text-slate-500">

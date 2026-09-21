@@ -18,6 +18,8 @@ import {
 } from 'lucide-react';
 import api from '../../services/api.js';
 import { useToast } from '../../context/ToastContext.jsx';
+import { SEOHead } from '../../components/common/SEOHead.jsx';
+import { PAGE_SEO, buildBreadcrumbJsonLd } from '../../utils/seoData.js';
 
 const fullEnquirySchema = z.object({
   // Student Info
@@ -163,6 +165,18 @@ export const Enquiry = () => {
 
   return (
     <div className="space-y-12 pb-20">
+      <SEOHead
+        title={PAGE_SEO.enquiry.title}
+        description={PAGE_SEO.enquiry.description}
+        keywords={PAGE_SEO.enquiry.keywords}
+        canonicalPath="/enquiry"
+        jsonLd={[
+          buildBreadcrumbJsonLd([
+            { name: 'Home', url: '/' },
+            { name: 'Admission Enquiry', url: '/enquiry' },
+          ]),
+        ]}
+      />
       {/* Header Banner */}
       <section className="bg-brand-950 text-white py-14 sm:py-20 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 relative z-10">

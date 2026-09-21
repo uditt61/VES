@@ -13,6 +13,8 @@ import {
 import api from '../../services/api.js';
 import { Badge } from '../../components/common/Badge.jsx';
 import { CardSkeleton } from '../../components/common/SkeletonLoader.jsx';
+import { SEOHead } from '../../components/common/SEOHead.jsx';
+import { PAGE_SEO, buildBreadcrumbJsonLd } from '../../utils/seoData.js';
 
 export const Courses = () => {
   const { openEnquiryModal } = useOutletContext();
@@ -119,6 +121,18 @@ export const Courses = () => {
 
   return (
     <div className="space-y-12 pb-16">
+      <SEOHead
+        title={PAGE_SEO.courses.title}
+        description={PAGE_SEO.courses.description}
+        keywords={PAGE_SEO.courses.keywords}
+        canonicalPath="/courses"
+        jsonLd={[
+          buildBreadcrumbJsonLd([
+            { name: 'Home', url: '/' },
+            { name: 'Courses & Programs', url: '/courses' },
+          ]),
+        ]}
+      />
       {/* Header Banner with subtle animation */}
       <section className="bg-brand-950 text-white py-14 sm:py-20 relative overflow-hidden">
         <motion.div

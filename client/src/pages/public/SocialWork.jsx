@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 import api from "../../services/api.js";
 import Workings from "./Workings.jsx";
+import { SEOHead } from '../../components/common/SEOHead.jsx';
+import { PAGE_SEO, buildBreadcrumbJsonLd } from '../../utils/seoData.js';
 
 export const SocialWork = () => {
   const [activities, setActivities] = useState([]);
@@ -29,6 +31,18 @@ export const SocialWork = () => {
 
   return (
     <>
+      <SEOHead
+        title={PAGE_SEO.socialWork.title}
+        description={PAGE_SEO.socialWork.description}
+        keywords={PAGE_SEO.socialWork.keywords}
+        canonicalPath="/social-work"
+        jsonLd={[
+          buildBreadcrumbJsonLd([
+            { name: 'Home', url: '/' },
+            { name: 'Social Welfare', url: '/social-work' },
+          ]),
+        ]}
+      />
       <div className="pb-16 space-y-16">
         {/* Header Banner */}
         <section className="relative py-16 overflow-hidden text-white bg-brand-950 sm:py-24">

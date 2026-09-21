@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, ChevronDown, HelpCircle, ArrowRight, X } from 'lucide-react';
 import api from '../../services/api.js';
+import { SEOHead } from '../../components/common/SEOHead.jsx';
+import { PAGE_SEO, buildBreadcrumbJsonLd, buildFaqJsonLd } from '../../utils/seoData.js';
 
 export const FAQ = () => {
   const [faqs, setFaqs] = useState([]);
@@ -45,6 +47,21 @@ export const FAQ = () => {
 
   return (
     <div className="space-y-12 pb-16">
+      <SEOHead
+        title={PAGE_SEO.faq.title}
+        description={PAGE_SEO.faq.description}
+        keywords={PAGE_SEO.faq.keywords}
+        canonicalPath="/faq"
+        jsonLd={[
+          buildBreadcrumbJsonLd([
+            { name: 'Home', url: '/' },
+            { name: 'FAQs', url: '/faq' },
+          ]),
+          ...(faqs.length > 0
+            ? [buildFaqJsonLd(faqs.map(f => ({ question: f.question, answer: f.answer })))]
+            : []),
+        ]}
+      />
       {/* Header Banner */}
       <section className="bg-brand-950 text-white py-14 sm:py-20 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 relative z-10">

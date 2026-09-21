@@ -10,6 +10,8 @@ import {
   GraduationCap,
 } from 'lucide-react';
 import { useToast } from '../../context/ToastContext.jsx';
+import { SEOHead } from '../../components/common/SEOHead.jsx';
+import { PAGE_SEO, localBusinessJsonLd, buildBreadcrumbJsonLd } from '../../utils/seoData.js';
 
 export const Contact = () => {
   const { showToast } = useToast();
@@ -33,6 +35,19 @@ export const Contact = () => {
 
   return (
     <div className="space-y-16 pb-16">
+      <SEOHead
+        title={PAGE_SEO.contact.title}
+        description={PAGE_SEO.contact.description}
+        keywords={PAGE_SEO.contact.keywords}
+        canonicalPath="/contact"
+        jsonLd={[
+          localBusinessJsonLd,
+          buildBreadcrumbJsonLd([
+            { name: 'Home', url: '/' },
+            { name: 'Contact Us', url: '/contact' },
+          ]),
+        ]}
+      />
       {/* Header Banner */}
       <section className="bg-brand-950 text-white py-14 sm:py-20 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 relative z-10">

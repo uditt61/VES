@@ -1,9 +1,23 @@
 import React from 'react';
 import { ShieldCheck, Lock, Eye, FileText } from 'lucide-react';
+import { SEOHead } from '../../components/common/SEOHead.jsx';
+import { PAGE_SEO, buildBreadcrumbJsonLd } from '../../utils/seoData.js';
 
 export const PrivacyPolicy = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-8">
+      <SEOHead
+        title={PAGE_SEO.privacyPolicy.title}
+        description={PAGE_SEO.privacyPolicy.description}
+        keywords={PAGE_SEO.privacyPolicy.keywords}
+        canonicalPath="/privacy-policy"
+        jsonLd={[
+          buildBreadcrumbJsonLd([
+            { name: 'Home', url: '/' },
+            { name: 'Privacy Policy', url: '/privacy-policy' },
+          ]),
+        ]}
+      />
       <div className="border-b border-slate-200 pb-6 space-y-2">
         <span className="text-xs uppercase tracking-widest font-bold text-accent-700">
           Data Protection

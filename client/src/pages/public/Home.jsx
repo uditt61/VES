@@ -24,6 +24,8 @@ import api from '../../services/api.js';
 import { Badge } from '../../components/common/Badge.jsx';
 import { CardSkeleton } from '../../components/common/SkeletonLoader.jsx';
 import Catalog from '../../components/common/Catalog.jsx';
+import { SEOHead } from '../../components/common/SEOHead.jsx';
+import { PAGE_SEO, organizationJsonLd, websiteJsonLd, buildBreadcrumbJsonLd } from '../../utils/seoData.js';
 
 export const Home = () => {
   const { openEnquiryModal } = useOutletContext();
@@ -60,6 +62,17 @@ export const Home = () => {
 
   return (
     <div className="pb-16 space-y-20">
+      <SEOHead
+        title={PAGE_SEO.home.title}
+        description={PAGE_SEO.home.description}
+        keywords={PAGE_SEO.home.keywords}
+        canonicalPath="/"
+        jsonLd={[
+          organizationJsonLd,
+          websiteJsonLd,
+          buildBreadcrumbJsonLd([{ name: 'Home', url: '/' }]),
+        ]}
+      />
       {/* 1. HERO SECTION */}
       <section className="relative pt-16 pb-24 overflow-hidden text-white bg-gradient-to-b from-brand-950 via-brand-900 to-brand-950 lg:pt-24 lg:pb-32">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-accent-600/20 via-transparent to-transparent pointer-events-none" />

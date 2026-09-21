@@ -14,6 +14,8 @@ import {
 import api from '../../services/api.js';
 import { Badge } from '../../components/common/Badge.jsx';
 import { CardSkeleton } from '../../components/common/SkeletonLoader.jsx';
+import { SEOHead } from '../../components/common/SEOHead.jsx';
+import { PAGE_SEO, buildBreadcrumbJsonLd } from '../../utils/seoData.js';
 
 export const Colleges = () => {
   const { openEnquiryModal } = useOutletContext();
@@ -68,6 +70,18 @@ export const Colleges = () => {
 
   return (
     <div className="space-y-12 pb-16">
+      <SEOHead
+        title={PAGE_SEO.colleges.title}
+        description={PAGE_SEO.colleges.description}
+        keywords={PAGE_SEO.colleges.keywords}
+        canonicalPath="/colleges"
+        jsonLd={[
+          buildBreadcrumbJsonLd([
+            { name: 'Home', url: '/' },
+            { name: 'Colleges & Universities', url: '/colleges' },
+          ]),
+        ]}
+      />
       {/* Header Banner */}
       <section className="bg-brand-950 text-white py-14 sm:py-20 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 relative z-10">

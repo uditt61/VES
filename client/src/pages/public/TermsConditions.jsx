@@ -1,8 +1,22 @@
 import React from 'react';
+import { SEOHead } from '../../components/common/SEOHead.jsx';
+import { PAGE_SEO, buildBreadcrumbJsonLd } from '../../utils/seoData.js';
 
 export const TermsConditions = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-8">
+      <SEOHead
+        title={PAGE_SEO.termsConditions.title}
+        description={PAGE_SEO.termsConditions.description}
+        keywords={PAGE_SEO.termsConditions.keywords}
+        canonicalPath="/terms-and-conditions"
+        jsonLd={[
+          buildBreadcrumbJsonLd([
+            { name: 'Home', url: '/' },
+            { name: 'Terms & Conditions', url: '/terms-and-conditions' },
+          ]),
+        ]}
+      />
       <div className="border-b border-slate-200 pb-6 space-y-2">
         <span className="text-xs uppercase tracking-widest font-bold text-accent-700">
           User Agreement

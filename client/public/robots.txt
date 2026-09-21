@@ -1,0 +1,8 @@
+# robots.txt for Vidhya Advance Education Social Welfare Society
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+
+# Sitemaps
+Sitemap: https://vidhyaadvance.com/sitemap.xml

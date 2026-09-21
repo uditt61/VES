@@ -15,6 +15,8 @@ import {
 import api from '../../services/api.js';
 import { useToast } from '../../context/ToastContext.jsx';
 import { Badge } from '../../components/common/Badge.jsx';
+import { SEOHead } from '../../components/common/SEOHead.jsx';
+import { PAGE_SEO, buildBreadcrumbJsonLd } from '../../utils/seoData.js';
 
 const grievanceSchema = z.object({
   name: z.string().min(2, 'Name is required').max(100),
@@ -123,6 +125,18 @@ export const Grievance = () => {
 
   return (
     <div className="space-y-12 pb-16">
+      <SEOHead
+        title={PAGE_SEO.grievance.title}
+        description={PAGE_SEO.grievance.description}
+        keywords={PAGE_SEO.grievance.keywords}
+        canonicalPath="/grievance"
+        jsonLd={[
+          buildBreadcrumbJsonLd([
+            { name: 'Home', url: '/' },
+            { name: 'Grievance Portal', url: '/grievance' },
+          ]),
+        ]}
+      />
       {/* Header Banner */}
       <section className="bg-brand-950 text-white py-14 sm:py-20 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 relative z-10">

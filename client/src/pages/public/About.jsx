@@ -13,10 +13,25 @@ import {
   HeartHandshake,
   ArrowRight,
 } from 'lucide-react';
+import { SEOHead } from '../../components/common/SEOHead.jsx';
+import { PAGE_SEO, organizationJsonLd, buildBreadcrumbJsonLd } from '../../utils/seoData.js';
 
 export const About = () => {
   return (
     <div className="space-y-16 pb-16">
+      <SEOHead
+        title={PAGE_SEO.about.title}
+        description={PAGE_SEO.about.description}
+        keywords={PAGE_SEO.about.keywords}
+        canonicalPath="/about"
+        jsonLd={[
+          organizationJsonLd,
+          buildBreadcrumbJsonLd([
+            { name: 'Home', url: '/' },
+            { name: 'About Us', url: '/about' },
+          ]),
+        ]}
+      />
       {/* Header Banner */}
       <section className="bg-brand-950 text-white py-16 sm:py-24 relative overflow-hidden">
         <motion.div
