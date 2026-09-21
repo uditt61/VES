@@ -48,7 +48,13 @@ app.use(
         return callback(null, true);
       }
       const allowedOrigins = ENV.CLIENT_URL.split(',').map((u) => u.trim());
-      if (allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+      if (
+        allowedOrigins.includes(origin) ||
+        allowedOrigins.includes('*') ||
+        origin.endsWith('.vercel.app') ||
+        origin.includes('vidhyaadvanceeducation.com') ||
+        allowedOrigins.some((allowed) => allowed !== '*' && origin.endsWith(allowed.replace(/^https?:\/\//, '')))
+      ) {
         return callback(null, true);
       }
       callback(new Error(`CORS origin '${origin}' not allowed`));
