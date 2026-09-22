@@ -26,6 +26,8 @@ import { CardSkeleton } from '../../components/common/SkeletonLoader.jsx';
 import Catalog from '../../components/common/Catalog.jsx';
 import { SEOHead } from '../../components/common/SEOHead.jsx';
 import { PAGE_SEO, organizationJsonLd, websiteJsonLd, buildBreadcrumbJsonLd } from '../../utils/seoData.js';
+import TradeMark from '../../components/common/TradeMark.jsx';
+import Director from '../../components/common/Director.jsx';
 
 export const Home = () => {
   const { openEnquiryModal } = useOutletContext();
@@ -74,7 +76,7 @@ export const Home = () => {
         ]}
       />
       {/* 1. HERO SECTION */}
-      <section className="relative pt-16 pb-24 overflow-hidden text-white bg-gradient-to-b from-brand-950 via-brand-900 to-brand-950 lg:pt-24 lg:pb-32">
+      <section className="relative pt-8 pb-12 overflow-hidden text-white bg-gradient-to-b from-brand-950 via-brand-900 to-brand-950 lg:pt-24 lg:pb-32">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-accent-600/20 via-transparent to-transparent pointer-events-none" />
         
         <div className="relative z-10 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -171,7 +173,9 @@ export const Home = () => {
         </div>
       </section>
 
+      <TradeMark />
       <Catalog />
+      <Director />
 
       {/* 2. TRUST / VALUE SECTION */}
       <section className="relative z-20 px-4 mx-auto -mt-16 max-w-7xl sm:px-6 lg:px-8 sm:-mt-24">

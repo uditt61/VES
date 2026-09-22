@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { SEOHead } from '../../components/common/SEOHead.jsx';
 import { PAGE_SEO, organizationJsonLd, buildBreadcrumbJsonLd } from '../../utils/seoData.js';
+import MoreWork from './MoreWork.jsx';
 
 export const About = () => {
   return (
@@ -51,7 +52,10 @@ export const About = () => {
           </p>
         </motion.div>
       </section>
+<section>
 
+  <MoreWork />
+</section>
       {/* Overview & Who We Are */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
