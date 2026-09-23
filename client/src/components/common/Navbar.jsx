@@ -104,9 +104,12 @@ export const Navbar = ({ onOpenEnquiry }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pl-14 sm:pl-16 lg:pl-16 xl:pl-8 flex items-center justify-between">
           {/* Brand Logo & Name */}
           <Link to="/" className="flex items-center gap-2.5 sm:gap-3 group">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-brand-900 to-brand-950 text-accent-400 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-200 border border-brand-800 shrink-0">
-              <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6" />
-            </div>
+            <img
+              src="/logoVES.png"
+              alt="Vidhya Advance Education Social Welfare Society Logo"
+              className="w-10 h-10 sm:w-11 sm:h-11 object-contain group-hover:scale-105 transition-transform duration-200 shrink-0 drop-shadow-sm"
+              loading="eager"
+            />
             <div>
               <span className="block font-display font-extrabold text-base sm:text-lg lg:text-xl text-brand-900 tracking-tight leading-none group-hover:text-brand-700 transition-colors">
                 Vidhya Advance

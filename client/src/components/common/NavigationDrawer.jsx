@@ -190,9 +190,11 @@ export const NavigationDrawer = ({
                 onClick={onClose}
                 className="flex items-center gap-3 group outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded-xl"
               >
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-800 to-brand-900 border border-brand-700/60 text-accent-400 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-200">
-                  <GraduationCap className="w-6 h-6" />
-                </div>
+                <img
+                  src="/logoVES.png"
+                  alt="Vidhya Advance Education Society Logo"
+                  className="w-10 h-10 object-contain group-hover:scale-105 transition-transform duration-200 shrink-0 drop-shadow-md"
+                />
                 <div>
                   <span className="block font-display font-extrabold text-base sm:text-lg text-white tracking-tight leading-none group-hover:text-accent-300 transition-colors">
                     Vidhya Advance

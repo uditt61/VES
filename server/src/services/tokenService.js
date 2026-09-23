@@ -84,6 +84,12 @@ export class TokenService {
     await RefreshToken.updateOne({ tokenHash }, { isRevoked: true });
   }
 
+  static async revokeAllUserRefreshTokens(userId) {
+    if (!userId) return;
+    await RefreshToken.updateMany({ userId }, { isRevoked: true });
+  }
+
+
   static setRefreshTokenCookie(res, token) {
     res.cookie('refreshToken', token, {
       httpOnly: true,

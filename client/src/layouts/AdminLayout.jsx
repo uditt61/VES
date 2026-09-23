@@ -76,7 +76,7 @@ export const AdminLayout = () => {
       {/* Mobile Top Header */}
       <div className="md:hidden bg-brand-950 text-white p-4 flex items-center justify-between border-b border-brand-800">
         <div className="flex items-center gap-2.5">
-          <GraduationCap className="w-6 h-6 text-accent-400" />
+          <img src="/logoVES.png" alt="Logo" className="w-8 h-8 object-contain" />
           <span className="font-bold text-sm tracking-wide">VAE Admin Portal</span>
         </div>
         <button
@@ -97,9 +97,7 @@ export const AdminLayout = () => {
           {/* Brand Header */}
           <div className="p-6 border-b border-brand-800/80 flex items-center justify-between">
             <Link to="/admin/dashboard" className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-brand-900 text-accent-400 flex items-center justify-center border border-brand-700 shadow">
-                <GraduationCap className="w-5 h-5" />
-              </div>
+              <img src="/logoVES.png" alt="Vidhya Advance Logo" className="w-9 h-9 object-contain shrink-0 drop-shadow" />
               <div>
                 <span className="font-display font-extrabold text-white text-base leading-tight block">
                   Vidhya Advance

@@ -24,6 +24,7 @@ import { NotFound } from './pages/public/NotFound.jsx';
 
 // Admin Pages
 import { AdminLogin } from './pages/admin/AdminLogin.jsx';
+import { AdminResetPassword } from './pages/admin/AdminResetPassword.jsx';
 import { Dashboard } from './pages/admin/Dashboard.jsx';
 import { EnquiryManager } from './pages/admin/EnquiryManager.jsx';
 import { CollegeManager } from './pages/admin/CollegeManager.jsx';
@@ -61,8 +62,10 @@ export default function App() {
               <Route path="*" element={<NotFound />} />
             </Route>
 
-            {/* Admin Login Route */}
+            {/* Admin Login & Password Reset Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/reset-password" element={<AdminResetPassword />} />
+
 
             {/* Protected Admin Portal Routes */}
             <Route path="/admin" element={<AdminLayout />}>

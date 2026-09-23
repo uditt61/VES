@@ -18,9 +18,11 @@ export const Footer = () => {
           {/* Brand Col */}
           <div className="space-y-4 lg:col-span-2">
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="flex items-center justify-center w-10 h-10 border shadow-md rounded-xl bg-brand-900 text-accent-400 border-brand-700 group-hover:scale-105 transition-transform">
-                <GraduationCap className="w-6 h-6" />
-              </div>
+              <img
+                src="/logoVES.png"
+                alt="Vidhya Advance Education Society Logo"
+                className="w-12 h-12 object-contain group-hover:scale-105 transition-transform shrink-0 drop-shadow-md"
+              />
               <div>
                 <span className="text-xl font-extrabold tracking-tight text-white font-display group-hover:text-accent-300 transition-colors">
                   Vidhya Advance

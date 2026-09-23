@@ -76,7 +76,19 @@ export class AdminUserController {
         throw ApiError.forbidden('Only Super Admins can elevate accounts to Super Admin');
       }
 
-      if (updates.name) user.name = updates.name;
+      if (updates.email && updates.email.trim().toLowerCase() !== user.email) {
+        const normalizedEmail = updates.email.trim().toLowerCase();
+        const existing = await AdminUser.findOne({
+          email: normalizedEmail,
+          _id: { $ne: id },
+        });
+        if (existing) {
+          throw ApiError.conflict('An account with this email already exists');
+        }
+        user.email = normalizedEmail;
+      }
+
+      if (updates.name) user.name = updates.name.trim();
       if (updates.role) user.role = updates.role;
       if (updates.phone !== undefined) user.phone = updates.phone;
       if (updates.isActive !== undefined) user.isActive = updates.isActive;

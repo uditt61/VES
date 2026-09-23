@@ -2,6 +2,7 @@ import { Enquiry } from '../models/Enquiry.js';
 import { generateEnquiryId } from '../utils/idGenerator.js';
 import { ApiResponse } from '../utils/apiResponse.js';
 import { ApiError } from '../utils/apiError.js';
+import { emailService } from '../services/emailService.js';
 
 export class EnquiryController {
   // Public Submission
@@ -48,6 +49,22 @@ export class EnquiryController {
         status: 'New',
       });
 
+      // Asynchronously trigger email notification without blocking client response
+      (async () => {
+        try {
+          const populated = await Enquiry.findById(newEnquiry._id)
+            .populate('preferredCollege', 'name')
+            .populate('preferredCourse', 'name degreeType')
+            .lean();
+
+          await emailService.sendEnquiryNotificationEmail({
+            enquiry: populated || newEnquiry,
+          });
+        } catch (emailErr) {
+          console.error('⚠️ [Enquiry Notification Error]', emailErr.message);
+        }
+      })();
+
       // 4. Return safe payload (no internal secrets)
       return ApiResponse.created(
         res,
@@ -62,6 +79,7 @@ export class EnquiryController {
       next(error);
     }
   }
+
 
   // Admin: Get all leads with advanced filters and pagination
   static async getAllEnquiries(req, res, next) {

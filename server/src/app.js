@@ -52,6 +52,7 @@ app.use(
         allowedOrigins.includes(origin) ||
         allowedOrigins.includes('*') ||
         origin.endsWith('.vercel.app') ||
+        origin.includes('vidhyaadvanceeducation.in') ||
         origin.includes('vidhyaadvanceeducation.com') ||
         allowedOrigins.some((allowed) => allowed !== '*' && origin.endsWith(allowed.replace(/^https?:\/\//, '')))
       ) {
@@ -91,7 +92,9 @@ app.get('/api/health', (req, res) => {
 // Dynamic sitemap.xml endpoint for SEO
 app.get('/api/sitemap.xml', async (req, res, next) => {
   try {
-    const clientUrl = ENV.CLIENT_URL || 'https://vidhyaadvance.com';
+    const clientUrl = (ENV.CLIENT_URL && !ENV.CLIENT_URL.includes('localhost'))
+      ? ENV.CLIENT_URL.split(',')[0].trim()
+      : 'https://www.vidhyaadvanceeducation.in';
     const staticUrls = [
       '',
       '/about',

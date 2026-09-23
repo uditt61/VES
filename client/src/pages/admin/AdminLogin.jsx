@@ -9,16 +9,18 @@ import {
   Mail,
   Eye,
   EyeOff,
-  ShieldCheck,
   ArrowRight,
   AlertCircle,
-  HelpCircle,
   KeyRound,
+  CheckCircle2,
+  Clock,
   PhoneCall,
   X,
+  Send,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { useToast } from '../../context/ToastContext.jsx';
+import api from '../../services/api.js';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -34,7 +36,13 @@ export const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [loginError, setLoginError] = useState('');
-  const [helpModalOpen, setHelpModalOpen] = useState(false);
+  
+  // Forgot Password Modal State
+  const [forgotModalOpen, setForgotModalOpen] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [forgotLoading, setForgotLoading] = useState(false);
+  const [forgotSuccessMsg, setForgotSuccessMsg] = useState('');
+  const [forgotErrorMsg, setForgotErrorMsg] = useState('');
 
   // If already authenticated, redirect to dashboard
   React.useEffect(() => {
@@ -81,6 +89,31 @@ export const AdminLogin = () => {
     }
   };
 
+  const handleForgotPasswordSubmit = async (e) => {
+    e.preventDefault();
+    if (!forgotEmail || !forgotEmail.includes('@')) {
+      setForgotErrorMsg('Please enter a valid registered email address');
+      return;
+    }
+
+    setForgotLoading(true);
+    setForgotErrorMsg('');
+    setForgotSuccessMsg('');
+
+    try {
+      const res = await api.post('/auth/forgot-password', { email: forgotEmail });
+      setForgotSuccessMsg(
+        res.data?.message ||
+          'If your email is registered with an active staff account, you will receive a password reset link shortly (valid for 15 minutes).'
+      );
+    } catch (err) {
+      const msg = err.response?.data?.message || err.message || 'Failed to process request. Please try again.';
+      setForgotErrorMsg(msg);
+    } finally {
+      setForgotLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Subtle Background Glow */}
@@ -89,9 +122,7 @@ export const AdminLogin = () => {
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10 text-center space-y-3">
         <Link to="/" className="inline-flex items-center gap-3 group">
-          <div className="w-12 h-12 rounded-2xl bg-brand-800 text-accent-400 flex items-center justify-center border border-brand-700 shadow-xl group-hover:scale-105 transition-transform">
-            <GraduationCap className="w-7 h-7" />
-          </div>
+          <img src="/logoVES.png" alt="Vidhya Advance Education Society Logo" className="w-16 h-16 object-contain group-hover:scale-105 transition-transform drop-shadow-2xl mx-auto" />
         </Link>
         <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-white tracking-tight">
           Vidhya Advance Portal
@@ -136,10 +167,15 @@ export const AdminLogin = () => {
                 </label>
                 <button
                   type="button"
-                  onClick={() => setHelpModalOpen(true)}
-                  className="text-[11px] text-accent-400 hover:text-accent-300 transition-colors"
+                  onClick={() => {
+                    setForgotErrorMsg('');
+                    setForgotSuccessMsg('');
+                    setForgotEmail('');
+                    setForgotModalOpen(true);
+                  }}
+                  className="text-[11px] text-accent-400 hover:text-accent-300 transition-colors font-medium"
                 >
-                  Forgot or need credentials?
+                  Forgot password?
                 </button>
               </div>
               <div className="relative">
@@ -188,65 +224,123 @@ export const AdminLogin = () => {
         </div>
       </div>
 
-      {/* Credential Recovery Assistance Modal */}
-      {helpModalOpen && (
+      {/* Interactive Forgot Password Modal */}
+      {forgotModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl text-left space-y-6 relative">
+          <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl text-left space-y-5 relative">
             <div className="flex items-center justify-between border-b border-slate-800 pb-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-accent-500/10 border border-accent-500/30 text-accent-400 flex items-center justify-center">
                   <KeyRound className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-lg text-white">Staff Credential Recovery</h3>
-                  <p className="text-xs text-slate-400">Password reset & credential issuance</p>
+                  <h3 className="font-display font-bold text-lg text-white">Reset Staff Password</h3>
+                  <p className="text-xs text-slate-400">15-minute secure link delivery</p>
                 </div>
               </div>
               <button
-                onClick={() => setHelpModalOpen(false)}
+                onClick={() => setForgotModalOpen(false)}
                 className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                aria-label="Close modal"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="space-y-4 text-xs text-slate-300 leading-relaxed">
-              <p>
-                For security and regulatory compliance, staff and counsellor accounts are provisioned and reset exclusively by authorized administrators.
-              </p>
-
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2">
-                <span className="font-semibold text-white block text-[13px]">How to recover access:</span>
-                <ul className="list-disc pl-4 space-y-1.5 text-slate-300">
-                  <li>
-                    Contact the Super Administrator at <strong className="text-accent-300 font-mono">admin@vidhyaadvance.com</strong>.
-                  </li>
-                  <li>
-                    Or call the administrative helpline directly at <strong className="text-white">+91 9821776333</strong>.
-                  </li>
-                  <li>
-                    An administrator will reset your password or issue new credentials via the <strong className="text-white">Staff & User Management</strong> console.
-                  </li>
-                </ul>
+            {forgotSuccessMsg ? (
+              <div className="space-y-4">
+                <div className="p-4 rounded-2xl bg-emerald-950/80 border border-emerald-700 text-emerald-200 text-xs space-y-2">
+                  <div className="flex items-center gap-2 font-bold text-emerald-300 text-sm">
+                    <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+                    <span>Reset Link Dispatched</span>
+                  </div>
+                  <p className="leading-relaxed text-slate-300">
+                    {forgotSuccessMsg}
+                  </p>
+                </div>
+                <div className="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700 text-xs text-slate-400 space-y-1">
+                  <div className="flex items-center gap-1.5 text-accent-400 font-semibold">
+                    <Clock className="w-3.5 h-3.5" />
+                    <span>Next Steps</span>
+                  </div>
+                  <p>1. Check your email inbox (and spam/junk folder).</p>
+                  <p>2. Click the secure link inside within 15 minutes.</p>
+                  <p>3. Choose your new strong password and log in.</p>
+                </div>
+                <div className="pt-2 flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() => setForgotModalOpen(false)}
+                    className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs transition-colors"
+                  >
+                    Done
+                  </button>
+                </div>
               </div>
+            ) : (
+              <form onSubmit={handleForgotPasswordSubmit} className="space-y-4">
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Enter your registered staff email address below. We will send you a cryptographically secure password reset link valid for <strong>15 minutes</strong>.
+                </p>
 
-              <div className="p-3 rounded-xl bg-brand-950/60 border border-brand-800/60 text-slate-300 flex items-center gap-2.5">
-                <PhoneCall className="w-4 h-4 text-accent-400 shrink-0" />
-                <span>Office Hours: Mon - Sat (9:30 AM to 6:30 PM)</span>
-              </div>
-            </div>
+                {forgotErrorMsg && (
+                  <div className="p-3 rounded-xl bg-rose-950/80 border border-rose-800 text-rose-200 text-xs flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+                    <span>{forgotErrorMsg}</span>
+                  </div>
+                )}
 
-            <div className="pt-2 border-t border-slate-800 flex justify-end">
-              <button
-                onClick={() => setHelpModalOpen(false)}
-                className="px-5 py-2.5 rounded-xl bg-accent-600 hover:bg-accent-500 text-white font-semibold text-xs transition-colors"
-              >
-                Understood
-              </button>
-            </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">
+                    Registered Email Address
+                  </label>
+                  <div className="relative">
+                    <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                    <input
+                      type="email"
+                      required
+                      value={forgotEmail}
+                      onChange={(e) => setForgotEmail(e.target.value)}
+                      placeholder="e.g. admin@vidhyaadvance.com"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900/80 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all placeholder:text-slate-500"
+                    />
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-800/60 border border-slate-700/60 text-[11px] text-slate-400 flex items-start gap-2">
+                  <PhoneCall className="w-3.5 h-3.5 text-accent-400 mt-0.5 shrink-0" />
+                  <span>Need urgent help? Reach the administration helpline at <strong className="text-white">+91 9821776333</strong>.</span>
+                </div>
+
+                <div className="pt-2 border-t border-slate-800 flex items-center justify-end gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => setForgotModalOpen(false)}
+                    className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={forgotLoading}
+                    className="px-5 py-2.5 rounded-xl bg-accent-600 hover:bg-accent-500 text-white font-bold text-xs transition-all flex items-center gap-2 disabled:opacity-60 shadow-lg"
+                  >
+                    {forgotLoading ? (
+                      <span>Sending Link...</span>
+                    ) : (
+                      <>
+                        <Send className="w-3.5 h-3.5" />
+                        <span>Send Reset Link</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       )}
     </div>
   );
 };
+

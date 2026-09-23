@@ -5,4 +5,4 @@ Disallow: /admin
 Disallow: /admin/*
 
 # Sitemaps
-Sitemap: https://vidhyaadvance.com/sitemap.xml
+Sitemap: https://www.vidhyaadvanceeducation.in/sitemap.xml
