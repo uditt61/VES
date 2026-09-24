@@ -142,7 +142,7 @@ export const Courses = () => {
         title={currentSeo.title}
         description={currentSeo.description}
         keywords={PAGE_SEO.courses.keywords}
-        canonicalPath={stream ? `/courses?stream=${encodeURIComponent(stream)}` : '/courses'}
+        canonicalPath="/courses"
         jsonLd={[
           buildBreadcrumbJsonLd([
             { name: 'Home', url: '/' },
