@@ -89,8 +89,8 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Dynamic sitemap.xml endpoint for SEO
-app.get('/api/sitemap.xml', async (req, res, next) => {
+// Dynamic sitemap.xml endpoint for SEO (supports /sitemap.xml & /api/sitemap.xml)
+const handleSitemap = async (req, res, next) => {
   try {
     const clientUrl = (ENV.CLIENT_URL && !ENV.CLIENT_URL.includes('localhost'))
       ? ENV.CLIENT_URL.split(',')[0].trim()
@@ -110,27 +110,29 @@ app.get('/api/sitemap.xml', async (req, res, next) => {
     ];
 
     const colleges = await College.find({ isActive: true }).select('slug updatedAt').lean();
-    const courses = await Course.find({ isActive: true }).select('_id updatedAt').lean();
 
     let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
     staticUrls.forEach((path) => {
-      xml += `  <url>\n    <loc>${clientUrl}${path}</loc>\n    <changefreq>weekly</changefreq>\n    <priority>${path === '' ? '1.0' : '0.8'}</priority>\n  </url>\n`;
+      xml += `  <url>\n    <loc>${clientUrl}${path}</loc>\n    <lastmod>2026-09-24</lastmod>\n    <changefreq>${path === '' ? 'daily' : 'weekly'}</changefreq>\n    <priority>${path === '' ? '1.0' : '0.8'}</priority>\n  </url>\n`;
     });
 
     colleges.forEach((col) => {
-      const lastMod = col.updatedAt ? new Date(col.updatedAt).toISOString().split('T')[0] : '2026-01-01';
+      const lastMod = col.updatedAt ? new Date(col.updatedAt).toISOString().split('T')[0] : '2026-09-24';
       xml += `  <url>\n    <loc>${clientUrl}/colleges/${col.slug}</loc>\n    <lastmod>${lastMod}</lastmod>\n    <priority>0.9</priority>\n  </url>\n`;
     });
 
     xml += `</urlset>`;
 
-    res.setHeader('Content-Type', 'application/xml');
+    res.setHeader('Content-Type', 'application/xml; charset=utf-8');
     res.status(200).send(xml);
   } catch (error) {
     next(error);
   }
-});
+};
+
+app.get('/sitemap.xml', handleSitemap);
+app.get('/api/sitemap.xml', handleSitemap);
 
 // Mount Routes
 app.use('/api/auth', authRoutes);
