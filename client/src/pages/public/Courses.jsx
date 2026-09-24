@@ -14,7 +14,7 @@ import api from '../../services/api.js';
 import { Badge } from '../../components/common/Badge.jsx';
 import { CardSkeleton } from '../../components/common/SkeletonLoader.jsx';
 import { SEOHead } from '../../components/common/SEOHead.jsx';
-import { PAGE_SEO, buildBreadcrumbJsonLd } from '../../utils/seoData.js';
+import { PAGE_SEO, buildBreadcrumbJsonLd, buildCourseListJsonLd } from '../../utils/seoData.js';
 
 export const Courses = () => {
   const { openEnquiryModal } = useOutletContext();
@@ -112,25 +112,43 @@ export const Courses = () => {
     'Nursing',
     'Pharmacy',
     'Management',
+    'Science',
+    'Research',
     'Paramedical',
     'Computer Applications',
-    'Science',
     'Education',
     'Commerce',
   ];
 
+  // Dynamic SEO title & description based on active stream or search
+  const getDynamicSeo = () => {
+    if (stream) {
+      return {
+        title: `${stream} Courses | Vidhya Advance Education Social Welfare Society`,
+        description: `Explore top accredited ${stream} (B.Tech, B.Sc, Ph.D, MBA, Diploma) courses available via Vidhya Advance Education Social Welfare Society in Bhopal & Madhya Pradesh.`,
+      };
+    }
+    return {
+      title: PAGE_SEO.courses.title,
+      description: PAGE_SEO.courses.description,
+    };
+  };
+
+  const currentSeo = getDynamicSeo();
+
   return (
     <div className="space-y-12 pb-16">
       <SEOHead
-        title={PAGE_SEO.courses.title}
-        description={PAGE_SEO.courses.description}
+        title={currentSeo.title}
+        description={currentSeo.description}
         keywords={PAGE_SEO.courses.keywords}
-        canonicalPath="/courses"
+        canonicalPath={stream ? `/courses?stream=${encodeURIComponent(stream)}` : '/courses'}
         jsonLd={[
           buildBreadcrumbJsonLd([
             { name: 'Home', url: '/' },
             { name: 'Courses & Programs', url: '/courses' },
           ]),
+          buildCourseListJsonLd(courses),
         ]}
       />
       {/* Header Banner with subtle animation */}

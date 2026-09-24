@@ -7,11 +7,12 @@
 export const SITE_NAME = 'Vidhya Advance Education Social Welfare Society';
 export const SITE_SHORT_NAME = 'Vidhya Advance';
 export const BASE_URL = 'https://www.vidhyaadvanceeducation.in';
-export const DEFAULT_OG_IMAGE = `${BASE_URL}/banners1.jpeg`;
+export const SITE_LOGO = `${BASE_URL}/logoVES.png`;
+export const DEFAULT_OG_IMAGE = `${BASE_URL}/logoVES.png`;
 export const CONTACT_PHONE = '+917554239876';
 export const CONTACT_PHONE_DISPLAY = '+91 755 4239876';
-export const CONTACT_EMAIL = 'admissions@vidhyaadvanceeducation.in';
-export const CONTACT_EMAIL_GENERAL = 'contact@vidhyaadvanceeducation.in';
+export const CONTACT_EMAIL = 'abhishek.gupta5058@gmail.com';
+export const CONTACT_EMAIL_GENERAL = 'abhishek.gupta5058@gmail.com';
 export const ADDRESS = {
   streetAddress: 'Plot No. 12, Commercial Complex, MP Nagar Zone-II',
   addressLocality: 'Bhopal',
@@ -34,7 +35,7 @@ export const organizationJsonLd = {
   name: SITE_NAME,
   alternateName: [SITE_SHORT_NAME, 'VES', 'Vidhya Advance Education'],
   url: BASE_URL,
-  logo: `${BASE_URL}/banners1.jpeg`,
+  logo: SITE_LOGO,
   description:
     'Vidhya Advance Education Social Welfare Society is a registered educational guidance and social welfare organization in Bhopal, Madhya Pradesh, India. We provide transparent admission counselling and career guidance for universities across central India.',
   telephone: CONTACT_PHONE,
@@ -159,6 +160,41 @@ export const buildCollegeJsonLd = (college) => ({
   },
 });
 
+// ─── JSON-LD: Course List Schema Generator ──────────────────────────
+/**
+ * buildCourseListJsonLd(coursesArray)
+ */
+export const buildCourseListJsonLd = (courses = []) => {
+  const items = (courses.length > 0 ? courses.slice(0, 15) : [
+    { name: 'B.Tech (Bachelor of Technology)', degreeType: 'Undergraduate', stream: 'Engineering' },
+    { name: 'B.Sc Nursing', degreeType: 'Undergraduate', stream: 'Nursing' },
+    { name: 'B.Sc (Bachelor of Science)', degreeType: 'Undergraduate', stream: 'Science' },
+    { name: 'Ph.D (Doctor of Philosophy)', degreeType: 'Doctoral / Doctorate', stream: 'Research' },
+    { name: 'MBA (Master of Business Administration)', degreeType: 'Postgraduate', stream: 'Management' },
+    { name: 'D.Pharm / B.Pharm', degreeType: 'Diploma / Degree', stream: 'Pharmacy' },
+  ]).map((c, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    item: {
+      '@type': 'Course',
+      name: c.name,
+      description: c.description || `${c.name} program (${c.degreeType || 'Degree'}) offered via Vidhya Advance Education Social Welfare Society, Bhopal, MP.`,
+      provider: {
+        '@type': 'EducationalOrganization',
+        name: SITE_NAME,
+        sameAs: BASE_URL,
+      },
+    },
+  }));
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Academic Courses & Degree Programs — Vidhya Advance Education Social Welfare Society',
+    itemListElement: items,
+  };
+};
+
 // ─── Default page-level SEO configs ────────────────────────────────
 export const PAGE_SEO = {
   home: {
@@ -183,11 +219,11 @@ export const PAGE_SEO = {
       'Dr. Preeti Global University admission, Malwanchal University, Gyanveer University counselling, Bhabha University direct admission, college admission guidance MP, Central India university admission',
   },
   courses: {
-    title: 'Courses & Programs — B.Tech, Nursing, MBA Admission 2026',
+    title: 'B.Sc, B.Tech, Ph.D, Nursing & MBA Courses | Vidhya Advance Education',
     description:
-      'Browse available courses: B.Tech, B.Sc Nursing, D.Pharm, B.Pharm, MBA, BBA, Paramedical, Engineering and more. Get admission guidance for session 2026-27 in Madhya Pradesh universities.',
+      'Explore all courses at Vidhya Advance Education Social Welfare Society including B.Sc, B.Tech, Ph.D, MBA, B.Sc Nursing, D.Pharm & Diploma programs across top MP universities. Session 2026-27 open.',
     keywords:
-      'B.Sc Nursing admission 2026 MP, B.Tech admission counselling Bhopal, D.Pharm B.Pharm admission, MBA admission guidance MP, paramedical courses direct admission, engineering college Bhopal',
+      'bsc courses in vidhya advance education, btech courses in vidhya advance education, phd courses in vidhya advance education, courses in vidhya advance education society, B.Sc admission, B.Tech admission Bhopal, Ph.D research programs MP, MBA admission, nursing college Bhopal',
   },
   contact: {
     title: 'Contact Us — Admission Helpline Bhopal MP',

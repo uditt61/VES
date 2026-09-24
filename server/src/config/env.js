@@ -21,9 +21,9 @@ export const ENV = {
   SMTP_PORT: parseInt(process.env.SMTP_PORT || '587', 10),
   SMTP_SECURE: process.env.SMTP_SECURE === 'true',
   SMTP_USER: process.env.SMTP_USER || '',
-  SMTP_PASS: process.env.SMTP_PASS || '',
-  EMAIL_FROM: process.env.EMAIL_FROM || '"Vidhya Advance Education" <noreply@vidhyaadvance.com>',
-  ADMIN_NOTIFICATION_EMAIL: process.env.ADMIN_NOTIFICATION_EMAIL || 'i.o.sakshamm@gmail.com',
+  SMTP_PASS: (process.env.SMTP_PASS || '').replace(/\s+/g, ''),
+  EMAIL_FROM: process.env.EMAIL_FROM || '"Vidhya Advance Education Social Welfare Society" <noreply@vidhyaadvance.com>',
+  ADMIN_NOTIFICATION_EMAIL: process.env.ADMIN_NOTIFICATION_EMAIL || 'abhishek.gupta5058@gmail.com',
 };
 
 // Security Safeguard: Prevent starting production with weak or default secrets

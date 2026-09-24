@@ -35,6 +35,8 @@ export const SEOHead = ({
       <meta name="description" content={description} />
       {keywords && <meta name="keywords" content={keywords} />}
       <link rel="canonical" href={canonicalUrl} />
+      <link rel="icon" type="image/png" href="/logoVES.png" />
+      <link rel="apple-touch-icon" href="/logoVES.png" />
       <meta name="robots" content="index, follow" />
       <meta name="author" content={SITE_NAME} />
 

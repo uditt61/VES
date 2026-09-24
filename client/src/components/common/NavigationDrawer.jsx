@@ -379,10 +379,10 @@ export const NavigationDrawer = ({
                 <div className="flex items-center gap-2 text-slate-500">
                   <Mail className="w-3.5 h-3.5 text-accent-600 shrink-0" />
                   <a
-                    href="mailto:admissions@vidhyaadvance.com"
+                    href="mailto:abhishek.gupta5058@gmail.com"
                     className="hover:text-slate-800 transition-colors truncate"
                   >
-                    admissions@vidhyaadvance.com
+                    abhishek.gupta5058@gmail.com
                   </a>
                 </div>
               </div>
