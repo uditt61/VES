@@ -11,16 +11,17 @@ import { generateEnquiryId } from '../utils/idGenerator.js';
 export const seedInitialData = async () => {
   try {
     // 1. Seed Admin Users
-    const existingAdmin = await AdminUser.findOne({ email: 'admin@vidhyaadvance.com' });
+    const existingSuperAdmin = await AdminUser.findOne({ role: 'SUPER_ADMIN' });
     let superAdminId = null;
     let counsellorId = null;
 
-    if (!existingAdmin) {
+    if (!existingSuperAdmin) {
       console.log('🌱 Seeding Super Admin user...');
+      const adminEmail = process.env.INITIAL_ADMIN_EMAIL || 'admin@vidhyaadvance.com';
       const superAdmin = await AdminUser.create({
         name: 'Vidhya Advance Administrator',
-        email: 'admin@vidhyaadvance.com',
-        password: 'Admin@12345',
+        email: adminEmail,
+        password: process.env.INITIAL_ADMIN_PASSWORD || 'Admin@12345',
         role: 'SUPER_ADMIN',
         phone: '+91 98765 43210',
         isActive: true,
@@ -38,7 +39,7 @@ export const seedInitialData = async () => {
       });
       counsellorId = counsellor._id;
     } else {
-      superAdminId = existingAdmin._id;
+      superAdminId = existingSuperAdmin._id;
       const counsellor = await AdminUser.findOne({ email: 'counsellor@vidhyaadvance.com' });
       if (counsellor) counsellorId = counsellor._id;
     }

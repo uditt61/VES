@@ -7,7 +7,7 @@ import { auditLogger } from '../middleware/auditLogger.js';
 import {
   createAdminUserSchema,
   updateAdminUserSchema,
-  resetPasswordSchema,
+  adminResetPasswordSchema,
 } from '../validators/authValidator.js';
 
 const router = express.Router();
@@ -35,7 +35,7 @@ router.patch(
 router.post(
   '/:id/reset-password',
   authorizeRoles('SUPER_ADMIN', 'ADMIN'),
-  validate(resetPasswordSchema),
+  validate(adminResetPasswordSchema),
   auditLogger('Reset Staff Password', 'users'),
   AdminUserController.resetPassword
 );

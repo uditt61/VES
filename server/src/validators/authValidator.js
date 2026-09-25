@@ -43,3 +43,7 @@ export const resetPasswordSchema = z.object({
   newPassword: z.string().min(8, 'New password must be at least 8 characters long'),
 });
 
+export const adminResetPasswordSchema = z.object({
+  newPassword: z.string().min(8, 'New password must be at least 8 characters long'),
+});
+
