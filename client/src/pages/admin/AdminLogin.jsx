@@ -101,13 +101,15 @@ export const AdminLogin = () => {
     setForgotSuccessMsg('');
 
     try {
-      const res = await api.post('/auth/forgot-password', { email: forgotEmail });
+      const res = await api.post('/auth/forgot-password', { email: forgotEmail }, { timeout: 30000 });
       setForgotSuccessMsg(
         res.data?.message ||
           'If your email is registered with an active staff account, you will receive a password reset link shortly (valid for 15 minutes).'
       );
     } catch (err) {
-      const msg = err.response?.data?.message || err.message || 'Failed to process request. Please try again.';
+      const msg = err.code === 'ECONNABORTED' || err.message?.includes('timeout')
+        ? 'The request is taking longer than expected. The reset email may still be sent — please check your inbox in a few minutes, or try again.'
+        : err.response?.data?.message || err.message || 'Failed to process request. Please try again.';
       setForgotErrorMsg(msg);
     } finally {
       setForgotLoading(false);

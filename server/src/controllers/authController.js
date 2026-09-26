@@ -211,28 +211,41 @@ export class AuthController {
 
       const user = await AdminUser.findOne({ email: normalizedEmail, isActive: true });
 
-      // If user exists, generate reset token and dispatch email
+      // Always return generic success message immediately to prevent user enumeration
+      // and to avoid blocking the HTTP response on slow SMTP delivery (which causes frontend timeouts)
+      const responsePromise = ApiResponse.success(
+        res,
+        {},
+        'If your email is registered with an active staff account, you will receive a password reset link shortly (valid for 15 minutes).'
+      );
+
+      // If user exists, generate reset token and dispatch email in the background (fire-and-forget)
       if (user) {
         const resetToken = user.createPasswordResetToken(15);
         await user.save({ validateBeforeSave: false });
 
         const resetUrl = `${ENV.CLIENT_URL}/admin/reset-password?token=${resetToken}`;
 
-        // Send email in background / handled
-        await emailService.sendPasswordResetEmail({
+        // Fire-and-forget: send email asynchronously without blocking the HTTP response
+        emailService.sendPasswordResetEmail({
           to: user.email,
           name: user.name,
           resetUrl,
           expiresInMinutes: 15,
+        }).then((emailResult) => {
+          if (!emailResult.success) {
+            console.error(`❌ [ForgotPassword] SMTP failed to deliver reset email to ${user.email}: ${emailResult.error}`);
+          } else {
+            console.log(`✅ [ForgotPassword] Password reset email sent to ${user.email}`);
+          }
+        }).catch((emailErr) => {
+          console.error(`❌ [ForgotPassword] Unexpected email dispatch error for ${user.email}:`, emailErr.message);
         });
+      } else {
+        console.warn(`⚠️ [ForgotPassword] Reset requested for email not found in DB: "${normalizedEmail}"`);
       }
 
-      // Always return generic success message to prevent user enumeration attacks
-      return ApiResponse.success(
-        res,
-        {},
-        'If your email is registered with an active staff account, you will receive a password reset link shortly (valid for 15 minutes).'
-      );
+      return responsePromise;
     } catch (error) {
       next(error);
     }
