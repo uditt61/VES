@@ -18,11 +18,11 @@ export const Footer = () => {
           {/* Brand Col */}
           <div className="space-y-4 lg:col-span-2">
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="flex items-center justify-center w-10 h-10 border shadow-md rounded-xl bg-brand-900 text-accent-400 border-brand-700 group-hover:scale-105 transition-transform">
+              <div className="flex items-center justify-center w-10 h-10 transition-transform border shadow-md rounded-xl bg-brand-900 text-accent-400 border-brand-700 group-hover:scale-105">
                 <GraduationCap className="w-6 h-6" />
               </div>
               <div>
-                <span className="text-xl font-extrabold tracking-tight text-white font-display group-hover:text-accent-300 transition-colors">
+                <span className="text-xl font-extrabold tracking-tight text-white transition-colors font-display group-hover:text-accent-300">
                   Vidhya Advance
                 </span>
                 <span className="block text-[10px] font-semibold uppercase tracking-wider text-accent-400">
@@ -151,14 +151,14 @@ export const Footer = () => {
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-accent-400 shrink-0" />
-                <a href="tel:+919821776333" className="transition-colors hover:text-white tabular-nums">
-                  +91 9821776333
+                <a href="tel:+919244292391" className="transition-colors hover:text-white tabular-nums">
+                  +91 9244292391
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-accent-400 shrink-0" />
-                <a href="mailto:admissions@vidhyaadvance.com" className="transition-colors hover:text-white">
-                  admissions@vidhyaadvance.com
+                <a href="mailto:societyvidhya1964@gmail.com" className="transition-colors hover:text-white">
+                  societyvidhya1964@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-2.5">

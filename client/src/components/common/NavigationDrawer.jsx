@@ -368,19 +368,19 @@ export const NavigationDrawer = ({
                 <div className="flex items-center gap-2 font-medium text-slate-900">
                   <Phone className="w-3.5 h-3.5 text-accent-600 shrink-0" />
                   <a
-                    href="tel:+919821776333"
+                    href="tel:+919244292391"
                     className="hover:text-accent-700 transition-colors font-semibold"
                   >
-                    +91 9821776333
+                    +91 9244292391
                   </a>
                 </div>
                 <div className="flex items-center gap-2 text-slate-500">
                   <Mail className="w-3.5 h-3.5 text-accent-600 shrink-0" />
                   <a
-                    href="mailto:admissions@vidhyaadvance.com"
+                    href="mailto:societyvidhya1964@gmail.com"
                     className="hover:text-slate-800 transition-colors truncate"
                   >
-                    admissions@vidhyaadvance.com
+                    societyvidhya1964@gmail.com
                   </a>
                 </div>
               </div>

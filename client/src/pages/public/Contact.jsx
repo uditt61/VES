@@ -114,8 +114,8 @@ export const Contact = () => {
                     <h3 className="font-bold text-sm text-slate-900">Email Enquiries</h3>
                     <p className="text-xs text-slate-600 mt-1">
                       Admissions:{' '}
-                      <a href="mailto:admissions@vidhyaadvance.com" className="text-brand-900 font-semibold hover:underline">
-                        admissions@vidhyaadvance.com
+                      <a href="mailto:societyvidhya1964@gmail.com" className="text-brand-900 font-semibold hover:underline">
+                        societyvidhya1964@gmail.com
                       </a>
                     </p>
                     <p className="text-xs text-slate-600 mt-0.5">

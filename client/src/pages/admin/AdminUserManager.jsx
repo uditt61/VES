@@ -400,7 +400,7 @@ export const AdminUserManager = () => {
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="9821776333"
+                    placeholder="9244292391"
                     className="w-full px-3 py-2 rounded-xl border border-slate-200"
                   />
                 </div>

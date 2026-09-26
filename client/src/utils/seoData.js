@@ -10,7 +10,7 @@ export const BASE_URL = 'https://vidhyaadvance.com';
 export const DEFAULT_OG_IMAGE = `${BASE_URL}/banners1.jpeg`;
 export const CONTACT_PHONE = '+917554239876';
 export const CONTACT_PHONE_DISPLAY = '+91 755 4239876';
-export const CONTACT_EMAIL = 'admissions@vidhyaadvance.com';
+export const CONTACT_EMAIL = 'societyvidhya1964@gmail.com';
 export const CONTACT_EMAIL_GENERAL = 'contact@vidhyaadvance.com';
 export const ADDRESS = {
   streetAddress: 'Plot No. 12, Commercial Complex, MP Nagar Zone-II',

@@ -121,13 +121,13 @@ export const Navbar = ({ onOpenEnquiry }) => {
           <div className="flex items-center gap-2.5 sm:gap-3">
             {/* Direct Helpline on larger screens */}
             <a
-              href="tel:+919821776333"
+              href="tel:+919244292391"
               className="hidden md:flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-brand-900 hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-200"
             >
               <div className="w-6 h-6 rounded-full bg-accent-100 text-accent-700 flex items-center justify-center">
                 <PhoneCall className="w-3.5 h-3.5" />
               </div>
-              <span className="tabular-nums">+91 9821776333</span>
+              <span className="tabular-nums">+91 9244292391</span>
             </a>
 
             {/* Primary Action Button */}

@@ -263,7 +263,7 @@ describe('4. Authentication & RBAC Flow', () => {
         email: 'newcounsellor@vidhyaadvance.com',
         password: 'InitialPassword123!',
         role: 'COUNSELLOR',
-        phone: '9821776333',
+        phone: '9244292391',
       });
 
     expect(createRes.status).toBe(201);

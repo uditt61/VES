@@ -38,6 +38,19 @@ export default {
         card: '0 4px 20px -2px rgba(11, 37, 69, 0.08), 0 2px 6px -2px rgba(11, 37, 69, 0.04)',
         'card-hover': '0 12px 30px -4px rgba(11, 37, 69, 0.14), 0 4px 10px -2px rgba(11, 37, 69, 0.06)',
       },
+      keyframes: {
+        blob: {
+          '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+          '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+          '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+        },
+      },
+      animation: {
+        blob: 'blob 7s infinite',
+      },
+      transitionDelay: {
+        2000: '2000ms',
+      },
     },
   },
   plugins: [],

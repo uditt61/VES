@@ -322,7 +322,7 @@ export const CollegeDetail = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <Mail className="w-4 h-4 text-accent-400" />
-                  <span>admissions@vidhyaadvance.com</span>
+                  <span>societyvidhya1964@gmail.com</span>
                 </div>
               </div>
             </div>

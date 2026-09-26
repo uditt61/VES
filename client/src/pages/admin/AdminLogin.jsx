@@ -222,7 +222,7 @@ export const AdminLogin = () => {
                     Contact the Super Administrator at <strong className="text-accent-300 font-mono">admin@vidhyaadvance.com</strong>.
                   </li>
                   <li>
-                    Or call the administrative helpline directly at <strong className="text-white">+91 9821776333</strong>.
+                    Or call the administrative helpline directly at <strong className="text-white">+91 9244292391</strong>.
                   </li>
                   <li>
                     An administrator will reset your password or issue new credentials via the <strong className="text-white">Staff & User Management</strong> console.
