@@ -16,7 +16,8 @@ export const ENV = {
   RATE_LIMIT_WINDOW_MS: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '900000', 10),
   RATE_LIMIT_MAX: parseInt(process.env.RATE_LIMIT_MAX || '200', 10),
   ENQUIRY_RATE_LIMIT_MAX: parseInt(process.env.ENQUIRY_RATE_LIMIT_MAX || '30', 10),
-  // Email & SMTP Configuration
+  // Email Delivery Configuration (Brevo HTTPS API & SMTP Fallback)
+  BREVO_API_KEY: process.env.BREVO_API_KEY || '',
   SMTP_HOST: process.env.SMTP_HOST || 'smtp.gmail.com',
   SMTP_PORT: parseInt(process.env.SMTP_PORT || '587', 10),
   SMTP_SECURE: process.env.SMTP_SECURE === 'true',

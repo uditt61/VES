@@ -1,6 +1,27 @@
 import nodemailer from 'nodemailer';
 import { ENV } from '../config/env.js';
 
+/**
+ * Parse an RFC 5322 formatted email address like '"Display Name" <email@example.com>'
+ * into { name, email } for Brevo API compatibility.
+ */
+function parseSender(fromStr) {
+  if (!fromStr) {
+    return { name: 'Vidhya Advance Education', email: 'abhishek.gupta5058@gmail.com' };
+  }
+  const match = fromStr.match(/^(?:"?([^"]*)"?\s*)?<([^>]+)>/);
+  if (match) {
+    return {
+      name: (match[1] || 'Vidhya Advance Education').trim(),
+      email: match[2].trim(),
+    };
+  }
+  return {
+    name: 'Vidhya Advance Education',
+    email: fromStr.replace(/["']/g, '').trim(),
+  };
+}
+
 class EmailService {
   constructor() {
     this.transporter = null;
@@ -8,6 +29,12 @@ class EmailService {
   }
 
   initTransporter() {
+    // When Brevo API key is supplied, emails go via HTTPS port 443 (Render compatible)
+    if (ENV.BREVO_API_KEY) {
+      console.log('✅ [EmailService] Brevo HTTPS API configured (Port 443 - Render compatible)');
+      return;
+    }
+
     if (ENV.SMTP_USER && ENV.SMTP_PASS) {
       this.transporter = nodemailer.createTransport({
         host: ENV.SMTP_HOST,
@@ -30,7 +57,7 @@ class EmailService {
         }
       });
     } else {
-      console.log('ℹ️ [EmailService] SMTP credentials not set. Emails will be logged to console in dev mode.');
+      console.log('ℹ️ [EmailService] Neither Brevo nor SMTP credentials set. Emails will be logged to console in dev mode.');
     }
   }
 
@@ -229,10 +256,57 @@ class EmailService {
   }
 
   /**
+   * Send email using Brevo (Sendinblue) transactional HTTPS REST API (Port 443)
+   */
+  async sendViaBrevo({ to, subject, text, html }) {
+    const sender = parseSender(ENV.EMAIL_FROM);
+    const payload = {
+      sender: {
+        name: sender.name,
+        email: sender.email,
+      },
+      to: [
+        {
+          email: to,
+        },
+      ],
+      subject,
+      htmlContent: html,
+      textContent: text,
+    };
+
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'api-key': ENV.BREVO_API_KEY,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      const errMsg = data.message || `Brevo API HTTP ${response.status}: ${response.statusText}`;
+      throw new Error(errMsg);
+    }
+
+    const messageId = data.messageId || 'brevo-delivered';
+    console.log(`📧 [EmailService - Brevo] Email sent successfully to ${to} (Message ID: ${messageId})`);
+    return { success: true, messageId };
+  }
+
+  /**
    * Internal generic mail dispatcher
    */
   async sendMail({ to, subject, text, html }) {
     try {
+      // 1. Prioritize Brevo HTTPS API if key is present (Required for cloud platforms like Render)
+      if (ENV.BREVO_API_KEY) {
+        return await this.sendViaBrevo({ to, subject, text, html });
+      }
+
+      // 2. Fall back to standard SMTP if configured
       if (this.transporter) {
         const info = await this.transporter.sendMail({
           from: ENV.EMAIL_FROM,
@@ -241,20 +315,20 @@ class EmailService {
           text,
           html,
         });
-        console.log(`📧 [EmailService] Email sent successfully to ${to} (Message ID: ${info.messageId})`);
+        console.log(`📧 [EmailService - SMTP] Email sent successfully to ${to} (Message ID: ${info.messageId})`);
         return { success: true, messageId: info.messageId };
-      } else {
-        // Fallback Development Logging
-        console.log('\n======================================================');
-        console.log('📧 [EmailService - DEV MODE EMULATION]');
-        console.log(`To:      ${to}`);
-        console.log(`From:    ${ENV.EMAIL_FROM}`);
-        console.log(`Subject: ${subject}`);
-        console.log('------------------------------------------------------');
-        console.log(text);
-        console.log('======================================================\n');
-        return { success: true, emulated: true };
       }
+
+      // 3. Fallback Development Logging
+      console.log('\n======================================================');
+      console.log('📧 [EmailService - DEV MODE EMULATION]');
+      console.log(`To:      ${to}`);
+      console.log(`From:    ${ENV.EMAIL_FROM}`);
+      console.log(`Subject: ${subject}`);
+      console.log('------------------------------------------------------');
+      console.log(text);
+      console.log('======================================================\n');
+      return { success: true, emulated: true };
     } catch (error) {
       console.error(`❌ [EmailService Error] Failed to send email to ${to}:`, error.message);
       return { success: false, error: error.message };
