@@ -142,7 +142,7 @@ export const Contact = () => {
               href="https://maps.app.goo.gl/2fkHRr2JVANwKmYF6"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-slate-200 rounded-3xl overflow-hidden h-60 relative border border-slate-300 shadow-inner flex items-center justify-center group hover:bg-slate-300/80 transition-all cursor-pointer block"
+              className="bg-slate-200 rounded-3xl overflow-hidden h-60 relative border border-slate-300 shadow-inner flex items-center justify-center group hover:bg-slate-300/80 transition-all cursor-pointer"
               title="Open Location in Google Maps"
             >
               <div className="text-center p-4 space-y-2">
