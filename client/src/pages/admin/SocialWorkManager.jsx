@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { HeartHandshake, Plus, Edit2, Trash2, Calendar, MapPin, Users, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import api from '../../services/api.js';
 import { Badge } from '../../components/common/Badge.jsx';
 import { ConfirmModal } from '../../components/common/ConfirmModal.jsx';
@@ -44,6 +45,24 @@ export const SocialWorkManager = () => {
   useEffect(() => {
     fetchActivities();
   }, []);
+
+  // 🔒 Body scroll lock + ESC close
+  useEffect(() => {
+    const anyOpen = modalOpen || confirmOpen;
+    document.body.style.overflow = anyOpen ? 'hidden' : 'unset';
+
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') {
+        setModalOpen(false);
+        setConfirmOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => {
+      document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleEsc);
+    };
+  }, [modalOpen, confirmOpen]);
 
   const handleOpenAdd = () => {
     setIsEditing(false);
@@ -112,7 +131,13 @@ export const SocialWorkManager = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        className="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+      >
         <div>
           <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-slate-900 tracking-tight">
             Social Welfare Society Activities
@@ -122,16 +147,24 @@ export const SocialWorkManager = () => {
           </p>
         </div>
 
-        <button
+        <motion.button
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.96 }}
           onClick={handleOpenAdd}
           className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-900 hover:bg-brand-800 text-white font-semibold text-xs shadow-sm transition-colors self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" />
           <span>Add New Initiative</span>
-        </button>
-      </div>
+        </motion.button>
+      </motion.div>
 
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
+      {/* Table */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, delay: 0.08 }}
+        className="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden"
+      >
         {loading ? (
           <div className="p-8 text-center text-xs text-slate-400">Loading initiatives...</div>
         ) : (
@@ -148,173 +181,221 @@ export const SocialWorkManager = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {activities.map((act) => (
-                  <tr key={act._id} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="p-4 font-semibold text-slate-900 max-w-[250px]">{act.title}</td>
-                    <td className="p-4 text-slate-500 whitespace-nowrap">
-                      {new Date(act.date).toLocaleDateString()}
-                    </td>
-                    <td className="p-4 text-slate-600">{act.location}</td>
-                    <td className="p-4 text-accent-700 font-bold">{act.beneficiariesCount} students</td>
-                    <td className="p-4">
-                      {act.isActive ? (
-                        <Badge variant="success">Active</Badge>
-                      ) : (
-                        <Badge variant="neutral">Inactive</Badge>
-                      )}
-                    </td>
-                    <td className="p-4 text-right space-x-2">
-                      <button
-                        onClick={() => handleOpenEdit(act)}
-                        className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
-                      >
-                        <Edit2 className="w-3.5 h-3.5" />
-                      </button>
-                      <button
-                        onClick={() => {
-                          setDeleteTargetId(act._id);
-                          setConfirmOpen(true);
-                        }}
-                        className="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 transition-colors"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                <AnimatePresence>
+                  {activities.map((act) => (
+                    <motion.tr
+                      key={act._id}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="hover:bg-slate-50/80 transition-colors"
+                    >
+                      <td className="p-4 font-semibold text-slate-900 max-w-[250px]">{act.title}</td>
+                      <td className="p-4 text-slate-500 whitespace-nowrap">
+                        {new Date(act.date).toLocaleDateString()}
+                      </td>
+                      <td className="p-4 text-slate-600">{act.location}</td>
+                      <td className="p-4 text-accent-700 font-bold">{act.beneficiariesCount} students</td>
+                      <td className="p-4">
+                        {act.isActive ? (
+                          <Badge variant="success">Active</Badge>
+                        ) : (
+                          <Badge variant="neutral">Inactive</Badge>
+                        )}
+                      </td>
+                      <td className="p-4 text-right space-x-2">
+                        <motion.button
+                          whileHover={{ scale: 1.12 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => handleOpenEdit(act)}
+                          className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
+                        >
+                          <Edit2 className="w-3.5 h-3.5" />
+                        </motion.button>
+                        <motion.button
+                          whileHover={{ scale: 1.12 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => {
+                            setDeleteTargetId(act._id);
+                            setConfirmOpen(true);
+                          }}
+                          className="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 transition-colors"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </motion.button>
+                      </td>
+                    </motion.tr>
+                  ))}
+                </AnimatePresence>
               </tbody>
             </table>
           </div>
         )}
-      </div>
+      </motion.div>
 
-      {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto space-y-6">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <h3 className="font-display font-bold text-xl text-slate-900">
-                {isEditing ? 'Edit Initiative' : 'Add Social Initiative'}
-              </h3>
-              <button onClick={() => setModalOpen(false)} className="p-1.5 text-slate-400 hover:text-slate-700">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-4 text-xs">
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">Initiative Title *</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="e.g. Free Career Profiling Camp"
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Date *</label>
-                  <input
-                    type="date"
-                    required
-                    value={formData.date}
-                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200"
-                  />
-                </div>
-
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Location *</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.location}
-                    onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">Impact Summary *</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.impactSummary}
-                  onChange={(e) => setFormData({ ...formData, impactSummary: e.target.value })}
-                  placeholder="e.g. Over 300 students guided on pharmacy degrees"
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200"
-                />
-              </div>
-
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">Full Description *</label>
-                <textarea
-                  rows={3}
-                  required
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Cover Image URL</label>
-                  <input
-                    type="text"
-                    value={formData.coverImage}
-                    onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200"
-                  />
-                </div>
-
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Beneficiaries Count</label>
-                  <input
-                    type="number"
-                    value={formData.beneficiariesCount}
-                    onChange={(e) => setFormData({ ...formData, beneficiariesCount: parseInt(e.target.value, 10) || 0 })}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200"
-                  />
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 pt-1">
-                <input
-                  type="checkbox"
-                  id="socActive"
-                  checked={formData.isActive}
-                  onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                  className="w-4 h-4 text-brand-600 rounded"
-                />
-                <label htmlFor="socActive" className="font-semibold text-slate-700 cursor-pointer">
-                  Active (Display on website)
-                </label>
-              </div>
-
-              <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
-                <button
-                  type="button"
+      {/* ✅ Modal — Fixed Scroll + Motion */}
+      <AnimatePresence>
+        {modalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-hidden"
+            onClick={() => setModalOpen(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white rounded-3xl max-w-lg w-full shadow-2xl border border-slate-200 max-h-[90vh] flex flex-col overflow-hidden"
+            >
+              {/* Sticky Header */}
+              <div className="flex items-center justify-between border-b border-slate-100 px-6 sm:px-8 py-5 shrink-0">
+                <h3 className="font-display font-bold text-xl text-slate-900">
+                  {isEditing ? 'Edit Initiative' : 'Add Social Initiative'}
+                </h3>
+                <motion.button
+                  whileHover={{ rotate: 90, scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100"
+                  className="p-1.5 text-slate-400 hover:text-slate-700 transition-colors"
                 >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="px-6 py-2 rounded-xl bg-brand-900 text-white font-semibold shadow hover:bg-brand-800"
-                >
-                  {submitting ? 'Saving...' : 'Save Activity'}
-                </button>
+                  <X className="w-5 h-5" />
+                </motion.button>
               </div>
-            </form>
-          </div>
-        </div>
-      )}
+
+              {/* Scrollable Form */}
+              <form onSubmit={handleSubmit} className="flex flex-col flex-1 min-h-0">
+                <div className="overflow-y-auto px-6 sm:px-8 py-5 space-y-4 text-xs flex-1">
+                  <div>
+                    <label className="block font-semibold text-slate-700 mb-1">Initiative Title *</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.title}
+                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                      placeholder="e.g. Free Career Profiling Camp"
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block font-semibold text-slate-700 mb-1">Date *</label>
+                      <input
+                        type="date"
+                        required
+                        value={formData.date}
+                        onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl border border-slate-200"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-slate-700 mb-1">Location *</label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.location}
+                        onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl border border-slate-200"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block font-semibold text-slate-700 mb-1">Impact Summary *</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.impactSummary}
+                      onChange={(e) => setFormData({ ...formData, impactSummary: e.target.value })}
+                      placeholder="e.g. Over 300 students guided on pharmacy degrees"
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-semibold text-slate-700 mb-1">Full Description *</label>
+                    <textarea
+                      rows={3}
+                      required
+                      value={formData.description}
+                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block font-semibold text-slate-700 mb-1">Cover Image URL</label>
+                      <input
+                        type="text"
+                        value={formData.coverImage}
+                        onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl border border-slate-200"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-slate-700 mb-1">Beneficiaries Count</label>
+                      <input
+                        type="number"
+                        value={formData.beneficiariesCount}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            beneficiariesCount: parseInt(e.target.value, 10) || 0,
+                          })
+                        }
+                        className="w-full px-3 py-2 rounded-xl border border-slate-200"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 pt-1">
+                    <input
+                      type="checkbox"
+                      id="socActive"
+                      checked={formData.isActive}
+                      onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
+                      className="w-4 h-4 text-brand-600 rounded"
+                    />
+                    <label htmlFor="socActive" className="font-semibold text-slate-700 cursor-pointer">
+                      Active (Display on website)
+                    </label>
+                  </div>
+                </div>
+
+                {/* Sticky Footer */}
+                <div className="flex justify-end gap-3 px-6 sm:px-8 py-4 border-t border-slate-100 bg-white shrink-0">
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    type="button"
+                    onClick={() => setModalOpen(false)}
+                    className="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100"
+                  >
+                    Cancel
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    type="submit"
+                    disabled={submitting}
+                    className="px-6 py-2 rounded-xl bg-brand-900 text-white font-semibold shadow hover:bg-brand-800 disabled:opacity-60"
+                  >
+                    {submitting ? 'Saving...' : 'Save Activity'}
+                  </motion.button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <ConfirmModal
         isOpen={confirmOpen}
