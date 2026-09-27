@@ -20,6 +20,7 @@ class EmailService {
         pool: true,
         maxConnections: 5,
         maxMessages: 100,
+        family: 4, // Force IPv4 — prevents ENETUNREACH on IPv6-only DNS results
       });
 
       this.transporter.verify((error) => {
