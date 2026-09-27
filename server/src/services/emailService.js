@@ -143,7 +143,7 @@ class EmailService {
    * Send New Admission Enquiry Notification to Admin
    */
   async sendEnquiryNotificationEmail({ enquiry, recipientEmail }) {
-    const targetEmail = recipientEmail || ENV.ADMIN_NOTIFICATION_EMAIL || 'i.o.sakshamm@gmail.com';
+    const targetEmail = recipientEmail || ENV.ADMIN_NOTIFICATION_EMAIL || 'uditpandey61@gmail.com';
     const subject = `🎓 New Admission Enquiry: ${enquiry.studentName || 'Student'} (${enquiry.enquiryId || 'New Lead'})`;
 
     const collegeName = enquiry.preferredCollege?.name || enquiry.preferredCollege || 'Not Specified';

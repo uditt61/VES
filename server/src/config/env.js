@@ -24,7 +24,7 @@ export const ENV = {
   SMTP_USER: process.env.SMTP_USER || '',
   SMTP_PASS: (process.env.SMTP_PASS || '').replace(/\s+/g, ''),
   EMAIL_FROM: process.env.EMAIL_FROM || '"Vidhya Advance Education Social Welfare Society" <uditpandey61@gmail.com>',
-  ADMIN_NOTIFICATION_EMAIL: process.env.ADMIN_NOTIFICATION_EMAIL || 'abhishek.gupta5058@gmail.com',
+  ADMIN_NOTIFICATION_EMAIL: (process.env.ADMIN_NOTIFICATION_EMAIL || 'uditpandey61@gmail.com').trim(),
 };
 
 // Security Safeguard: Prevent starting production with weak or default secrets
