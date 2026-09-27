@@ -23,10 +23,10 @@ export const ContentManager = () => {
 
   const [contactInfo, setContactInfo] = useState({
     organization: 'Vidhya Advance Education Social Welfare Society',
-    address: 'Plot No. 12, Commercial Complex, MP Nagar Zone-II, Bhopal, Madhya Pradesh - 462011',
-    primaryPhone: '+91 755 4239876',
-    helplinePhone: '+91 98765 43210',
-    email: 'contact@vidhyaadvance.com',
+    address: 'Ward No. 59, Security Line, House No. 09, N-3 Sector, Govindpura, BHEL, Bhopal, Madhya Pradesh 462023',
+    primaryPhone: '+91 9244292391',
+    helplinePhone: '+91 9244292391',
+    email: 'societyvidhya1964@gmail.com',
     admissionsEmail: 'societyvidhya1964@gmail.com',
     workingHours: 'Monday - Saturday: 9:30 AM to 6:30 PM',
   });

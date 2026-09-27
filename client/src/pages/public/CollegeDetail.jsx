@@ -318,7 +318,7 @@ export const CollegeDetail = () => {
               <div className="pt-4 border-t border-brand-800/80 space-y-2 text-xs text-slate-300">
                 <div className="flex items-center gap-2">
                   <Phone className="w-4 h-4 text-accent-400" />
-                  <span>Helpline: +91 755 4239876</span>
+                  <span>Helpline: +91 9244292391</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Mail className="w-4 h-4 text-accent-400" />

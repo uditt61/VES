@@ -149,7 +149,15 @@ export const Footer = () => {
             <ul className="space-y-3 text-sm text-slate-400">
               <li className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-accent-400 shrink-0 mt-0.5" />
-                <span> Ward No. 59, Security Line, House No. 09, N-3 Sector, Govindpura, BHEL, Bhopal, Madhya Pradesh 462023</span>
+                <a
+                  href="https://maps.app.goo.gl/2fkHRr2JVANwKmYF6"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-white hover:underline leading-relaxed"
+                  title="Open Location in Google Maps"
+                >
+                  Ward No. 59, Security Line, House No. 09, N-3 Sector, Govindpura, BHEL, Bhopal, Madhya Pradesh 462023
+                </a>
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-accent-400 shrink-0" />

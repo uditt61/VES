@@ -9,15 +9,15 @@ export const SITE_SHORT_NAME = 'Vidhya Advance';
 export const BASE_URL = 'https://www.vidhyaadvanceeducation.in';
 export const SITE_LOGO = `${BASE_URL}/logoVES.png`;
 export const DEFAULT_OG_IMAGE = `${BASE_URL}/logoVES.png`;
-export const CONTACT_PHONE = '+917554239876';
-export const CONTACT_PHONE_DISPLAY = '+91 755 4239876';
+export const CONTACT_PHONE = '+919244292391';
+export const CONTACT_PHONE_DISPLAY = '+91 9244292391';
 export const CONTACT_EMAIL = 'societyvidhya1964@gmail.com';
-export const CONTACT_EMAIL_GENERAL = 'contact@vidhyaadvance.com';
+export const CONTACT_EMAIL_GENERAL = 'societyvidhya1964@gmail.com';
 export const ADDRESS = {
-  streetAddress: 'Plot No. 12, Commercial Complex, MP Nagar Zone-II',
+  streetAddress: 'Ward No. 59, Security Line, House No. 09, N-3 Sector, Govindpura, BHEL',
   addressLocality: 'Bhopal',
   addressRegion: 'Madhya Pradesh',
-  postalCode: '462011',
+  postalCode: '462023',
   addressCountry: 'IN',
 };
 
@@ -228,9 +228,9 @@ export const PAGE_SEO = {
   contact: {
     title: 'Contact Us — Admission Helpline Bhopal MP',
     description:
-      'Contact Vidhya Advance Education Social Welfare Society in Bhopal. Call our admission helpline, email us, or visit our office at MP Nagar Zone-II for free educational counselling.',
+      'Contact Vidhya Advance Education Social Welfare Society in Bhopal. Call our admission helpline, email us, or visit our office at Govindpura BHEL for free educational counselling.',
     keywords:
-      'contact Vidhya Advance, admission helpline Bhopal, educational counsellor contact, MP Nagar office, college admission enquiry phone',
+      'contact Vidhya Advance, admission helpline Bhopal, educational counsellor contact, Govindpura office, college admission enquiry phone',
   },
   faq: {
     title: 'FAQs — College Admission Questions Answered',

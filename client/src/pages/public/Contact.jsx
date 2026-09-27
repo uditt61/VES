@@ -79,9 +79,15 @@ export const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-sm text-slate-900">Registered Office Address</h3>
-                    <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                      Plot No. 12, Commercial Complex, MP Nagar Zone-II, Bhopal, Madhya Pradesh - 462011, India
-                    </p>
+                    <a
+                      href="https://maps.app.goo.gl/2fkHRr2JVANwKmYF6"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-slate-600 mt-1 leading-relaxed block hover:text-brand-900 hover:underline transition-colors"
+                      title="Open in Google Maps"
+                    >
+                      Ward No. 59, Security Line, House No. 09, N-3 Sector, Govindpura, BHEL, Bhopal, Madhya Pradesh 462023
+                    </a>
                   </div>
                 </div>
 
@@ -90,17 +96,11 @@ export const Contact = () => {
                     <Phone className="w-5 h-5 text-accent-700" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-sm text-slate-900">Phone Numbers</h3>
+                    <h3 className="font-bold text-sm text-slate-900">Helpline Number</h3>
                     <p className="text-xs text-slate-600 mt-1">
-                      Helpline:{' '}
-                      <a href="tel:+917554239876" className="text-brand-900 font-semibold hover:underline">
-                        +91 755 4239876
-                      </a>
-                    </p>
-                    <p className="text-xs text-slate-600 mt-0.5">
-                      Direct Mobile:{' '}
-                      <a href="tel:+919876543210" className="text-brand-900 font-semibold hover:underline">
-                        +91 98765 43210
+                      Helpline & Mobile:{' '}
+                      <a href="tel:+919244292391" className="text-brand-900 font-semibold hover:underline">
+                        +91 9244292391
                       </a>
                     </p>
                   </div>
@@ -113,15 +113,8 @@ export const Contact = () => {
                   <div>
                     <h3 className="font-bold text-sm text-slate-900">Email Enquiries</h3>
                     <p className="text-xs text-slate-600 mt-1">
-                      Admissions:{' '}
                       <a href="mailto:societyvidhya1964@gmail.com" className="text-brand-900 font-semibold hover:underline">
                         societyvidhya1964@gmail.com
-                      </a>
-                    </p>
-                    <p className="text-xs text-slate-600 mt-0.5">
-                      General Desk:{' '}
-                      <a href="mailto:contact@vidhyaadvance.com" className="text-brand-900 font-semibold hover:underline">
-                        contact@vidhyaadvance.com
                       </a>
                     </p>
                   </div>
@@ -145,13 +138,21 @@ export const Contact = () => {
             </div>
 
             {/* Map Placeholder Card */}
-            <div className="bg-slate-200 rounded-3xl overflow-hidden h-60 relative border border-slate-300 shadow-inner flex items-center justify-center">
+            <a
+              href="https://maps.app.goo.gl/2fkHRr2JVANwKmYF6"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-slate-200 rounded-3xl overflow-hidden h-60 relative border border-slate-300 shadow-inner flex items-center justify-center group hover:bg-slate-300/80 transition-all cursor-pointer block"
+              title="Open Location in Google Maps"
+            >
               <div className="text-center p-4 space-y-2">
-                <MapPin className="w-8 h-8 text-brand-900 mx-auto" />
-                <p className="text-xs font-bold text-slate-700">MP Nagar Zone-II, Bhopal</p>
-                <p className="text-[11px] text-slate-500">Central Madhya Pradesh Educational Hub</p>
+                <MapPin className="w-8 h-8 text-brand-900 mx-auto group-hover:scale-110 transition-transform" />
+                <p className="text-xs font-bold text-slate-800">Govindpura, BHEL, Bhopal</p>
+                <p className="text-[11px] text-brand-700 font-semibold underline flex items-center justify-center gap-1">
+                  View on Google Maps &rarr;
+                </p>
               </div>
-            </div>
+            </a>
           </div>
 
           {/* Quick Contact Form */}
