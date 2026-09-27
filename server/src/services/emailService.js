@@ -7,9 +7,10 @@ import { ENV } from '../config/env.js';
  */
 function parseSender(fromStr) {
   if (!fromStr) {
-    return { name: 'Vidhya Advance Education', email: 'abhishek.gupta5058@gmail.com' };
+    return { name: 'Vidhya Advance Education', email: 'uditpandey61@gmail.com' };
   }
-  const match = fromStr.match(/^(?:"?([^"]*)"?\s*)?<([^>]+)>/);
+  const clean = fromStr.replace(/[\r\n]+/g, '').trim();
+  const match = clean.match(/^(?:"?([^"]*)"?\s*)?<([^>]+)>/);
   if (match) {
     return {
       name: (match[1] || 'Vidhya Advance Education').trim(),
@@ -18,7 +19,7 @@ function parseSender(fromStr) {
   }
   return {
     name: 'Vidhya Advance Education',
-    email: fromStr.replace(/["']/g, '').trim(),
+    email: clean.replace(/["']/g, '').trim(),
   };
 }
 

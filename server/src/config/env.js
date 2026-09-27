@@ -23,7 +23,7 @@ export const ENV = {
   SMTP_SECURE: process.env.SMTP_SECURE === 'true',
   SMTP_USER: process.env.SMTP_USER || '',
   SMTP_PASS: (process.env.SMTP_PASS || '').replace(/\s+/g, ''),
-  EMAIL_FROM: process.env.EMAIL_FROM || '"Vidhya Advance Education Social Welfare Society" <noreply@vidhyaadvance.com>',
+  EMAIL_FROM: process.env.EMAIL_FROM || '"Vidhya Advance Education Social Welfare Society" <uditpandey61@gmail.com>',
   ADMIN_NOTIFICATION_EMAIL: process.env.ADMIN_NOTIFICATION_EMAIL || 'abhishek.gupta5058@gmail.com',
 };
 
