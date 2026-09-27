@@ -27,6 +27,10 @@ import { Course } from './models/Course.js';
 
 const app = express();
 
+// Trust first proxy (Render, Nginx, etc.) — required for correct client IP
+// detection in rate-limiters and logging behind a reverse proxy
+app.set('trust proxy', 1);
+
 // Security HTTP headers
 app.use(
   helmet({
