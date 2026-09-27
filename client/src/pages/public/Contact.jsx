@@ -113,9 +113,15 @@ export const Contact = () => {
                   <div>
                     <h3 className="font-bold text-sm text-slate-900">Email Enquiries</h3>
                     <p className="text-xs text-slate-600 mt-1">
-                      Admissions & Enquiries:{' '}
-                      <a href="mailto:abhishek.gupta5058@gmail.com" className="text-brand-900 font-semibold hover:underline">
-                        abhishek.gupta5058@gmail.com
+                      Admissions:{' '}
+                      <a href="mailto:societyvidhya1964@gmail.com" className="text-brand-900 font-semibold hover:underline">
+                        societyvidhya1964@gmail.com
+                      </a>
+                    </p>
+                    <p className="text-xs text-slate-600 mt-0.5">
+                      General Desk:{' '}
+                      <a href="mailto:contact@vidhyaadvance.com" className="text-brand-900 font-semibold hover:underline">
+                        contact@vidhyaadvance.com
                       </a>
                     </p>
                   </div>

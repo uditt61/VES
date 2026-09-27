@@ -24,7 +24,7 @@ export const Footer = () => {
                 className="w-12 h-12 object-contain group-hover:scale-105 transition-transform shrink-0 drop-shadow-md"
               />
               <div>
-                <span className="text-xl font-extrabold tracking-tight text-white font-display group-hover:text-accent-300 transition-colors">
+                <span className="text-xl font-extrabold tracking-tight text-white transition-colors font-display group-hover:text-accent-300">
                   Vidhya Advance
                 </span>
                 <span className="block text-[10px] font-semibold uppercase tracking-wider text-accent-400">
@@ -153,14 +153,14 @@ export const Footer = () => {
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-accent-400 shrink-0" />
-                <a href="tel:+919821776333" className="transition-colors hover:text-white tabular-nums">
-                  +91 9821776333
+                <a href="tel:+919244292391" className="transition-colors hover:text-white tabular-nums">
+                  +91 9244292391
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-accent-400 shrink-0" />
-                <a href="mailto:abhishek.gupta5058@gmail.com" className="transition-colors hover:text-white">
-                  abhishek.gupta5058@gmail.com
+                <a href="mailto:societyvidhya1964@gmail.com" className="transition-colors hover:text-white">
+                  societyvidhya1964@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-2.5">

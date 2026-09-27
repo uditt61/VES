@@ -11,6 +11,7 @@ import {
   XCircle,
   X,
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import api from '../../services/api.js';
 import { Badge } from '../../components/common/Badge.jsx';
 import { ConfirmModal } from '../../components/common/ConfirmModal.jsx';
@@ -73,7 +74,30 @@ export const CollegeManager = () => {
     fetchColleges();
   }, [search]);
 
-  const handleOpenAdd = () => {
+  // 🔒 Body scroll lock when modal open
+  useEffect(() => {
+    if (modalOpen || confirmOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [modalOpen, confirmOpen]);
+
+  // ⌨️ ESC key closes modal
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') {
+        setModalOpen(false);
+        setConfirmOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, []);
+    const handleOpenAdd = () => {
     setIsEditing(false);
     setCurrentId(null);
     setFormData({
@@ -185,11 +209,15 @@ export const CollegeManager = () => {
       showToast('Failed to delete institution', 'error');
     }
   };
-
-  return (
+    return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        className="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+      >
         <div>
           <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-slate-900 tracking-tight">
             Colleges & Universities Management
@@ -199,17 +227,24 @@ export const CollegeManager = () => {
           </p>
         </div>
 
-        <button
+        <motion.button
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
           onClick={handleOpenAdd}
           className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-900 hover:bg-brand-800 text-white font-semibold text-xs shadow-sm transition-colors self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" />
           <span>Add New Institution</span>
-        </button>
-      </div>
+        </motion.button>
+      </motion.div>
 
       {/* Search Bar */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.05 }}
+        className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3"
+      >
         <Search className="w-4 h-4 text-slate-400" />
         <input
           type="text"
@@ -218,10 +253,15 @@ export const CollegeManager = () => {
           placeholder="Filter colleges by name, city, or approvals..."
           className="w-full text-xs focus:outline-none"
         />
-      </div>
+      </motion.div>
 
       {/* Institutions Table */}
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, delay: 0.1 }}
+        className="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden"
+      >
         {loading ? (
           <div className="p-8 text-center text-xs text-slate-400">Loading institutions...</div>
         ) : (
@@ -239,237 +279,278 @@ export const CollegeManager = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {colleges.map((col) => (
-                  <tr key={col._id} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="p-4 font-semibold text-slate-900">
-                      <div>{col.name}</div>
-                      <span className="text-[11px] text-slate-400 font-mono font-normal">/colleges/{col.slug}</span>
-                    </td>
-                    <td className="p-4">
-                      <Badge variant="primary">{col.type}</Badge>
-                    </td>
-                    <td className="p-4 text-slate-600">
-                      {col.location?.city}, {col.location?.state}
-                    </td>
-                    <td className="p-4 text-slate-500 max-w-[200px] truncate">
-                      {col.approvals?.join(', ') || 'None listed'}
-                    </td>
-                    <td className="p-4">
-                      {col.isFeatured ? (
-                        <span className="text-emerald-600 font-semibold flex items-center gap-1">
-                          <CheckCircle2 className="w-3.5 h-3.5" /> Yes
+                <AnimatePresence>
+                  {colleges.map((col) => (
+                    <motion.tr
+                      key={col._id}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="hover:bg-slate-50/80 transition-colors"
+                    >
+                      <td className="p-4 font-semibold text-slate-900">
+                        <div>{col.name}</div>
+                        <span className="text-[11px] text-slate-400 font-mono font-normal">
+                          /colleges/{col.slug}
                         </span>
-                      ) : (
-                        <span className="text-slate-400">No</span>
-                      )}
-                    </td>
-                    <td className="p-4">
-                      {col.isActive ? (
-                        <Badge variant="success">Active</Badge>
-                      ) : (
-                        <Badge variant="neutral">Inactive</Badge>
-                      )}
-                    </td>
-                    <td className="p-4 text-right space-x-2">
-                      <button
-                        onClick={() => handleOpenEdit(col)}
-                        className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
-                        title="Edit Institution"
-                      >
-                        <Edit2 className="w-3.5 h-3.5" />
-                      </button>
-                      <button
-                        onClick={() => {
-                          setDeleteTargetId(col._id);
-                          setConfirmOpen(true);
-                        }}
-                        className="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 transition-colors"
-                        title="Deactivate Institution"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                      <td className="p-4">
+                        <Badge variant="primary">{col.type}</Badge>
+                      </td>
+                      <td className="p-4 text-slate-600">
+                        {col.location?.city}, {col.location?.state}
+                      </td>
+                      <td className="p-4 text-slate-500 max-w-[200px] truncate">
+                        {col.approvals?.join(', ') || 'None listed'}
+                      </td>
+                      <td className="p-4">
+                        {col.isFeatured ? (
+                          <span className="text-emerald-600 font-semibold flex items-center gap-1">
+                            <CheckCircle2 className="w-3.5 h-3.5" /> Yes
+                          </span>
+                        ) : (
+                          <span className="text-slate-400">No</span>
+                        )}
+                      </td>
+                      <td className="p-4">
+                        {col.isActive ? (
+                          <Badge variant="success">Active</Badge>
+                        ) : (
+                          <Badge variant="neutral">Inactive</Badge>
+                        )}
+                      </td>
+                      <td className="p-4 text-right space-x-2">
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => handleOpenEdit(col)}
+                          className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
+                          title="Edit Institution"
+                        >
+                          <Edit2 className="w-3.5 h-3.5" />
+                        </motion.button>
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => {
+                            setDeleteTargetId(col._id);
+                            setConfirmOpen(true);
+                          }}
+                          className="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 transition-colors"
+                          title="Deactivate Institution"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </motion.button>
+                      </td>
+                    </motion.tr>
+                  ))}
+                </AnimatePresence>
               </tbody>
             </table>
           </div>
         )}
-      </div>
+      </motion.div>
 
-      {/* Add / Edit Institution Modal */}
-      {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
-          <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto space-y-6">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <h3 className="font-display font-bold text-xl text-slate-900">
-                {isEditing ? 'Edit Institution' : 'Add New Institution'}
-              </h3>
-              <button
-                onClick={() => setModalOpen(false)}
-                className="p-1.5 text-slate-400 hover:text-slate-700"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-4 text-xs">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Institution Name *</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Type *</label>
-                  <select
-                    value={formData.type}
-                    onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white"
-                  >
-                    <option value="University">University</option>
-                    <option value="College">College</option>
-                    <option value="Institute">Institute</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">City *</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.city}
-                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200"
-                  />
-                </div>
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">State *</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.state}
-                    onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">Short Description</label>
-                <input
-                  type="text"
-                  value={formData.shortDescription}
-                  onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
-                  placeholder="Summary for cards (max 300 chars)..."
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200"
-                />
-              </div>
-
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">Detailed About Profile</label>
-                <textarea
-                  rows={3}
-                  value={formData.about}
-                  onChange={(e) => setFormData({ ...formData, about: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Approvals (Comma-separated)</label>
-                  <input
-                    type="text"
-                    value={formData.approvalsStr}
-                    onChange={(e) => setFormData({ ...formData, approvalsStr: e.target.value })}
-                    placeholder="AICTE, PCI, INC, NMC"
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200"
-                  />
-                </div>
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Affiliations (Comma-separated)</label>
-                  <input
-                    type="text"
-                    value={formData.affiliationsStr}
-                    onChange={(e) => setFormData({ ...formData, affiliationsStr: e.target.value })}
-                    placeholder="UGC Recognized, State Act"
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Logo Image URL</label>
-                  <input
-                    type="text"
-                    value={formData.logo}
-                    onChange={(e) => setFormData({ ...formData, logo: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200"
-                  />
-                </div>
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Cover Image URL</label>
-                  <input
-                    type="text"
-                    value={formData.coverImage}
-                    onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200"
-                  />
-                </div>
-              </div>
-
-              <div className="flex items-center gap-6 pt-2">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={formData.isFeatured}
-                    onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
-                    className="w-4 h-4 text-brand-600 rounded"
-                  />
-                  <span className="font-semibold text-slate-700">Feature on Homepage</span>
-                </label>
-
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={formData.isActive}
-                    onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                    className="w-4 h-4 text-brand-600 rounded"
-                  />
-                  <span className="font-semibold text-slate-700">Active Listing</span>
-                </label>
-              </div>
-
-              <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
-                <button
-                  type="button"
+      {/* ✅ Add / Edit Institution Modal — FIXED SCROLL + MOTION */}
+      <AnimatePresence>
+        {modalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-hidden"
+            onClick={() => setModalOpen(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-200 max-h-[90vh] flex flex-col overflow-hidden"
+            >
+              {/* Sticky Header */}
+              <div className="flex items-center justify-between border-b border-slate-100 px-6 sm:px-8 py-5 shrink-0">
+                <h3 className="font-display font-bold text-xl text-slate-900">
+                  {isEditing ? 'Edit Institution' : 'Add New Institution'}
+                </h3>
+                <motion.button
+                  whileHover={{ rotate: 90, scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100"
+                  className="p-1.5 text-slate-400 hover:text-slate-700 transition-colors"
                 >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="px-6 py-2 rounded-xl bg-brand-900 text-white font-semibold shadow hover:bg-brand-800"
-                >
-                  {submitting ? 'Saving...' : 'Save Institution'}
-                </button>
+                  <X className="w-5 h-5" />
+                </motion.button>
               </div>
-            </form>
-          </div>
-        </div>
-      )}
+
+              {/* ✅ Scrollable Form Body */}
+              <form onSubmit={handleSubmit} className="flex flex-col flex-1 min-h-0">
+                <div className="overflow-y-auto px-6 sm:px-8 py-5 space-y-4 text-xs flex-1">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block font-semibold text-slate-700 mb-1">Institution Name *</label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-slate-700 mb-1">Type *</label>
+                      <select
+                        value={formData.type}
+                        onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white"
+                      >
+                        <option value="University">University</option>
+                        <option value="College">College</option>
+                        <option value="Institute">Institute</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block font-semibold text-slate-700 mb-1">City *</label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.city}
+                        onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl border border-slate-200"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-semibold text-slate-700 mb-1">State *</label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.state}
+                        onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl border border-slate-200"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block font-semibold text-slate-700 mb-1">Short Description</label>
+                    <input
+                      type="text"
+                      value={formData.shortDescription}
+                      onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
+                      placeholder="Summary for cards (max 300 chars)..."
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-semibold text-slate-700 mb-1">Detailed About Profile</label>
+                    <textarea
+                      rows={3}
+                      value={formData.about}
+                      onChange={(e) => setFormData({ ...formData, about: e.target.value })}
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block font-semibold text-slate-700 mb-1">Approvals (Comma-separated)</label>
+                      <input
+                        type="text"
+                        value={formData.approvalsStr}
+                        onChange={(e) => setFormData({ ...formData, approvalsStr: e.target.value })}
+                        placeholder="AICTE, PCI, INC, NMC"
+                        className="w-full px-3 py-2 rounded-xl border border-slate-200"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-semibold text-slate-700 mb-1">Affiliations (Comma-separated)</label>
+                      <input
+                        type="text"
+                        value={formData.affiliationsStr}
+                        onChange={(e) => setFormData({ ...formData, affiliationsStr: e.target.value })}
+                        placeholder="UGC Recognized, State Act"
+                        className="w-full px-3 py-2 rounded-xl border border-slate-200"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block font-semibold text-slate-700 mb-1">Logo Image URL</label>
+                      <input
+                        type="text"
+                        value={formData.logo}
+                        onChange={(e) => setFormData({ ...formData, logo: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl border border-slate-200"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-semibold text-slate-700 mb-1">Cover Image URL</label>
+                      <input
+                        type="text"
+                        value={formData.coverImage}
+                        onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl border border-slate-200"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-6 pt-2">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={formData.isFeatured}
+                        onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
+                        className="w-4 h-4 text-brand-600 rounded"
+                      />
+                      <span className="font-semibold text-slate-700">Feature on Homepage</span>
+                    </label>
+
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={formData.isActive}
+                        onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
+                        className="w-4 h-4 text-brand-600 rounded"
+                      />
+                      <span className="font-semibold text-slate-700">Active Listing</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* ✅ Sticky Footer */}
+                <div className="flex justify-end gap-3 px-6 sm:px-8 py-4 border-t border-slate-100 bg-white shrink-0">
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    type="button"
+                    onClick={() => setModalOpen(false)}
+                    className="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100"
+                  >
+                    Cancel
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    type="submit"
+                    disabled={submitting}
+                    className="px-6 py-2 rounded-xl bg-brand-900 text-white font-semibold shadow hover:bg-brand-800 disabled:opacity-60"
+                  >
+                    {submitting ? 'Saving...' : 'Save Institution'}
+                  </motion.button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Delete Confirmation */}
       <ConfirmModal

@@ -27,7 +27,7 @@ export const ContentManager = () => {
     primaryPhone: '+91 755 4239876',
     helplinePhone: '+91 98765 43210',
     email: 'contact@vidhyaadvance.com',
-    admissionsEmail: 'admissions@vidhyaadvance.com',
+    admissionsEmail: 'societyvidhya1964@gmail.com',
     workingHours: 'Monday - Saturday: 9:30 AM to 6:30 PM',
   });
 
