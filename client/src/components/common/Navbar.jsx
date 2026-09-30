@@ -66,8 +66,12 @@ export const Navbar = ({ onOpenEnquiry }) => {
 
   return (
     <>
+      {/* 
+        CHANGED: 'sticky top-0' -> 'fixed top-0 left-0 w-full' 
+        CHANGED: 'z-50' -> 'z-40' (Taki Home.jsx ka Scroll Progress Bar 'z-[60]' iske upar dikhe)
+      */}
       <header
-        className={`sticky top-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${
           scrolled
             ? 'bg-white/95 backdrop-blur-md shadow-md border-b border-slate-100 py-2.5'
             : 'bg-white border-b border-slate-100 py-3'
@@ -100,7 +104,7 @@ export const Navbar = ({ onOpenEnquiry }) => {
           </div>
         </div>
 
-        {/* Standard Page Container - keeps Vidhya Advance brand aligned with site layout */}
+        {/* Standard Page Container */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pl-14 sm:pl-16 lg:pl-16 xl:pl-8 flex items-center justify-between">
           {/* Brand Logo & Name */}
           <Link to="/" className="flex items-center gap-2.5 sm:gap-3 group">

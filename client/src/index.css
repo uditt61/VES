@@ -5,8 +5,19 @@
 @layer base {
   html {
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    /* This ensures smooth scrolling when clicking anchor links */
+    scroll-behavior: smooth;
+    /* This offset prevents the top of your content from being hidden behind the fixed navbar */
+    scroll-padding-top: 80px;
+    /* Adjust this value to match your navbar height */
   }
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
   }
 }
@@ -28,4 +39,9 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+
+/* Optional: Prevent body scroll when mobile menu is open */
+body.no-scroll {
+  overflow: hidden;
 }
