@@ -3,6 +3,7 @@ import { ApiResponse } from '../utils/apiResponse.js';
 import { ApiError } from '../utils/apiError.js';
 import { slugify } from '../utils/slugify.js';
 import { escapeRegex } from '../utils/sanitize.js';
+import { seedInitialData } from '../seeds/seed.js';
 
 export class CourseController {
   static async getAll(req, res, next) {
@@ -21,6 +22,18 @@ export class CourseController {
         order = 'desc',
       } = req.query;
 
+      // Auto-sync seeds if new streams (Research, Medical, Polytechnic) are not yet in running DB
+      const specializedCount = await Course.countDocuments({
+        stream: { $in: [/^Research$/i, /^Medical$/i, /^Polytechnic$/i] },
+      });
+      if (specializedCount === 0) {
+        try {
+          await seedInitialData();
+        } catch (seedErr) {
+          console.error('Auto-sync seed error:', seedErr);
+        }
+      }
+
       const filter = {};
 
       if (active !== undefined && req.user) {
@@ -38,7 +51,14 @@ export class CourseController {
       }
 
       if (stream) {
-        filter.stream = stream;
+        if (stream.includes(',')) {
+          const streamArr = stream
+            .split(',')
+            .map((s) => new RegExp(`^${escapeRegex(s.trim())}$`, 'i'));
+          filter.stream = { $in: streamArr };
+        } else {
+          filter.stream = new RegExp(`^${escapeRegex(stream.trim())}$`, 'i');
+        }
       }
 
       if (admissionStatus) {

@@ -21,6 +21,9 @@ import {
   Activity,
   Briefcase,
   ExternalLink,
+  Award,
+  Stethoscope,
+  Wrench,
 } from 'lucide-react';
 
 export const NavigationDrawer = ({
@@ -80,6 +83,21 @@ export const NavigationDrawer = ({
       badge: 'Open',
       highlight: true,
       icon: Sparkles,
+    },
+    {
+      name: 'Ph.D in All Subjects',
+      path: '/courses?stream=Research',
+      icon: Award,
+    },
+    {
+      name: 'Medical (MBBS, BHMS, BAMS)',
+      path: '/courses?stream=Medical',
+      icon: Stethoscope,
+    },
+    {
+      name: 'Polytechnic in All Branches',
+      path: '/courses?stream=Polytechnic',
+      icon: Wrench,
     },
     {
       name: 'Engineering (B.Tech)',

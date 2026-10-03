@@ -72,6 +72,9 @@ const quickLinks = [
 ];
 
 const admissionLinks = [
+  { to: '/courses?stream=Research', label: 'Ph.D in All Subjects' },
+  { to: '/courses?stream=Medical', label: 'Medical (MBBS, BHMS, BAMS)' },
+  { to: '/courses?stream=Polytechnic', label: 'Polytechnic (All Branches)' },
   { to: '/courses?stream=Engineering', label: 'Engineering (B.Tech)' },
   { to: '/courses?stream=Nursing', label: 'Nursing (B.Sc & GNM)' },
   { to: '/courses?stream=Pharmacy', label: 'Pharmacy (B.Pharm & D.Pharm)' },

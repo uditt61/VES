@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import {
   motion,
@@ -41,6 +41,81 @@ import {
   viewportOnce,
 } from '../../utils/motionVariants.js';
 
+const fallbackPopularCourses = [
+  {
+    _id: 'fb-phd-1',
+    name: 'Doctor of Philosophy (Ph.D in All Subjects)',
+    degreeType: 'Ph.D',
+    stream: 'Research',
+    duration: '3 - 5 Years',
+    college: { name: 'Dr. Preeti Global University' },
+    eligibility: 'Master degree in relevant discipline with minimum 55% aggregate marks',
+  },
+  {
+    _id: 'fb-med-1',
+    name: 'Bachelor of Medicine and Bachelor of Surgery (MBBS)',
+    degreeType: 'MBBS',
+    stream: 'Medical',
+    duration: '5.5 Years',
+    college: { name: 'Malwanchal University (Index Medical College)' },
+    eligibility: '10+2 with Physics, Chemistry, Biology & valid NEET qualification',
+  },
+  {
+    _id: 'fb-med-2',
+    name: 'Bachelor of Ayurvedic Medicine and Surgery (BAMS)',
+    degreeType: 'BAMS',
+    stream: 'Medical',
+    duration: '5.5 Years',
+    college: { name: 'Malwanchal University' },
+    eligibility: '10+2 with PCB with minimum 50% marks & NEET qualification',
+  },
+  {
+    _id: 'fb-med-3',
+    name: 'Bachelor of Homeopathic Medicine and Surgery (BHMS)',
+    degreeType: 'BHMS',
+    stream: 'Medical',
+    duration: '5.5 Years',
+    college: { name: 'Malwanchal University' },
+    eligibility: '10+2 with PCB with minimum 50% marks & NEET qualification',
+  },
+  {
+    _id: 'fb-poly-1',
+    name: 'Polytechnic Diploma in Civil Engineering',
+    degreeType: 'Polytechnic / Diploma',
+    stream: 'Polytechnic',
+    duration: '3 Years',
+    college: { name: 'Dr. Preeti Global University' },
+    eligibility: '10th standard with Science & Mathematics with minimum 35% marks',
+  },
+  {
+    _id: 'fb-poly-2',
+    name: 'Polytechnic Diploma in Mechanical Engineering',
+    degreeType: 'Polytechnic / Diploma',
+    stream: 'Polytechnic',
+    duration: '3 Years',
+    college: { name: 'Bhabha University' },
+    eligibility: '10th standard with Science & Mathematics with minimum 35% marks',
+  },
+  {
+    _id: 'fb-poly-3',
+    name: 'Polytechnic Diploma in Electrical & Electronics',
+    degreeType: 'Polytechnic / Diploma',
+    stream: 'Polytechnic',
+    duration: '3 Years',
+    college: { name: 'Dr. Preeti Global University' },
+    eligibility: '10th standard with Science & Mathematics with minimum 35% marks',
+  },
+  {
+    _id: 'fb-phd-2',
+    name: 'Doctor of Philosophy (Ph.D in Engineering, Management & Science)',
+    degreeType: 'Ph.D',
+    stream: 'Research',
+    duration: '3 - 5 Years',
+    college: { name: 'Bhabha University' },
+    eligibility: 'Master degree in relevant subject with minimum 55% aggregate marks',
+  },
+];
+
 export const Home = () => {
   const { openEnquiryModal } = useOutletContext();
   const shouldReduceMotion = useReducedMotion();
@@ -59,13 +134,14 @@ export const Home = () => {
   const [loadingColleges, setLoadingColleges] = useState(true);
   const [loadingCourses, setLoadingCourses] = useState(true);
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
+  const [selectedCourseStream, setSelectedCourseStream] = useState('All');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [collegesRes, coursesRes, faqsRes, socialRes] = await Promise.all([
           api.get('/colleges?limit=4&featured=true&active=true'),
-          api.get('/courses?limit=6&featured=true&active=true'),
+          api.get('/courses?limit=12&stream=Research,Medical,Polytechnic&active=true'),
           api.get('/faqs?active=true'),
           api.get('/social-work?active=true'),
         ]);
@@ -82,6 +158,15 @@ export const Home = () => {
     };
     fetchData();
   }, []);
+
+  const displayedCourses = useMemo(() => {
+    const fromApi = courses.filter((c) =>
+      ['research', 'medical', 'polytechnic'].includes(c.stream?.toLowerCase())
+    );
+    const list = fromApi.length > 0 ? fromApi : fallbackPopularCourses;
+    if (selectedCourseStream === 'All') return list;
+    return list.filter((c) => c.stream?.toLowerCase() === selectedCourseStream.toLowerCase());
+  }, [courses, selectedCourseStream]);
 
   const motionProps = (variant) =>
     shouldReduceMotion
@@ -380,7 +465,7 @@ export const Home = () => {
                   className="flex flex-col justify-between overflow-hidden transition-all duration-300 bg-white border shadow-sm rounded-2xl border-slate-200/80 hover:shadow-xl group"
                 >
                   <div>
-                    <div className="relative overflow-hidden h-44 bg-slate-100">
+                    <Link to={`/colleges/${college.slug}`} className="block relative overflow-hidden h-44 bg-slate-100">
                       <img
                         src={college.coverImage || college.logo}
                         alt={college.name}
@@ -397,12 +482,14 @@ export const Home = () => {
                           {college.location?.city}, {college.location?.state}
                         </span>
                       </div>
-                    </div>
+                    </Link>
 
                     <div className="p-5 space-y-3">
-                      <h3 className="text-base font-bold transition-colors font-display text-slate-900 group-hover:text-brand-900 line-clamp-1">
-                        {college.name}
-                      </h3>
+                      <Link to={`/colleges/${college.slug}`} className="block">
+                        <h3 className="text-base font-bold transition-colors font-display text-slate-900 group-hover:text-brand-900 line-clamp-1">
+                          {college.name}
+                        </h3>
+                      </Link>
                       <p className="text-xs leading-relaxed text-slate-600 line-clamp-2">
                         {college.shortDescription || college.about}
                       </p>
@@ -427,7 +514,7 @@ export const Home = () => {
                       to={`/colleges/${college.slug}`}
                       className="w-full py-2 text-xs font-semibold text-center transition-colors rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800"
                     >
-                      View Details
+                      View Courses
                     </Link>
                     <button
                       onClick={() => openEnquiryModal(college._id)}
@@ -448,14 +535,13 @@ export const Home = () => {
             <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
               <div>
                 <span className="text-xs font-bold tracking-widest uppercase text-brand-600">
-                  Career Pathways
+                  Featured Career Pathways
                 </span>
                 <h2 className="mt-1 text-2xl font-extrabold font-display sm:text-4xl text-slate-900">
-                  Popular Degree Programs
+                  Popular Degree &amp; Diploma Programs
                 </h2>
-                <p className="max-w-xl mt-2 text-sm text-slate-600">
-                  Discover accredited undergraduate and postgraduate programs across Engineering,
-                  Nursing, Pharmacy, Management, and Paramedical sciences.
+                <p className="max-w-2xl mt-2 text-sm text-slate-600">
+                  Explore verified admissions for <strong>Ph.D in All Subjects</strong>, <strong>Medical Sciences (MBBS, BHMS, BAMS)</strong>, and <strong>Polytechnic Diplomas in all branches</strong> across top affiliated universities.
                 </p>
               </div>
 
@@ -468,6 +554,29 @@ export const Home = () => {
               </Link>
             </div>
 
+            {/* Stream Filter Pills */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+              {[
+                { id: 'All', label: 'All Featured Programs' },
+                { id: 'Research', label: '🎓 Ph.D in All Subjects' },
+                { id: 'Medical', label: '🩺 Medical (MBBS, BHMS, BAMS)' },
+                { id: 'Polytechnic', label: '⚙️ Polytechnic (All Branches)' },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setSelectedCourseStream(tab.id)}
+                  className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+                    selectedCourseStream === tab.id
+                      ? 'bg-brand-900 text-white shadow-md'
+                      : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
             {loadingCourses ? (
               <CardSkeleton count={6} />
             ) : (
@@ -475,16 +584,21 @@ export const Home = () => {
                 {...motionProps(staggerContainer(0.06))}
                 className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
               >
-                {courses.map((course) => (
+                {displayedCourses.map((course) => (
                   <motion.div
                     key={course._id}
                     variants={fadeUp}
                     whileHover={hoverLift}
-                    className="flex flex-col justify-between p-6 transition-all bg-white border shadow-sm rounded-2xl border-slate-200 hover:shadow-md"
+                    className="flex flex-col justify-between p-6 transition-all bg-white border shadow-sm rounded-2xl border-slate-200 hover:shadow-md hover:border-brand-300"
                   >
                     <div className="space-y-3">
-                      <div className="flex items-center justify-between gap-2">
-                        <Badge variant="primary">{course.degreeType}</Badge>
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <div className="flex items-center gap-1.5">
+                          <Badge variant="primary">{course.degreeType}</Badge>
+                          {course.stream && (
+                            <Badge variant="accent">{course.stream}</Badge>
+                          )}
+                        </div>
                         <span className="text-xs font-medium text-slate-500">
                           {course.duration}
                         </span>
@@ -495,8 +609,8 @@ export const Home = () => {
                       </h3>
 
                       <p className="text-xs text-brand-800 font-semibold flex items-center gap-1.5">
-                        <Building className="w-3.5 h-3.5" />
-                        <span>{course.college?.name || 'Associated University'}</span>
+                        <Building className="w-3.5 h-3.5 shrink-0" />
+                        <span className="truncate">{course.college?.name || 'Associated University'}</span>
                       </p>
 
                       <div className="p-3 space-y-1 text-xs border bg-slate-50 rounded-xl border-slate-100 text-slate-600">
@@ -507,7 +621,7 @@ export const Home = () => {
 
                     <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-slate-100">
                       <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
                         <span>Admission Open</span>
                       </span>
 

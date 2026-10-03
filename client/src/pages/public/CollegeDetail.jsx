@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Link, useOutletContext } from 'react-router-dom';
 import {
   Building2,
@@ -14,6 +14,8 @@ import {
   Sparkles,
   Layers,
   ChevronRight,
+  Search,
+  ExternalLink,
 } from 'lucide-react';
 import api from '../../services/api.js';
 import { Badge } from '../../components/common/Badge.jsx';
@@ -26,6 +28,8 @@ export const CollegeDetail = () => {
   const [college, setCollege] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [courseSearch, setCourseSearch] = useState('');
+  const [courseStreamFilter, setCourseStreamFilter] = useState('');
 
   useEffect(() => {
     const fetchDetail = async () => {
@@ -42,6 +46,27 @@ export const CollegeDetail = () => {
     };
     fetchDetail();
   }, [slug]);
+
+  const collegeCourses = college?.courses || [];
+  
+  const uniqueStreams = useMemo(() => {
+    return Array.from(new Set(collegeCourses.map((c) => c.stream).filter(Boolean)));
+  }, [collegeCourses]);
+
+  const filteredCourses = useMemo(() => {
+    return collegeCourses.filter((course) => {
+      const q = courseSearch.trim().toLowerCase();
+      const matchesSearch =
+        !q ||
+        course.name?.toLowerCase().includes(q) ||
+        course.degreeType?.toLowerCase().includes(q) ||
+        course.stream?.toLowerCase().includes(q) ||
+        course.eligibility?.toLowerCase().includes(q) ||
+        course.description?.toLowerCase().includes(q);
+      const matchesStream = !courseStreamFilter || course.stream === courseStreamFilter;
+      return matchesSearch && matchesStream;
+    });
+  }, [collegeCourses, courseSearch, courseStreamFilter]);
 
   if (loading) {
     return (
@@ -226,51 +251,131 @@ export const CollegeDetail = () => {
 
             {/* Available Courses */}
             <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
-              <div className="flex items-center justify-between">
-                <h2 className="font-display font-bold text-xl text-slate-900 flex items-center gap-2">
-                  <BookOpen className="w-5 h-5 text-brand-700" />
-                  <span>Available Courses & Programs ({college.courses?.length || 0})</span>
-                </h2>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-100">
+                <div>
+                  <h2 className="font-display font-bold text-xl text-slate-900 flex items-center gap-2">
+                    <BookOpen className="w-5 h-5 text-brand-700" />
+                    <span>All Offered Courses & Degrees ({collegeCourses.length})</span>
+                  </h2>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Browse all accredited programs available at {college.name}
+                  </p>
+                </div>
+
+                <Link
+                  to={`/courses?college=${college._id}`}
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-900 hover:text-brand-700 bg-brand-50 hover:bg-brand-100 px-3.5 py-2 rounded-xl transition-colors border border-brand-200 self-start sm:self-auto"
+                >
+                  <span>Explore In Directory</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </Link>
               </div>
 
-              {college.courses?.length === 0 ? (
+              {collegeCourses.length === 0 ? (
                 <p className="text-xs text-slate-500 py-4">
                   No courses listed for this institution yet. Contact our counselling desk for updated seat offerings.
                 </p>
               ) : (
                 <div className="space-y-4">
-                  {college.courses?.map((course) => (
-                    <div
-                      key={course._id}
-                      className="p-5 rounded-2xl border border-slate-200 hover:border-brand-300 transition-colors space-y-3 bg-slate-50/50"
-                    >
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <Badge variant="primary">{course.degreeType}</Badge>
-                            <span className="text-xs text-slate-500 font-medium">{course.duration}</span>
+                  {/* Stream Filter Pills & Search Input if multiple courses */}
+                  {collegeCourses.length > 1 && (
+                    <div className="space-y-3 pb-2">
+                      {/* Search in college courses */}
+                      <div className="relative">
+                        <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                        <input
+                          type="text"
+                          value={courseSearch}
+                          onChange={(e) => setCourseSearch(e.target.value)}
+                          placeholder="Search courses (e.g. MBBS, Ph.D, B.Tech, Mechanical)..."
+                          className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-brand-500 bg-slate-50/50"
+                        />
+                      </div>
+
+                      {/* Stream filters */}
+                      {uniqueStreams.length > 1 && (
+                        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+                          <button
+                            type="button"
+                            onClick={() => setCourseStreamFilter('')}
+                            className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
+                              courseStreamFilter === ''
+                                ? 'bg-brand-900 text-white shadow-xs'
+                                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                            }`}
+                          >
+                            All ({collegeCourses.length})
+                          </button>
+                          {uniqueStreams.map((st) => (
+                            <button
+                              key={st}
+                              type="button"
+                              onClick={() => setCourseStreamFilter(st)}
+                              className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
+                                courseStreamFilter === st
+                                  ? 'bg-brand-900 text-white shadow-xs'
+                                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                              }`}
+                            >
+                              {st}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {filteredCourses.length === 0 ? (
+                    <div className="text-center py-8 text-xs text-slate-500 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                      No courses match your filter. Try searching for another keyword or clear filters.
+                    </div>
+                  ) : (
+                    filteredCourses.map((course) => (
+                      <div
+                        key={course._id}
+                        className="p-5 rounded-2xl border border-slate-200 hover:border-brand-300 transition-all space-y-3 bg-slate-50/50 hover:bg-white hover:shadow-sm"
+                      >
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                          <div className="space-y-1">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <Badge variant="primary">{course.degreeType}</Badge>
+                              {course.stream && (
+                                <Badge variant="accent">{course.stream}</Badge>
+                              )}
+                              <span className="text-xs text-slate-500 font-medium">
+                                Duration: {course.duration}
+                              </span>
+                              {course.admissionStatus && (
+                                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
+                                  {course.admissionStatus}
+                                </span>
+                              )}
+                            </div>
+                            <h3 className="font-display font-bold text-base text-slate-900 pt-0.5">
+                              {course.name}
+                            </h3>
                           </div>
-                          <h3 className="font-display font-bold text-base text-slate-900 mt-1">
-                            {course.name}
-                          </h3>
+
+                          <button
+                            onClick={() => openEnquiryModal(college._id, course._id)}
+                            className="self-start sm:self-auto px-5 py-2.5 rounded-xl bg-brand-900 hover:bg-brand-800 text-white font-semibold text-xs transition-colors shrink-0 shadow-xs flex items-center gap-1.5"
+                          >
+                            <span>Apply For Course</span>
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </button>
                         </div>
 
-                        <button
-                          onClick={() => openEnquiryModal(college._id, course._id)}
-                          className="self-start sm:self-auto px-4 py-2 rounded-xl bg-brand-900 hover:bg-brand-800 text-white font-semibold text-xs transition-colors shrink-0 shadow-xs"
-                        >
-                          Apply For Course
-                        </button>
+                        <div className="text-xs text-slate-600 space-y-1.5 pt-2 border-t border-slate-200/60">
+                          <p>
+                            <strong className="text-slate-800">Eligibility Criteria:</strong> {course.eligibility}
+                          </p>
+                          {course.description && (
+                            <p className="text-slate-500 leading-relaxed">{course.description}</p>
+                          )}
+                        </div>
                       </div>
-
-                      <div className="text-xs text-slate-600 space-y-1 pt-1 border-t border-slate-200/60">
-                        <p>
-                          <strong className="text-slate-800">Eligibility:</strong> {course.eligibility}
-                        </p>
-                        {course.description && <p className="text-slate-500 leading-relaxed">{course.description}</p>}
-                      </div>
-                    </div>
-                  ))}
+                    ))
+                  )}
                 </div>
               )}
             </div>

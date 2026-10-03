@@ -20,22 +20,28 @@ export const Courses = () => {
   const { openEnquiryModal } = useOutletContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const queryStream = searchParams.get('stream') || '';
+  const querySearch = searchParams.get('search') || '';
+  const queryCollege = searchParams.get('college') || '';
 
   const [courses, setCourses] = useState([]);
   const [colleges, setColleges] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(querySearch);
   const [stream, setStream] = useState(queryStream);
-  const [collegeId, setCollegeId] = useState('');
+  const [collegeId, setCollegeId] = useState(queryCollege);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
 
-  // Sync stream state when query parameter changes (e.g. user clicks stream in Drawer or Footer)
+  // Sync state when query parameters change (e.g. user clicks stream in Drawer, Footer or College page)
   useEffect(() => {
     const currentStream = searchParams.get('stream') || '';
+    const currentSearch = searchParams.get('search') || '';
+    const currentCollege = searchParams.get('college') || '';
     setStream(currentStream);
+    setSearch(currentSearch);
+    setCollegeId(currentCollege);
     setPage(1);
   }, [searchParams]);
 
@@ -94,6 +100,13 @@ export const Courses = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     setPage(1);
+    const newParams = new URLSearchParams(searchParams);
+    if (search) {
+      newParams.set('search', search);
+    } else {
+      newParams.delete('search');
+    }
+    setSearchParams(newParams);
     fetchCourses();
   };
 
@@ -102,22 +115,22 @@ export const Courses = () => {
     setStream('');
     setCollegeId('');
     setPage(1);
-    const newParams = new URLSearchParams(searchParams);
-    newParams.delete('stream');
-    setSearchParams(newParams);
+    setSearchParams(new URLSearchParams());
   };
 
-  const streams = [
-    'Engineering',
-    'Nursing',
-    'Pharmacy',
-    'Management',
-    'Science',
-    'Research',
-    'Paramedical',
-    'Computer Applications',
-    'Education',
-    'Commerce',
+  const streamOptions = [
+    { value: 'Research', label: 'Ph.D / Research' },
+    { value: 'Medical', label: 'Medical (MBBS, BHMS, BAMS)' },
+    { value: 'Polytechnic', label: 'Polytechnic Diploma' },
+    { value: 'Engineering', label: 'Engineering' },
+    { value: 'Nursing', label: 'Nursing' },
+    { value: 'Pharmacy', label: 'Pharmacy' },
+    { value: 'Management', label: 'Management' },
+    { value: 'Paramedical', label: 'Paramedical' },
+    { value: 'Science', label: 'Science' },
+    { value: 'Computer Applications', label: 'Computer Applications' },
+    { value: 'Education', label: 'Education' },
+    { value: 'Commerce', label: 'Commerce' },
   ];
 
   // Dynamic SEO title & description based on active stream or search
@@ -125,7 +138,7 @@ export const Courses = () => {
     if (stream) {
       return {
         title: `${stream} Courses | Vidhya Advance Education Social Welfare Society`,
-        description: `Explore top accredited ${stream} (B.Tech, B.Sc, Ph.D, MBA, Diploma) courses available via Vidhya Advance Education Social Welfare Society in Bhopal & Madhya Pradesh.`,
+        description: `Explore top accredited ${stream} (Ph.D, MBBS, B.Tech, B.Sc, MBA, Diploma) courses available via Vidhya Advance Education Social Welfare Society in Bhopal & Madhya Pradesh.`,
       };
     }
     return {
@@ -184,17 +197,17 @@ export const Courses = () => {
           >
             All Streams
           </button>
-          {streams.map((s) => (
+          {streamOptions.map(({ value, label }) => (
             <button
-              key={s}
-              onClick={() => handleStreamSelect(s)}
+              key={value}
+              onClick={() => handleStreamSelect(value)}
               className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors ${
-                stream.toLowerCase() === s.toLowerCase()
+                stream.toLowerCase() === value.toLowerCase()
                   ? 'bg-brand-900 text-white shadow-sm'
                   : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
               }`}
             >
-              {s}
+              {label}
             </button>
           ))}
         </div>
