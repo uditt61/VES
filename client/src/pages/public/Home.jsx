@@ -660,26 +660,41 @@ export const Home = () => {
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
               {[
-                {
-                  dot: 'bg-brand-600',
-                  title: 'UGC Recognition',
-                  desc: 'University Grants Commission approves universities under Section 2(f) and 12(B) of the UGC Act, 1956 to award valid academic degrees.',
-                },
-                {
-                  dot: 'bg-accent-600',
-                  title: 'AICTE Approval',
-                  desc: 'All India Council for Technical Education regulates standard technical and management programs (Engineering, MBA, MCA, Architecture).',
-                },
-                {
-                  dot: 'bg-emerald-600',
-                  title: 'INC & PCI Councils',
-                  desc: 'Specialized councils such as the Pharmacy Council of India (PCI) and Indian Nursing Council (INC) approve healthcare education infrastructure.',
-                },
-                {
-                  dot: 'bg-purple-600',
-                  title: 'NAAC Accreditation',
-                  desc: 'National Assessment and Accreditation Council evaluates institutional educational quality, faculty, infrastructure, and research standards.',
-                },
+             {
+  dot: 'bg-brand-600',
+  title: 'UGC Recognition & University Affiliation',
+  desc: 'Verify university recognition, degree-awarding authority, and college affiliation status through the relevant official authorities and university records.',
+},
+{
+  dot: 'bg-accent-600',
+  title: 'AICTE Approval',
+  desc: 'Approval and regulatory compliance for applicable technical and management programmes, including Engineering, MBA and MCA, as required under applicable norms.',
+},
+{
+  dot: 'bg-emerald-600',
+  title: 'Medical & Healthcare Councils',
+  desc: 'Relevant regulatory authorities include NMC for medical education, INC for nursing, PCI for pharmacy, and DCI for dental education. Requirements depend on the programme.',
+},
+{
+  dot: 'bg-purple-600',
+  title: 'NAAC Accreditation',
+  desc: 'National Assessment and Accreditation Council assesses higher education institutions against established quality parameters, subject to applicable accreditation criteria.',
+},
+{
+  dot: 'bg-orange-600',
+  title: 'NBA Accreditation',
+  desc: 'National Board of Accreditation evaluates eligible academic programmes in disciplines such as Engineering, Management, Pharmacy and Computer Applications.',
+},
+{
+  dot: 'bg-blue-600',
+  title: 'Faculty & Guest Faculty',
+  desc: 'Support for faculty recruitment, qualified guest faculty onboarding, academic staffing, and compliance with applicable qualification requirements.',
+},
+{
+  dot: 'bg-rose-600',
+  title: 'Library & Laboratory Setup',
+  desc: 'Assistance with academic library resources, laboratory equipment, infrastructure planning, and programme-specific facility requirements.',
+},
               ].map((item) => (
                 <div
                   key={item.title}

@@ -150,7 +150,7 @@ export const Courses = () => {
   const currentSeo = getDynamicSeo();
 
   return (
-    <div className="space-y-12 pb-16">
+    <div className="pb-16 space-y-12">
       <SEOHead
         title={currentSeo.title}
         description={currentSeo.description}
@@ -165,28 +165,28 @@ export const Courses = () => {
         ]}
       />
       {/* Header Banner with subtle animation */}
-      <section className="bg-brand-950 text-white py-14 sm:py-20 relative overflow-hidden">
+      <section className="relative overflow-hidden text-white bg-brand-950 py-14 sm:py-20">
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 relative z-10"
+          className="relative z-10 px-4 mx-auto space-y-4 text-center max-w-7xl sm:px-6 lg:px-8"
         >
           <span className="text-xs font-bold uppercase tracking-widest text-accent-400 bg-brand-900 px-3.5 py-1.5 rounded-full border border-brand-800">
             Programs Directory
           </span>
-          <h1 className="font-display font-extrabold text-3xl sm:text-5xl text-white tracking-tight">
+          <h1 className="text-3xl font-extrabold tracking-tight text-white font-display sm:text-5xl">
             Explore Courses & Degrees
           </h1>
-          <p className="text-slate-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+          <p className="max-w-2xl mx-auto text-sm leading-relaxed text-slate-300 sm:text-base">
             Discover accredited undergraduate, postgraduate, and diploma degree programs across top-rated universities in central India.
           </p>
         </motion.div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <div className="px-4 mx-auto space-y-8 max-w-7xl sm:px-6 lg:px-8">
         {/* Stream Pills Quick Filter */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+        <div className="flex items-center gap-2 pb-2 overflow-x-auto scrollbar-none">
           <button
             onClick={() => handleStreamSelect('')}
             className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors ${
@@ -213,9 +213,9 @@ export const Courses = () => {
         </div>
 
         {/* Search & College Filter */}
-        <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-          <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 sm:grid-cols-12 gap-3">
-            <div className="sm:col-span-6 relative">
+        <div className="p-4 space-y-4 bg-white border shadow-sm sm:p-6 rounded-2xl border-slate-200">
+          <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 gap-3 sm:grid-cols-12">
+            <div className="relative sm:col-span-6">
               <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
               <input
                 type="text"
@@ -244,7 +244,7 @@ export const Courses = () => {
               </select>
             </div>
 
-            <div className="sm:col-span-2 flex gap-2">
+            <div className="flex gap-2 sm:col-span-2">
               <button
                 type="submit"
                 className="w-full py-2.5 rounded-xl bg-brand-900 text-white font-semibold text-sm hover:bg-brand-800 transition-colors"
@@ -264,12 +264,12 @@ export const Courses = () => {
             </div>
           </form>
 
-          <div className="flex items-center justify-between text-xs text-slate-500 pt-1">
+          <div className="flex items-center justify-between pt-1 text-xs text-slate-500">
             <span>
               Showing <strong className="text-slate-800">{courses.length}</strong> of{' '}
               <strong className="text-slate-800">{totalCount}</strong> courses
               {stream && (
-                <span className="ml-1 text-accent-700 font-semibold">
+                <span className="ml-1 font-semibold text-accent-700">
                   in stream "{stream}"
                 </span>
               )}
@@ -281,21 +281,21 @@ export const Courses = () => {
         {loading ? (
           <CardSkeleton count={6} />
         ) : courses.length === 0 ? (
-          <div className="text-center py-16 bg-white rounded-3xl border border-slate-200 p-8 space-y-4">
-            <BookOpen className="w-12 h-12 text-slate-400 mx-auto" />
-            <h3 className="font-display font-bold text-xl text-slate-800">No courses found</h3>
-            <p className="text-sm text-slate-500 max-w-sm mx-auto">
+          <div className="p-8 py-16 space-y-4 text-center bg-white border rounded-3xl border-slate-200">
+            <BookOpen className="w-12 h-12 mx-auto text-slate-400" />
+            <h3 className="text-xl font-bold font-display text-slate-800">No courses found</h3>
+            <p className="max-w-sm mx-auto text-sm text-slate-500">
               No degree programs matched your search filters. Try clearing your filters or selecting a different stream.
             </p>
             <button
               onClick={handleClearFilters}
-              className="px-4 py-2 rounded-xl bg-brand-900 text-white text-xs font-semibold"
+              className="px-4 py-2 text-xs font-semibold text-white rounded-xl bg-brand-900"
             >
               Reset Filters
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {courses.map((course, idx) => (
               <motion.div
                 key={course._id}
@@ -303,18 +303,18 @@ export const Courses = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35, delay: idx * 0.04 }}
                 whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                className="flex flex-col justify-between p-6 transition-all duration-300 bg-white border shadow-sm rounded-3xl border-slate-200 hover:shadow-xl"
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between gap-2">
                     <Badge variant="primary">{course.degreeType}</Badge>
-                    <span className="text-xs text-slate-500 font-medium flex items-center gap-1">
+                    <span className="flex items-center gap-1 text-xs font-medium text-slate-500">
                       <Clock className="w-3.5 h-3.5" />
                       <span>{course.duration}</span>
                     </span>
                   </div>
 
-                  <h3 className="font-display font-bold text-lg text-slate-900 line-clamp-2">
+                  <h3 className="text-lg font-bold font-display text-slate-900 line-clamp-2">
                     {course.name}
                   </h3>
 
@@ -329,14 +329,14 @@ export const Courses = () => {
                   </div>
 
                   {course.description && (
-                    <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                    <p className="text-xs leading-relaxed text-slate-500 line-clamp-2">
                       {course.description}
                     </p>
                   )}
                 </div>
 
-                <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between gap-3">
-                  <span className="inline-flex items-center gap-1 text-xs text-emerald-600 font-medium">
+                <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-slate-100">
+                  <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600">
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     <span>Admission Open</span>
                   </span>
@@ -361,17 +361,17 @@ export const Courses = () => {
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="px-4 py-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-40 disabled:pointer-events-none"
+              className="px-4 py-2 text-xs font-semibold bg-white border rounded-xl border-slate-200 text-slate-700 hover:bg-slate-50 disabled:opacity-40 disabled:pointer-events-none"
             >
               Previous
             </button>
-            <span className="text-xs text-slate-500 font-medium px-2">
+            <span className="px-2 text-xs font-medium text-slate-500">
               Page {page} of {totalPages}
             </span>
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
-              className="px-4 py-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-40 disabled:pointer-events-none"
+              className="px-4 py-2 text-xs font-semibold bg-white border rounded-xl border-slate-200 text-slate-700 hover:bg-slate-50 disabled:opacity-40 disabled:pointer-events-none"
             >
               Next
             </button>

@@ -3,7 +3,6 @@ import { NavLink, Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import {
   X,
-  GraduationCap,
   Home,
   Info,
   Building2,
@@ -202,11 +201,11 @@ export const NavigationDrawer = ({
             tabIndex={-1}
           >
             {/* Header / Brand in Drawer */}
-            <div className="p-4 sm:p-5 border-b border-slate-100 bg-gradient-to-r from-brand-950 via-brand-900 to-brand-950 text-white flex items-center justify-between shadow-sm">
+            <div className="flex items-center justify-between p-4 text-white border-b shadow-sm sm:p-5 border-slate-100 bg-gradient-to-r from-brand-950 via-brand-900 to-brand-950">
               <Link
                 to="/"
                 onClick={onClose}
-                className="flex items-center gap-3 group outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded-xl"
+                className="flex items-center gap-3 outline-none group focus-visible:ring-2 focus-visible:ring-accent-400 rounded-xl"
               >
                 <img
                   src="/logoVES.png"
@@ -214,7 +213,7 @@ export const NavigationDrawer = ({
                   className="w-10 h-10 object-contain group-hover:scale-105 transition-transform duration-200 shrink-0 drop-shadow-md"
                 />
                 <div>
-                  <span className="block font-display font-extrabold text-base sm:text-lg text-white tracking-tight leading-none group-hover:text-accent-300 transition-colors">
+                  <span className="block text-base font-extrabold leading-none tracking-tight text-white transition-colors font-display sm:text-lg group-hover:text-accent-300">
                     Vidhya Advance
                   </span>
                   <span className="block text-[10px] font-semibold uppercase tracking-wider text-accent-400 mt-1">
@@ -225,7 +224,7 @@ export const NavigationDrawer = ({
 
               <button
                 onClick={onClose}
-                className="p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
+                className="p-2 transition-colors rounded-xl text-slate-300 hover:text-white hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
                 aria-label="Close navigation menu"
               >
                 <X className="w-5 h-5" />
@@ -233,7 +232,7 @@ export const NavigationDrawer = ({
             </div>
 
             {/* Scrollable Navigation Body */}
-            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-6 scrollbar-thin scrollbar-thumb-slate-200">
+            <div className="flex-1 px-4 py-4 space-y-6 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200">
               <motion.div
                 variants={containerVariants}
                 initial="closed"
@@ -373,11 +372,11 @@ export const NavigationDrawer = ({
             </div>
 
             {/* Bottom Support & CTA Card */}
-            <div className="p-4 border-t border-slate-100 bg-slate-50/80 space-y-3">
+            <div className="p-4 space-y-3 border-t border-slate-100 bg-slate-50/80">
               <Link
                 to="/enquiry"
                 onClick={onClose}
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-accent-600 to-accent-500 hover:from-accent-700 hover:to-accent-600 text-white font-bold text-sm shadow-md hover:shadow-lg transition-all active:scale-98"
+                className="flex items-center justify-center w-full gap-2 px-4 py-3 text-sm font-bold text-white transition-all shadow-md rounded-xl bg-gradient-to-r from-accent-600 to-accent-500 hover:from-accent-700 hover:to-accent-600 hover:shadow-lg active:scale-98"
               >
                 <Sparkles className="w-4 h-4" />
                 <span>Start Admission Enquiry</span>
@@ -389,7 +388,7 @@ export const NavigationDrawer = ({
                   <Phone className="w-3.5 h-3.5 text-accent-600 shrink-0" />
                   <a
                     href="tel:+919244292391"
-                    className="hover:text-accent-700 transition-colors font-semibold"
+                    className="font-semibold transition-colors hover:text-accent-700"
                   >
                     +91 9244292391
                   </a>
@@ -398,7 +397,7 @@ export const NavigationDrawer = ({
                   <Mail className="w-3.5 h-3.5 text-accent-600 shrink-0" />
                   <a
                     href="mailto:societyvidhya1964@gmail.com"
-                    className="hover:text-slate-800 transition-colors truncate"
+                    className="truncate transition-colors hover:text-slate-800"
                   >
                     societyvidhya1964@gmail.com
                   </a>
