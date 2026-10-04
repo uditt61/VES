@@ -9,6 +9,7 @@ import {
   Clock,
   ShieldCheck,
   ArrowUpRight,
+  ExternalLink,
 } from 'lucide-react';
 
 // ─── Animation Variants ──────────────────────────────────────────────────────
@@ -59,6 +60,10 @@ const brandLogoVariants = {
   },
 };
 
+// ─── Constants ───────────────────────────────────────────────────────────────
+
+const GOOGLE_MAPS_URL = 'https://maps.app.goo.gl/v5jJ3VyPxCWJcTJc9';
+
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 const quickLinks = [
@@ -72,12 +77,12 @@ const quickLinks = [
   { to: '/contact', label: 'Contact Us' },
 ];
 
+// ✅ SIRF CLIENT KE BATAYE HUE COURSES (Purane wale hata diye)
 const admissionLinks = [
-  { to: '/courses?stream=Engineering', label: 'Engineering (B.Tech)' },
-  { to: '/courses?stream=Nursing', label: 'Nursing (B.Sc & GNM)' },
-  { to: '/courses?stream=Pharmacy', label: 'Pharmacy (B.Pharm & D.Pharm)' },
-  { to: '/courses?stream=Management', label: 'Management (MBA & BBA)' },
-  { to: '/courses?stream=Paramedical', label: 'Paramedical Sciences' },
+  { to: '/courses?stream=Medical', label: 'Medical (MBBS, BAMS, BHMS)' },
+  { to: '/courses?stream=Library Science', label: 'Library Science' },
+  { to: '/courses?stream=Polytechnic', label: 'Polytechnic (All Branches)' },
+  { to: '/courses?stream=PhD', label: 'PhD (All Subjects)' },
 ];
 
 const legalLinks = [
@@ -95,10 +100,19 @@ const contactDetails = [
   {
     icon: MapPin,
     content: (
-      <span>
-        Ward No. 59, Security Line, House No. 09, N-3 Sector, Govindpura, BHEL,
-        Bhopal, Madhya Pradesh 462023
-      </span>
+      <a
+        href={GOOGLE_MAPS_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex flex-wrap items-start gap-1 transition-colors group hover:text-white"
+        aria-label="Open office location in Google Maps"
+      >
+        <span>
+          Ward No. 59, Security Line, House No. 09, N-3 Sector, Govindpura, BHEL,
+          Bhopal, Madhya Pradesh 462023
+        </span>
+        <ExternalLink className="mt-0.5 h-3 w-3 shrink-0 text-accent-400 opacity-0 transition-opacity group-hover:opacity-100" />
+      </a>
     ),
     align: 'items-start',
     iconClass: 'mt-0.5',
@@ -108,7 +122,7 @@ const contactDetails = [
     content: (
       <a
         href="tel:+919244292391"
-        className="transition-colors hover:text-white tabular-nums"
+        className="transition-colors tabular-nums hover:text-white"
       >
         +91 9244292391
       </a>
@@ -119,7 +133,7 @@ const contactDetails = [
     content: (
       <a
         href="mailto:societyvidhya1964@gmail.com"
-        className="transition-colors hover:text-white break-all"
+        className="break-all transition-colors hover:text-white"
       >
         societyvidhya1964@gmail.com
       </a>
@@ -256,16 +270,23 @@ export const Footer = () => {
               variants={listVariants}
               className="space-y-3 text-sm text-slate-400"
             >
-              {contactDetails.map(({ icon: Icon, content, align = 'items-center', iconClass = '' }, idx) => (
-                <motion.li
-                  key={idx}
-                  variants={itemVariants}
-                  className={`flex gap-2.5 ${align}`}
-                >
-                  <Icon className={`w-4 h-4 text-accent-400 shrink-0 ${iconClass}`} />
-                  {content}
-                </motion.li>
-              ))}
+              {contactDetails.map(
+                (
+                  { icon: Icon, content, align = 'items-center', iconClass = '' },
+                  idx
+                ) => (
+                  <motion.li
+                    key={idx}
+                    variants={itemVariants}
+                    className={`flex gap-2.5 ${align}`}
+                  >
+                    <Icon
+                      className={`w-4 h-4 text-accent-400 shrink-0 ${iconClass}`}
+                    />
+                    {content}
+                  </motion.li>
+                )
+              )}
             </motion.ul>
           </motion.div>
         </motion.div>
@@ -286,10 +307,7 @@ export const Footer = () => {
             {bottomLinks.map(({ to, label }, index) => (
               <React.Fragment key={to}>
                 {index > 0 && <span>&bull;</span>}
-                <Link
-                  to={to}
-                  className="transition-colors hover:text-white"
-                >
+                <Link to={to} className="transition-colors hover:text-white">
                   {label}
                 </Link>
               </React.Fragment>

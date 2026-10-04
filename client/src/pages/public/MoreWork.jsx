@@ -19,11 +19,7 @@ const slidesData = [
     title: "Proud Moments",
     desc: "Celebrating success and milestones achieved by the Vidhya Advance family.",
   },
-  {
-    img: "/e9.jpeg",
-    title: "Student Achievements",
-    desc: "Awarding excellence and encouraging students to reach greater heights.",
-  },
+
   {
     img: "/e10.jpeg",
     title: "Rewarding Success",
