@@ -35,8 +35,11 @@ export const Navbar = ({ onOpenEnquiry }) => {
     };
   }, []);
 
-  // Safe hover open handler
+  // Safe hover open handler (disabled on touch devices)
   const handleMouseEnter = () => {
+    if (typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches) {
+      return;
+    }
     if (closeTimeoutRef.current) {
       clearTimeout(closeTimeoutRef.current);
       closeTimeoutRef.current = null;
@@ -46,6 +49,9 @@ export const Navbar = ({ onOpenEnquiry }) => {
 
   // Safe hover close handler with buffer to prevent accidental closing
   const handleMouseLeave = () => {
+    if (typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches) {
+      return;
+    }
     if (closeTimeoutRef.current) {
       clearTimeout(closeTimeoutRef.current);
     }
@@ -66,19 +72,15 @@ export const Navbar = ({ onOpenEnquiry }) => {
 
   return (
     <>
-      {/* 
-        CHANGED: 'sticky top-0' -> 'fixed top-0 left-0 w-full' 
-        CHANGED: 'z-50' -> 'z-40' (Taki Home.jsx ka Scroll Progress Bar 'z-[60]' iske upar dikhe)
-      */}
       <header
-        className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${
+        className={`sticky top-0 z-50 w-full transition-all duration-300 ${
           scrolled
             ? 'bg-white/95 backdrop-blur-md shadow-md border-b border-slate-100 py-2.5'
             : 'bg-white border-b border-slate-100 py-3'
         }`}
       >
         {/* Leftmost Hamburger Button */}
-        <div className="absolute left-3 sm:left-4 lg:left-6 top-1/2 -translate-y-1/2 z-[60]">
+        <div className="absolute left-3 sm:left-4 lg:left-6 top-1/2 -translate-y-1/2 z-20">
           <div
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -86,7 +88,7 @@ export const Navbar = ({ onOpenEnquiry }) => {
             <button
               type="button"
               onClick={handleToggleClick}
-              className={`p-2.5 rounded-xl text-brand-900 border transition-all duration-150 outline-none focus-visible:ring-2 focus-visible:ring-accent-500 flex items-center justify-center ${
+              className={`p-2 sm:p-2.5 rounded-xl text-brand-900 border transition-all duration-150 outline-none focus-visible:ring-2 focus-visible:ring-accent-500 flex items-center justify-center ${
                 drawerOpen
                   ? 'bg-brand-100/80 border-brand-300 shadow-inner'
                   : 'bg-slate-50 hover:bg-brand-50 border-slate-200 hover:border-brand-300'
@@ -105,28 +107,36 @@ export const Navbar = ({ onOpenEnquiry }) => {
         </div>
 
         {/* Standard Page Container */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pl-14 sm:pl-16 lg:pl-16 xl:pl-8 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pl-12 sm:pl-16 lg:pl-16 xl:pl-8 flex items-center justify-between gap-2">
           {/* Brand Logo & Name */}
-          <Link to="/" className="flex items-center gap-2.5 sm:gap-3 group">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-brand-900 to-brand-950 text-accent-400 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-200 border border-brand-800 shrink-0">
-              <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6" />
+          <Link to="/" className="flex items-center gap-2 sm:gap-3 group min-w-0 pr-1">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-brand-800/20 shrink-0 overflow-hidden group-hover:scale-105 transition-transform duration-200">
+              <img
+                src="/logoVES.jpeg"
+                alt="Vidhya Advance Education Social Welfare Society Logo"
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.parentElement.innerHTML = '<span class="text-brand-900 font-extrabold text-xs">VAE</span>';
+                }}
+              />
             </div>
-            <div>
-              <span className="block font-display font-extrabold text-base sm:text-lg lg:text-xl text-brand-900 tracking-tight leading-none group-hover:text-brand-700 transition-colors">
+            <div className="min-w-0">
+              <span className="block font-display font-extrabold text-sm sm:text-lg lg:text-xl text-brand-900 tracking-tight leading-none group-hover:text-brand-700 transition-colors truncate">
                 Vidhya Advance
               </span>
-              <span className="block text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider text-slate-500 mt-0.5">
+              <span className="block text-[8px] sm:text-[10px] font-semibold uppercase tracking-wider text-slate-500 mt-0.5 truncate">
                 Education Social Welfare Society
               </span>
             </div>
           </Link>
 
           {/* Right Action CTAs */}
-          <div className="flex items-center gap-2.5 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {/* Direct Helpline on larger screens */}
             <a
               href="tel:+919244292391"
-              className="hidden md:flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-brand-900 hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-200"
+              className="hidden lg:flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-brand-900 hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-200"
             >
               <div className="w-6 h-6 rounded-full bg-accent-100 text-accent-700 flex items-center justify-center">
                 <PhoneCall className="w-3.5 h-3.5" />
@@ -135,13 +145,14 @@ export const Navbar = ({ onOpenEnquiry }) => {
             </a>
 
             {/* Primary Action Button */}
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="shrink-0">
               <Link
                 to="/enquiry"
-                className="inline-flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-accent-600 to-accent-500 hover:from-accent-700 hover:to-accent-600 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all duration-200"
+                className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-accent-600 to-accent-500 hover:from-accent-700 hover:to-accent-600 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all duration-200 shrink-0 whitespace-nowrap"
               >
-                <UserCheck className="w-4 h-4" />
-                <span>Apply / Enquire Now</span>
+                <UserCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                <span className="hidden sm:inline">Apply / Enquire Now</span>
+                <span className="sm:hidden">Enquire</span>
               </Link>
             </motion.div>
           </div>

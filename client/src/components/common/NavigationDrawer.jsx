@@ -163,7 +163,7 @@ export const NavigationDrawer = ({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={onClose}
-            className="fixed inset-0 z-40 bg-brand-950/50 backdrop-blur-xs"
+            className="fixed inset-0 z-[65] bg-brand-950/50 backdrop-blur-xs"
             aria-hidden="true"
           />
 
@@ -177,7 +177,7 @@ export const NavigationDrawer = ({
             exit="closed"
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
-            className="fixed top-0 left-0 bottom-0 z-50 h-full w-[320px] sm:w-[370px] max-w-[88vw] bg-white shadow-2xl flex flex-col border-r border-slate-200 outline-none"
+            className="fixed top-0 left-0 bottom-0 z-[70] h-full w-[320px] sm:w-[370px] max-w-[88vw] bg-white shadow-2xl flex flex-col border-r border-slate-200 outline-none"
             role="dialog"
             aria-modal="true"
             aria-label="Main Navigation Menu"
@@ -190,8 +190,16 @@ export const NavigationDrawer = ({
                 onClick={onClose}
                 className="flex items-center gap-3 outline-none group focus-visible:ring-2 focus-visible:ring-accent-400 rounded-xl"
               >
-                <div className="flex items-center justify-center w-10 h-10 transition-transform duration-200 border shadow-md rounded-xl bg-gradient-to-br from-brand-800 to-brand-900 border-brand-700/60 text-accent-400 group-hover:scale-105">
-                  <GraduationCap className="w-6 h-6" />
+                <div className="flex items-center justify-center w-10 h-10 transition-transform duration-200 border shadow-md rounded-full bg-white border-brand-700/60 overflow-hidden shrink-0 group-hover:scale-105">
+                  <img
+                    src="/logoVES.jpeg"
+                    alt="Vidhya Advance Education Logo"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                      e.currentTarget.parentElement.innerHTML = '<span class="text-brand-900 font-extrabold text-xs">VAE</span>';
+                    }}
+                  />
                 </div>
                 <div>
                   <span className="block text-base font-extrabold leading-none tracking-tight text-white transition-colors font-display sm:text-lg group-hover:text-accent-300">

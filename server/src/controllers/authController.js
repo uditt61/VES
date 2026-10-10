@@ -37,6 +37,7 @@ export class AuthController {
         res,
         {
           accessToken,
+          refreshToken,
           user: {
             id: user._id,
             name: user.name,
@@ -53,7 +54,10 @@ export class AuthController {
 
   static async refresh(req, res, next) {
     try {
-      const rawRefreshToken = req.cookies?.refreshToken;
+      const rawRefreshToken =
+        req.cookies?.refreshToken ||
+        req.body?.refreshToken ||
+        req.headers['x-refresh-token'];
       if (!rawRefreshToken) {
         throw ApiError.unauthorized('Refresh token missing');
       }
@@ -75,6 +79,7 @@ export class AuthController {
         res,
         {
           accessToken,
+          refreshToken: newRefreshToken,
           user: {
             id: user._id,
             name: user.name,
@@ -91,7 +96,10 @@ export class AuthController {
 
   static async logout(req, res, next) {
     try {
-      const rawRefreshToken = req.cookies?.refreshToken;
+      const rawRefreshToken =
+        req.cookies?.refreshToken ||
+        req.body?.refreshToken ||
+        req.headers['x-refresh-token'];
       if (rawRefreshToken) {
         await TokenService.revokeRefreshToken(rawRefreshToken);
       }

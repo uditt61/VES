@@ -97,8 +97,16 @@ export const AdminLayout = () => {
           {/* Brand Header */}
           <div className="p-6 border-b border-brand-800/80 flex items-center justify-between">
             <Link to="/admin/dashboard" className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-brand-900 text-accent-400 flex items-center justify-center border border-brand-700 shadow">
-                <GraduationCap className="w-5 h-5" />
+              <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center border border-brand-700 shadow overflow-hidden shrink-0">
+                <img
+                  src="/logoVES.jpeg"
+                  alt="Vidhya Advance Education Logo"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.parentElement.innerHTML = '<span class="text-brand-900 font-extrabold text-xs">VAE</span>';
+                  }}
+                />
               </div>
               <div>
                 <span className="font-display font-extrabold text-white text-base leading-tight block">

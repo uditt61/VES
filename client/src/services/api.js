@@ -74,15 +74,28 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const { data } = await axios.post(`${API_BASE_URL}/auth/refresh`, {}, { withCredentials: true });
+        const savedRefreshToken =
+          typeof window !== 'undefined' ? localStorage.getItem('ves_refresh_token') : null;
+        const refreshHeaders = savedRefreshToken ? { 'x-refresh-token': savedRefreshToken } : {};
+        const { data } = await axios.post(
+          `${API_BASE_URL}/auth/refresh`,
+          { refreshToken: savedRefreshToken },
+          { withCredentials: true, headers: refreshHeaders }
+        );
         const newAccessToken = data.data.accessToken;
         setAccessToken(newAccessToken);
+        if (data.data.refreshToken && typeof window !== 'undefined') {
+          localStorage.setItem('ves_refresh_token', data.data.refreshToken);
+        }
         processQueue(null, newAccessToken);
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return api(originalRequest);
       } catch (refreshErr) {
         processQueue(refreshErr, null);
         setAccessToken(null);
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('ves_refresh_token');
+        }
         return Promise.reject(refreshErr);
       } finally {
         isRefreshing = false;

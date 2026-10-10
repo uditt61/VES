@@ -89,8 +89,16 @@ export const AdminLogin = () => {
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10 text-center space-y-3">
         <Link to="/" className="inline-flex items-center gap-3 group">
-          <div className="w-12 h-12 rounded-2xl bg-brand-800 text-accent-400 flex items-center justify-center border border-brand-700 shadow-xl group-hover:scale-105 transition-transform">
-            <GraduationCap className="w-7 h-7" />
+          <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center border border-brand-700 shadow-xl group-hover:scale-105 transition-transform overflow-hidden shrink-0">
+            <img
+              src="/logoVES.jpeg"
+              alt="Vidhya Advance Education Society Logo"
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                e.currentTarget.parentElement.innerHTML = '<span class="text-brand-900 font-extrabold text-sm">VAE</span>';
+              }}
+            />
           </div>
         </Link>
         <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-white tracking-tight">

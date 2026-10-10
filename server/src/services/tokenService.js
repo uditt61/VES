@@ -89,7 +89,7 @@ export class TokenService {
       httpOnly: true,
       secure: ENV.COOKIE_SECURE,
       sameSite: ENV.COOKIE_SAME_SITE,
-      path: '/api/auth',
+      path: '/',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       domain: ENV.COOKIE_DOMAIN || undefined,
     });
@@ -100,7 +100,7 @@ export class TokenService {
       httpOnly: true,
       secure: ENV.COOKIE_SECURE,
       sameSite: ENV.COOKIE_SAME_SITE,
-      path: '/api/auth',
+      path: '/',
       domain: ENV.COOKIE_DOMAIN || undefined,
     });
   }

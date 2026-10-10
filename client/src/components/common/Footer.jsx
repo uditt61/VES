@@ -192,9 +192,17 @@ export const Footer = () => {
                 variants={brandLogoVariants}
                 whileHover={{ scale: 1.06, rotate: -3 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                className="flex items-center justify-center w-10 h-10 border shadow-md rounded-xl bg-brand-900 text-accent-400 border-brand-700"
+                className="flex items-center justify-center w-10 h-10 border shadow-md rounded-full bg-white border-brand-700 overflow-hidden shrink-0"
               >
-                <GraduationCap className="w-6 h-6" />
+                <img
+                  src="/logoVES.jpeg"
+                  alt="Vidhya Advance Education Society Logo"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.parentElement.innerHTML = '<span class="text-brand-900 font-extrabold text-xs">VAE</span>';
+                  }}
+                />
               </motion.div>
               <div>
                 <span className="text-xl font-extrabold tracking-tight text-white transition-colors font-display group-hover:text-accent-300">
