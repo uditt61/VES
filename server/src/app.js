@@ -58,6 +58,8 @@ app.use(
         origin.endsWith('.vercel.app') ||
         origin.includes('vidhyaadvanceeducation.in') ||
         origin.includes('vidhyaadvanceeducation.com') ||
+        origin.includes('advanceeducation.in') ||
+        origin.includes('vidhyaadvance.com') ||
         allowedOrigins.some((allowed) => allowed !== '*' && origin.endsWith(allowed.replace(/^https?:\/\//, '')))
       ) {
         return callback(null, true);
@@ -66,7 +68,7 @@ app.use(
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-refresh-token'],
   })
 );
 

@@ -10,7 +10,10 @@ export const ENV = {
   JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || 'fallback_refresh_secret_vidhya_advance_2026',
   ACCESS_TOKEN_EXPIRES_IN: process.env.ACCESS_TOKEN_EXPIRES_IN || '15m',
   REFRESH_TOKEN_EXPIRES_IN: process.env.REFRESH_TOKEN_EXPIRES_IN || '7d',
-  COOKIE_DOMAIN: process.env.COOKIE_DOMAIN || undefined,
+  COOKIE_DOMAIN:
+    process.env.COOKIE_DOMAIN && process.env.COOKIE_DOMAIN !== 'localhost'
+      ? process.env.COOKIE_DOMAIN
+      : undefined,
   COOKIE_SECURE: process.env.COOKIE_SECURE === 'true' || process.env.NODE_ENV === 'production',
   COOKIE_SAME_SITE: process.env.COOKIE_SAME_SITE || (process.env.NODE_ENV === 'production' ? 'none' : 'lax'),
   RATE_LIMIT_WINDOW_MS: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '900000', 10),

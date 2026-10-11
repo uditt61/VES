@@ -181,7 +181,7 @@ export const NavigationDrawer = ({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={onClose}
-            className="fixed inset-0 z-40 bg-brand-950/50 backdrop-blur-xs"
+            className="fixed inset-0 z-[65] bg-brand-950/50 backdrop-blur-xs"
             aria-hidden="true"
           />
 
@@ -195,7 +195,7 @@ export const NavigationDrawer = ({
             exit="closed"
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
-            className="fixed top-0 left-0 bottom-0 z-50 h-full w-[320px] sm:w-[370px] max-w-[88vw] bg-white shadow-2xl flex flex-col border-r border-slate-200 outline-none"
+            className="fixed top-0 left-0 bottom-0 z-[70] h-full w-[320px] sm:w-[370px] max-w-[88vw] bg-white shadow-2xl flex flex-col border-r border-slate-200 outline-none"
             role="dialog"
             aria-modal="true"
             aria-label="Main Navigation Menu"

@@ -7,19 +7,32 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Initialize auth on page refresh via HTTP-only refresh token cookie
+  // Initialize auth on page refresh via HTTP-only refresh token cookie or storage fallback
   const checkAuth = useCallback(async () => {
     try {
-      const response = await api.post('/auth/refresh');
+      const savedRefreshToken =
+        typeof window !== 'undefined' ? localStorage.getItem('ves_refresh_token') : null;
+      const headers = savedRefreshToken ? { 'x-refresh-token': savedRefreshToken } : {};
+      const response = await api.post(
+        '/auth/refresh',
+        { refreshToken: savedRefreshToken },
+        { headers }
+      );
       if (response.data?.success) {
-        const { accessToken, user } = response.data.data;
+        const { accessToken, refreshToken, user } = response.data.data;
         setAccessToken(accessToken);
+        if (refreshToken && typeof window !== 'undefined') {
+          localStorage.setItem('ves_refresh_token', refreshToken);
+        }
         setUser(user);
       }
     } catch {
       // Not authenticated or refresh token expired
       setAccessToken(null);
       setUser(null);
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('ves_refresh_token');
+      }
     } finally {
       setLoading(false);
     }
@@ -33,8 +46,11 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await api.post('/auth/login', { email, password });
       if (response.data?.success) {
-        const { accessToken, user } = response.data.data;
+        const { accessToken, refreshToken, user } = response.data.data;
         setAccessToken(accessToken);
+        if (refreshToken && typeof window !== 'undefined') {
+          localStorage.setItem('ves_refresh_token', refreshToken);
+        }
         setUser(user);
         return user;
       }
@@ -53,12 +69,17 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await api.post('/auth/logout');
+      const savedRefreshToken =
+        typeof window !== 'undefined' ? localStorage.getItem('ves_refresh_token') : null;
+      await api.post('/auth/logout', { refreshToken: savedRefreshToken });
     } catch (err) {
       console.error('Logout error:', err);
     } finally {
       setAccessToken(null);
       setUser(null);
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('ves_refresh_token');
+      }
     }
   };
 
